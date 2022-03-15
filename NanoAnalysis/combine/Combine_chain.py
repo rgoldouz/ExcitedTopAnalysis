@@ -1,0 +1,11 @@
+import sys
+import os
+import subprocess
+import readline
+import string
+os.system('python combined_FileMaker_2signal.py')
+os.system('python combined_rebin.py')
+os.system('python makeJobs_unblinding.py')
+os.system('python makeJobs_Asimov.py')
+os.system('rm STDOUT/*')
+os.system('python submitJobs_remained.py')

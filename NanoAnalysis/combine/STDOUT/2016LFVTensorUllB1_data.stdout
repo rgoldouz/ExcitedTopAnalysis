@@ -1,0 +1,1346 @@
+Channel LFVTensorU_2016_llB1 will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
+============================================================
+Analysing bin errors for: prop_binLFVTensorU_2016_llB1
+Poisson cut-off: 10
+Processes excluded for sums: LFVStTensorU LFVTtTensorU
+============================================================
+Bin        Contents        Error           Notes                         
+0          0.000000        0.000000        total sum                     
+0          0.000000        0.000000        excluding marked processes    
+  => Error is zero, ignore      
+------------------------------------------------------------
+1          18291.385070    76.140982       total sum                     
+1          18263.019585    76.140982       excluding marked processes    
+1          57532.000000    239.858291      Unweighted events, alpha=0.317934
+  => Total parameter prop_binLFVTensorU_2016_llB1_bin1[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+2          35827.960400    80.465820       total sum                     
+2          35699.544662    80.465820       excluding marked processes    
+2          196835.000000   443.660907      Unweighted events, alpha=0.182020
+  => Total parameter prop_binLFVTensorU_2016_llB1_bin2[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+3          33962.153240    76.776132       total sum                     
+3          33681.852200    76.776132       excluding marked processes    
+3          192460.000000   438.702633      Unweighted events, alpha=0.176463
+  => Total parameter prop_binLFVTensorU_2016_llB1_bin3[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+4          22219.338394    59.099155       total sum                     
+4          21776.824936    59.099155       excluding marked processes    
+4          135777.000000   368.479307      Unweighted events, alpha=0.163646
+  => Total parameter prop_binLFVTensorU_2016_llB1_bin4[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+5          13234.385353    37.671273       total sum                     
+5          12523.725670    37.671273       excluding marked processes    
+5          110521.000000   332.446988      Unweighted events, alpha=0.119745
+  => Total parameter prop_binLFVTensorU_2016_llB1_bin5[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+6          9531.177443     32.574208       total sum                     
+6          8209.846266     32.574208       excluding marked processes    
+6          63522.000000    252.035712      Unweighted events, alpha=0.150045
+  => Total parameter prop_binLFVTensorU_2016_llB1_bin6[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+7          6016.268735     19.299211       total sum                     
+7          3857.205884     19.299211       excluding marked processes    
+7          39945.000000    199.862453      Unweighted events, alpha=0.150614
+  => Total parameter prop_binLFVTensorU_2016_llB1_bin7[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+8          5130.021757     14.160531       total sum                     
+8          2059.825896     14.160531       excluding marked processes    
+8          21159.000000    145.461335      Unweighted events, alpha=0.242451
+  => Total parameter prop_binLFVTensorU_2016_llB1_bin8[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+9          4171.923351     7.796093        total sum                     
+9          792.592976      7.796093        excluding marked processes    
+9          10336.000000    101.666120      Unweighted events, alpha=0.403630
+  => Total parameter prop_binLFVTensorU_2016_llB1_bin9[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+10         3786.152188     4.576704        total sum                     
+10         282.564475      4.576704        excluding marked processes    
+10         3812.000000     61.741396       Unweighted events, alpha=0.993219
+  => Total parameter prop_binLFVTensorU_2016_llB1_bin10[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+11         2283.592284     2.860775        total sum                     
+11         104.121936      2.860775        excluding marked processes    
+11         1325.000000     36.400549       Unweighted events, alpha=1.723466
+  => Total parameter prop_binLFVTensorU_2016_llB1_bin11[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+12         0.000000        0.000000        total sum                     
+12         0.000000        0.000000        excluding marked processes    
+  => Error is zero, ignore      
+------------------------------------------------------------
+Have POIs: ['r']
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+
+ --- MultiDimFit ---
+best fit parameter values and profile-likelihood uncertainties: 
+   r :    +0.001   -0.005/+0.005 (68%)
+Done in 0.04 min (cpu), 0.04 min (real)
+Have POIs: ['r']
+Have parameters: 72
+ <<< Combine >>> 
+ <<< Combine >>> 
+ <<< Combine >>> 
+ <<< Combine >>> 
+ <<< Combine >>> 
+ <<< Combine >>> 
+ <<< Combine >>> 
+ <<< Combine >>> 
+>>> including systematics
+>>> including systematics
+>>> including systematics
+>>> including systematics
+>>> including systematics
+>>> including systematics
+>>> including systematics
+>>> including systematics
+   Options for Robust Minimizer :: 
+   Options for Robust Minimizer :: 
+   Options for Robust Minimizer :: 
+   Options for Robust Minimizer :: 
+   Options for Robust Minimizer :: 
+   Options for Robust Minimizer :: 
+   Options for Robust Minimizer :: 
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Tolerance  0.1
+        Tolerance  0.1
+        Tolerance  0.1
+        Tolerance  0.1
+        Strategy   0
+        Strategy   0
+        Tolerance  0.1
+        Tolerance  0.1
+        Strategy   0
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+        Type,Algo  Minuit2,Migrad
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+        Strategy   0
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+>>> method used is MultiDimFit
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+>>> random number generator seed is 123456
+>>> random number generator seed is 123456
+>>> random number generator seed is 123456
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter  :   Best-fit               r            
+  Signal_FSR :   -0.001  -0.995/+0.995  +0.000/-0.000
+Done in 0.02 min (cpu), 0.02 min (real)
+  Parameter            :   Best-fit               r            
+  Y2016jesAbsoluteStat :   -0.146  -0.954/+0.900  +0.000/-0.000
+Done in 0.02 min (cpu), 0.02 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  eleRecoSf :   -0.047  -0.991/+0.991  +0.000/-0.000
+Done in 0.02 min (cpu), 0.02 min (real)
+  Parameter  :   Best-fit               r            
+  Signal_pdf :   -0.000  -0.995/+0.994  +0.000/-0.000
+Done in 0.02 min (cpu), 0.02 min (real)
+  Parameter         :   Best-fit               r            
+  Y2016jesTimePtEta :   +0.030  -0.825/+0.848  -0.000/-0.000
+Done in 0.02 min (cpu), 0.02 min (real)
+  Parameter :   Best-fit               r            
+  DY_norm   :   +0.145  -1.027/+1.040  -0.000/+0.000
+Done in 0.03 min (cpu), 0.03 min (real)
+  Parameter             :   Best-fit               r            
+  Y2016jesRelativePtEC1 :   -0.042  -0.991/+0.991  +0.000/-0.000
+Done in 0.02 min (cpu), 0.02 min (real)
+ <<< Combine >>> 
+ <<< Combine >>> 
+>>> including systematics
+>>> including systematics
+   Options for Robust Minimizer :: 
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+ <<< Combine >>> 
+ <<< Combine >>> 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> including systematics
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+>>> including systematics
+>>> including systematics
+   Options for Robust Minimizer :: 
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+        Tolerance  0.1
+>>> method used is MultiDimFit
+        Strategy   0
+   Options for Robust Minimizer :: 
+>>> random number generator seed is 123456
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter              :   Best-fit               r            
+  Y2016jesRelativeStatEC :   +0.025  -0.614/+0.875  +0.000/-0.000
+Done in 0.03 min (cpu), 0.03 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+
+ 
+
+ ---------------------------
+
+ WARNING: MultiDimFit failed
+
+ ---------------------------
+
+ 
+Done in 0.00 min (cpu), 0.00 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter               :   Best-fit               r            
+  Y2016jesRelativeStatFSR :   +0.026  -0.994/+0.995  +0.000/-0.000
+Done in 0.02 min (cpu), 0.02 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+Error: closed range without finding crossing.
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter  :   Best-fit               r            
+  Signal_ISR :   -0.001  -0.994/+0.994  +0.000/-0.000
+Done in 0.02 min (cpu), 0.02 min (real)
+  Parameter             :   Best-fit               r            
+  Y2016jesRelativePtEC2 :   +0.000  -0.994/+0.994  -0.000/-0.000
+Done in 0.02 min (cpu), 0.03 min (real)
+  Parameter     :   Best-fit               r            
+  electronScale :   -0.114  -0.968/+0.933  +0.000/-0.000
+Done in 0.03 min (cpu), 0.03 min (real)
+  Parameter      :   Best-fit               r            
+  Y2016unclusMET :   +0.813  +0.000/+0.840  -0.000/-0.001
+Done in 0.03 min (cpu), 0.03 min (real)
+  Parameter :   Best-fit               r            
+  Jets_norm :   +0.192  -1.028/+1.030  +0.000/-0.000
+Done in 0.03 min (cpu), 0.03 min (real)
+Error: minimization failed at Y2016bcTagSF = -0.255624
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+ <<< Combine >>> 
+ <<< Combine >>> 
+ <<< Combine >>> 
+>>> including systematics
+>>> including systematics
+>>> including systematics
+   Options for Robust Minimizer :: 
+   Options for Robust Minimizer :: 
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Tolerance  0.1
+        Tolerance  0.1
+        Strategy   0
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+        Type,Algo  Minuit2,Migrad
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+>>> random number generator seed is 123456
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter    :   Best-fit               r            
+  Y2016bcTagSF :   +0.458  +0.000/+0.709  -0.000/+0.000
+Done in 0.03 min (cpu), 0.03 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter              :   Best-fit               r            
+  Y2016jesRelativeJEREC2 :   -0.000  -0.994/+0.994  -0.000/-0.000
+Done in 0.03 min (cpu), 0.04 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter              :   Best-fit               r            
+  Y2016jesRelativeStatHF :   -0.000  -0.994/+0.994  -0.000/-0.000
+Done in 0.03 min (cpu), 0.03 min (real)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter          :   Best-fit               r            
+  jesAbsoluteMPFBias :   -0.017  -0.811/+0.799  +0.000/+0.000
+Done in 0.02 min (cpu), 0.03 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  Signal_QS :   -0.000  -0.995/+0.994  +0.000/-0.000
+Done in 0.02 min (cpu), 0.03 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter :   Best-fit               r            
+  Y2016jer  :   +0.077  -0.567/+0.722  +0.000/+0.000
+Done in 0.03 min (cpu), 0.03 min (real)
+  Parameter  :   Best-fit               r            
+  Other_norm :   -0.058  -0.982/+0.978  +0.000/+0.000
+Done in 0.03 min (cpu), 0.03 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+>>> including systematics
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter :   Best-fit               r            
+  eleIDSf   :   -0.082  -0.970/+0.971  +0.000/-0.000
+Done in 0.03 min (cpu), 0.03 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter              :   Best-fit               r            
+  Y2016jesRelativeSample :   -0.108  -0.719/+0.523  +0.000/-0.000
+Done in 0.03 min (cpu), 0.04 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter        :   Best-fit               r            
+  jesAbsoluteScale :   -0.008  -0.878/+0.873  +0.000/-0.000
+Done in 0.03 min (cpu), 0.03 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+RooArgSet:: = ()
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter     :   Best-fit               r            
+  jesPileUpPtBB :   +0.022  -0.953/+0.951  -0.000/+0.000
+Done in 0.02 min (cpu), 0.04 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter  :   Best-fit               r            
+  lumiGhostS :   +0.010  -0.991/+0.992  -0.000/+0.000
+Done in 0.02 min (cpu), 0.03 min (real)
+  Parameter      :   Best-fit               r            
+  jesRelativeFSR :   +0.052  -0.911/+0.912  -0.000/+0.000
+Done in 0.02 min (cpu), 0.03 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+Error: minimization failed at jesFlavorQCD = 1.10994
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter       :   Best-fit               r            
+  jesRelativePtHF :   -0.000  -0.994/+0.994  -0.000/-0.000
+Done in 0.03 min (cpu), 0.03 min (real)
+  Parameter     :   Best-fit               r            
+  jesPileUpPtHF :   -0.000  -0.994/+0.994  -0.000/-0.000
+Done in 0.03 min (cpu), 0.03 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  muIsoSf   :   +0.011  -0.994/+0.994  -0.000/+0.000
+Done in 0.03 min (cpu), 0.03 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter    :   Best-fit               r            
+  jesFlavorQCD :   +0.244  -0.768/+0.000  +0.000/-0.000
+Done in 0.03 min (cpu), 0.04 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter :   Best-fit               r            
+  lumi2016  :   +0.054  -0.915/+0.915  -0.000/+0.000
+Done in 0.05 min (cpu), 0.06 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter      :   Best-fit               r            
+  jesPileUpPtEC1 :   +0.181  -0.772/+0.990  +0.000/-0.000
+Done in 0.03 min (cpu), 0.06 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter          :   Best-fit               r            
+  jesRelativeStatFSR :   +0.026  -0.994/+0.995  +0.000/-0.000
+Done in 0.03 min (cpu), 0.05 min (real)
+  Parameter :   Best-fit               r            
+  lumiXY    :   +0.022  -0.981/+0.981  -0.000/+0.000
+Done in 0.03 min (cpu), 0.06 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter      :   Best-fit               r            
+  jesPileUpPtRef :   +0.096  -0.989/+0.983  +0.000/-0.000
+Done in 0.03 min (cpu), 0.06 min (real)
+  Parameter        :   Best-fit               r            
+  jesRelativeJERHF :   -0.000  -0.994/+0.994  -0.000/-0.000
+Done in 0.03 min (cpu), 0.06 min (real)
+ <<< Combine >>> 
+>>> including systematics
+ <<< Combine >>> 
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+>>> including systematics
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter        :   Best-fit               r            
+  jesFragmentation :   -0.039  -0.956/+0.948  +0.000/-0.000
+Done in 0.03 min (cpu), 0.04 min (real)
+  Parameter :   Best-fit               r            
+  muonRes   :   -0.006  -0.950/+0.951  -0.000/-0.000
+Done in 0.03 min (cpu), 0.04 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+ <<< Combine >>> 
+>>> including systematics
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+   Options for Robust Minimizer :: 
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+        Tolerance  0.1
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter :   Best-fit               r            
+  lumiBBDef :   +0.010  -0.991/+0.992  -0.000/+0.000
+Done in 0.02 min (cpu), 0.03 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter      :   Best-fit               r            
+  jesPileUpPtEC2 :   -0.000  -0.994/+0.994  -0.000/-0.000
+Done in 0.03 min (cpu), 0.03 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter      :   Best-fit               r            
+  jesRelativeBal :   +0.101  -0.900/+0.557  -0.000/+0.000
+Done in 0.03 min (cpu), 0.03 min (real)
+  Parameter         :   Best-fit               r            
+  jesRelativeStatHF :   +0.000  -0.994/+0.994  -0.000/-0.000
+Done in 0.03 min (cpu), 0.04 min (real)
+  Parameter :   Best-fit               r            
+  muIdSf    :   -0.038  -0.990/+0.990  +0.000/-0.000
+Done in 0.03 min (cpu), 0.04 min (real)
+  Parameter       :   Best-fit               r            
+  jesRelativePtBB :   +0.021  -1.014/+1.012  -0.000/+0.000
+Done in 0.03 min (cpu), 0.04 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+ <<< Combine >>> 
+>>> including systematics
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  muonScale :   +0.016  -0.933/+0.938  -0.000/-0.000
+Done in 0.02 min (cpu), 0.06 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter :   Best-fit               r            
+  prefiring :   +0.059  -0.990/+0.991  -0.000/+0.000
+Done in 0.03 min (cpu), 0.06 min (real)
+  Parameter    :   Best-fit               r            
+  lumiDynamicB :   +0.012  -0.990/+0.990  -0.000/+0.000
+Done in 0.03 min (cpu), 0.06 min (real)
+ <<< Combine >>> 
+ <<< Combine >>> 
+>>> including systematics
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter                         :   Best-fit               r            
+  prop_binLFVTensorU_2016_llB1_bin4 :   +0.011  -0.950/+0.950  +0.000/+0.000
+Done in 0.02 min (cpu), 0.03 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter                         :   Best-fit               r            
+  prop_binLFVTensorU_2016_llB1_bin7 :   -0.561  -0.965/+0.966  -0.000/+0.000
+Done in 0.03 min (cpu), 0.03 min (real)
+  Parameter                          :   Best-fit               r            
+  prop_binLFVTensorU_2016_llB1_bin11 :   -0.127  -0.975/+0.975  +0.001/-0.001
+Done in 0.03 min (cpu), 0.04 min (real)
+  Parameter :   Best-fit               r            
+  pu        :   +0.385  -0.949/+0.971  +0.000/-0.000
+Done in 0.03 min (cpu), 0.04 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+Error: minimization failed at tt_CR = -1.14058
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  tt_CR     :   -0.547  +0.000/+0.608  -0.000/-0.003
+Done in 0.05 min (cpu), 0.06 min (real)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  tt_QS     :   -0.322  -0.720/+0.600  +0.000/-0.000
+Done in 0.03 min (cpu), 0.05 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter                         :   Best-fit               r            
+  prop_binLFVTensorU_2016_llB1_bin1 :   -0.267  -0.958/+0.959  -0.000/+0.000
+Done in 0.03 min (cpu), 0.05 min (real)
+  Parameter :   Best-fit               r            
+  tt_norm   :   +0.136  -0.595/+0.593  -0.001/+0.001
+Done in 0.04 min (cpu), 0.06 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter                         :   Best-fit               r            
+  prop_binLFVTensorU_2016_llB1_bin5 :   +0.048  -0.957/+0.957  -0.000/+0.000
+Done in 0.03 min (cpu), 0.07 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter                         :   Best-fit               r            
+  prop_binLFVTensorU_2016_llB1_bin2 :   +0.368  -0.954/+0.953  +0.000/-0.000
+Done in 0.03 min (cpu), 0.04 min (real)
+  Parameter :   Best-fit               r            
+  tW_norm   :   -0.093  -0.971/+0.966  +0.000/-0.000
+Done in 0.03 min (cpu), 0.04 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter                         :   Best-fit               r            
+  prop_binLFVTensorU_2016_llB1_bin8 :   -0.007  -0.962/+0.962  -0.000/+0.000
+Done in 0.03 min (cpu), 0.05 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  tt_FSR    :   +0.014  -0.847/+0.934  +0.001/-0.001
+Done in 0.03 min (cpu), 0.04 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  tt_Tune   :   -0.046  -0.359/+0.346  +0.000/+0.000
+Done in 0.03 min (cpu), 0.04 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter                          :   Best-fit               r            
+  prop_binLFVTensorU_2016_llB1_bin10 :   +0.004  -0.980/+0.980  +0.001/-0.001
+Done in 0.03 min (cpu), 0.04 min (real)
+  Parameter :   Best-fit               r            
+  tt_pdf    :   -0.024  -0.993/+0.992  +0.000/+0.000
+Done in 0.03 min (cpu), 0.04 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  trigSF    :   -0.233  -0.924/+0.929[#0] WARNING:Minization -- RooMinimizerFcn: Minimized function has error status.
+Returning maximum FCN so far (0.506247) to force MIGRAD to back out of this region. Error log follows
+Parameter values: DY_norm=8.54445, Jets_norm=3.7625, Other_norm=292.033, Signal_FSR=0.00804989, Signal_ISR=0.00331953, Signal_QS=0.0052047, Signal_pdf=0.00313767, Y2016bcTagSF=0.620245, Y2016jer=0.218473, Y2016jesAbsoluteStat=0.0880795, Y2016jesRelativeJEREC1=0.0170945, Y2016jesRelativeJEREC2=-9.61371e-20, Y2016jesRelativePtEC1=-0.130331, Y2016jesRelativePtEC2=-9.61371e-20, Y2016jesRelativeSample=0.0832447, Y2016jesRelativeStatEC=0.0527032, Y2016jesRelativeStatFSR=0.140465, Y2016jesRelativeStatHF=-9.61371e-20, Y2016jesTimePtEta=0.105219, Y2016unclusMET=0.520797, eleIDSf=0.985696, eleRecoSf=2.22427, electronScale=0.0572356, jesAbsoluteMPFBias=0.0593801, jesAbsoluteScale=-0.0417092, jesFlavorQCD=0.401541, jesFragmentation=0.133393, jesPileUpPtBB=-0.0664923, jesPileUpPtEC1=0.466973, jesPileUpPtEC2=-9.61371e-20, jesPileUpPtHF=-9.61371e-20, jesPileUpPtRef=-0.38206, jesRelativeBal=-0.0415605, jesRelativeFSR=-0.0299265, jesRelativeJERHF=-9.61371e-20, jesRelativePtBB=-0.0309623, jesRelativePtHF=-9.61371e-20, jesRelativeStatFSR=0.140371, jesRelativeStatHF=-9.61371e-20, lumi2016=0.703297, lumiBBDef=2.46053, lumiDynamicB=2.22697, lumiGhostS=2.46053, lumiXY=1.48751, muIdSf=2.08007, muIsoSf=2.04312, muonRes=-0.0153556, muonScale=0.0121582, prefiring=-2.20271, prop_binLFVTensorU_2016_llB1_bin1=0.586248, prop_binLFVTensorU_2016_llB1_bin10=0.183648, prop_binLFVTensorU_2016_llB1_bin11=0.0152803, prop_binLFVTensorU_2016_llB1_bin2=1.31792, prop_binLFVTensorU_2016_llB1_bin3=0.732258, prop_binLFVTensorU_2016_llB1_bin4=0.726591, prop_binLFVTensorU_2016_llB1_bin5=0.546291, prop_binLFVTensorU_2016_llB1_bin6=0.613776, prop_binLFVTensorU_2016_llB1_bin7=-0.184938, prop_binLFVTensorU_2016_llB1_bin8=0.334377, prop_binLFVTensorU_2016_llB1_bin9=0.598969, pu=-2.12553, r=0.00619095, tW_norm=1.56677, tt_CR=0.355492, tt_FSR=0.394497, tt_ISR=1.14793, tt_QS=1.21087, tt_Tune=-0.55127, tt_hdamp=-0.109495, tt_norm=0.463231, tt_pdf=2.5101, udsgTagSF=0.636298
+
+WARNING: underflow to inf in pdf_binLFVTensorU_2016_llB1_obsOnly for zero-entry bin 0
+WARNING: underflow to -nan in pdf_binLFVTensorU_2016_llB1_obsOnly for bin 1, weight 18178
+FASTEXIT from pdf_binLFVTensorU_2016_llB1_obsOnly
+[#0] WARNING:Minization -- RooMinimizerFcn: Minimized function has error status.
+Returning maximum FCN so far (3.33381e+28) to force MIGRAD to back out of this region. Error log follows
+Parameter values: DY_norm=-104.172, Jets_norm=-38.9122, Other_norm=3083.91, Signal_FSR=-0.210967, Signal_ISR=-0.0968401, Signal_QS=-0.129588, Signal_pdf=-0.0864594, Y2016bcTagSF=3.14446, Y2016jer=-4.08592, Y2016jesAbsoluteStat=-6.33022, Y2016jesRelativeJEREC1=-3.47754, Y2016jesRelativeJEREC2=-2.52755e-11, Y2016jesRelativePtEC1=1.3778, Y2016jesRelativePtEC2=-2.02485e-11, Y2016jesRelativeSample=-3.82339, Y2016jesRelativeStatEC=-2.1417, Y2016jesRelativeStatFSR=-10.514, Y2016jesRelativeStatHF=-1.02011e-11, Y2016jesTimePtEta=-3.93909, Y2016unclusMET=14.3462, eleIDSf=-13.103, eleRecoSf=-27.7836, electronScale=-7.16418, jesAbsoluteMPFBias=-3.60677, jesAbsoluteScale=-5.66095, jesFlavorQCD=-4.85647, jesFragmentation=-5.56976, jesPileUpPtBB=2.38494, jesPileUpPtEC1=-6.10081, jesPileUpPtEC2=-9.66307e-12, jesPileUpPtHF=-9.66307e-12, jesPileUpPtRef=19.3982, jesRelativeBal=2.69497, jesRelativeFSR=2.86252, jesRelativeJERHF=-9.66724e-12, jesRelativePtBB=1.6505, jesRelativePtHF=-9.66782e-12, jesRelativeStatFSR=-10.5751, jesRelativeStatHF=-9.66794e-12, lumi2016=-7.72268, lumiBBDef=-28.8346, lumiDynamicB=-26.1931, lumiGhostS=-28.8346, lumiXY=-17.4656, muIdSf=-25.8936, muIsoSf=-22.8541, muonRes=-0.268828, muonScale=-0.345834, prefiring=28.275, prop_binLFVTensorU_2016_llB1_bin1=-9.38734, prop_binLFVTensorU_2016_llB1_bin10=-2.43784, prop_binLFVTensorU_2016_llB1_bin11=-1.91489, prop_binLFVTensorU_2016_llB1_bin2=-9.08141, prop_binLFVTensorU_2016_llB1_bin3=-10.2983, prop_binLFVTensorU_2016_llB1_bin4=-8.11241, prop_binLFVTensorU_2016_llB1_bin5=-7.30165, prop_binLFVTensorU_2016_llB1_bin6=-9.08716, prop_binLFVTensorU_2016_llB1_bin7=-7.77343, prop_binLFVTensorU_2016_llB1_bin8=-8.12846, prop_binLFVTensorU_2016_llB1_bin9=-4.78284, pu=33.0305, r=-0.0954132, tW_norm=-20.2363, tt_CR=-13.681, tt_FSR=-5.33967, tt_ISR=-16.5404, tt_QS=-21.7512, tt_Tune=4.93236, tt_hdamp=-3.74106, tt_norm=-3.90884, tt_pdf=-31.7978, udsgTagSF=14.128
+RooAbsReal::LFVTensorU_2016_llB1[ params=(DY_norm,Jets_norm,ONE,Other_norm,Signal_FSR,Signal_ISR,Signal_QS,Signal_pdf,Y2016bcTagSF,Y2016jer,Y2016jesAbsoluteStat,Y2016jesRelativeJEREC1,Y2016jesRelativeJEREC2,Y2016jesRelativePtEC1,Y2016jesRelativePtEC2,Y2016jesRelativeSample,Y2016jesRelativeStatEC,Y2016jesRelativeStatFSR,Y2016jesRelativeStatHF,Y2016jesTimePtEta,Y2016unclusMET,eleIDSf,eleRecoSf,electronScale,jesAbsoluteMPFBias,jesAbsoluteScale,jesFlavorQCD,jesFragmentation,jesPileUpPtBB,jesPileUpPtEC1,jesPileUpPtEC2,jesPileUpPtHF,jesPileUpPtRef,jesRelativeBal,jesRelativeFSR,jesRelativeJERHF,jesRelativePtBB,jesRelativePtHF,jesRelativeStatFSR,jesRelativeStatHF,lumi2016,lumiBBDef,lumiDynamicB,lumiGhostS,lumiXY,muIdSf,muIsoSf,muonRes,muonScale,prefiring,prop_binLFVTensorU_2016_llB1_bin1,prop_binLFVTensorU_2016_llB1_bin10,prop_binLFVTensorU_2016_llB1_bin11,prop_binLFVTensorU_2016_llB1_bin2,prop_binLFVTensorU_2016_llB1_bin3,prop_binLFVTensorU_2016_llB1_bin4,prop_binLFVTensorU_2016_llB1_bin5,prop_binLFVTensorU_2016_llB1_bin6,prop_binLFVTensorU_2016_llB1_bin7,prop_binLFVTensorU_2016_llB1_bin8,prop_binLFVTensorU_2016_llB1_bin9,pu,r,tW_norm,trigSF,tt_CR,tt_FSR,tt_ISR,tt_QS,tt_Tune,tt_hdamp,tt_norm,tt_pdf,udsgTagSF) ]
+     Number of events is negative or error @ params=(DY_norm = -104.172 +/- 1.03041,Jets_norm = -38.9122 +/- 1.03065,ONE = 1,Other_norm = 3083.91 +/- 0.980831,Signal_FSR = -0.210967 +/- 0.994492,Signal_ISR = -0.0968401 +/- 0.993766,Signal_QS = -0.129588 +/- 0.99455,Signal_pdf = -0.0864594 +/- 0.994492,Y2016bcTagSF = 3.14446 +/- 0.73792,Y2016jer = -4.08592 +/- 0.667167,Y2016jesAbsoluteStat = -6.33022 +/- 0.885252,Y2016jesRelativeJEREC1 = -3.47754 +/- 0.838438,Y2016jesRelativeJEREC2 = -2.52755e-11 +/- 0.994458,Y2016jesRelativePtEC1 = 1.3778 +/- 0.988905,Y2016jesRelativePtEC2 = -2.02485e-11 +/- 0.994458,Y2016jesRelativeSample = -3.82339 +/- 0.588377,Y2016jesRelativeStatEC = -2.1417 +/- 0.807366,Y2016jesRelativeStatFSR = -10.514 +/- 1.02389,Y2016jesRelativeStatHF = -1.02011e-11 +/- 0.994458,Y2016jesTimePtEta = -3.93909 +/- 0.747054,Y2016unclusMET = 14.3462 +/- 0.800287,eleIDSf = -13.103 +/- 0.970524,eleRecoSf = -27.7836 +/- 0.991508,electronScale = -7.16418 +/- 0.913391,jesAbsoluteMPFBias = -3.60677 +/- 0.717455,jesAbsoluteScale = -5.66095 +/- 0.826115,jesFlavorQCD = -4.85647 +/- 0.993896,jesFragmentation = -5.56976 +/- 0.927729,jesPileUpPtBB = 2.38494 +/- 0.908869,jesPileUpPtEC1 = -6.10081 +/- 1.03905,jesPileUpPtEC2 = -9.66307e-12 +/- 0.994458,jesPileUpPtHF = -9.66307e-12 +/- 0.994458,jesPileUpPtRef = 19.3982 +/- 1.0022,jesRelativeBal = 2.69497 +/- 0.741224,jesRelativeFSR = 2.86252 +/- 0.851618,jesRelativeJERHF = -9.66724e-12 +/- 0.994458,jesRelativePtBB = 1.6505 +/- 1.03325,jesRelativePtHF = -9.66782e-12 +/- 0.994458,jesRelativeStatFSR = -10.5751 +/- 1.02388,jesRelativeStatHF = -9.66794e-12 +/- 0.994458,lumi2016 = -7.72268 +/- 0.916627,lumiBBDef = -28.8346 +/- 0.991978,lumiDynamicB = -26.1931 +/- 0.990605,lumiGhostS = -28.8346 +/- 0.991978,lumiXY = -17.4656 +/- 0.982039,muIdSf = -25.8936 +/- 0.990399,muIsoSf = -22.8541 +/- 0.994107,muonRes = -0.268828 +/- 0.922314,muonScale = -0.345834 +/- 0.899367,prefiring = 28.275 +/- 0.991528,prop_binLFVTensorU_2016_llB1_bin1 = -9.38734 +/- 0.959095,prop_binLFVTensorU_2016_llB1_bin10 = -2.43784 +/- 0.98003,prop_binLFVTensorU_2016_llB1_bin11 = -1.91489 +/- 0.975378,prop_binLFVTensorU_2016_llB1_bin2 = -9.08141 +/- 0.953331,prop_binLFVTensorU_2016_llB1_bin3 = -10.2983 +/- 0.949119,prop_binLFVTensorU_2016_llB1_bin4 = -8.11241 +/- 0.949417,prop_binLFVTensorU_2016_llB1_bin5 = -7.30165 +/- 0.95701,prop_binLFVTensorU_2016_llB1_bin6 = -9.08716 +/- 0.961777,prop_binLFVTensorU_2016_llB1_bin7 = -7.77343 +/- 0.965921,prop_binLFVTensorU_2016_llB1_bin8 = -8.12846 +/- 0.962193,prop_binLFVTensorU_2016_llB1_bin9 = -4.78284 +/- 0.969898,pu = 33.0305 +/- 0.958472,r = -0.0954132 +/- 0.00489172,tW_norm = -20.2363 +/- 0.968256,trigSF = -1.15643 +/- 0.920528,tt_CR = -13.681 +/- 0.564193,tt_FSR = -5.33967 +/- 0.875474,tt_ISR = -16.5404 +/- 0.819422,tt_QS = -21.7512 +/- 0.661127,tt_Tune = 4.93236 +/- 0.343231,tt_hdamp = -3.74106 +/- 0.363363,tt_norm = -3.90884 +/- 0.596883,tt_pdf = -31.7978 +/- 0.99235,udsgTagSF = 14.128 +/- 0.992852)
+
+[#0] WARNING:Minization -- RooMinimizerFcn: Minimized function has error status.
+Returning maximum FCN so far (8.01165e+29) to force MIGRAD to back out of this region. Error log follows
+Parameter values: DY_norm=521.732, Jets_norm=195.714, Other_norm=-15419.9, Signal_FSR=1.04695, Signal_ISR=0.478355, Signal_QS=0.645244, Signal_pdf=0.43037, Y2016bcTagSF=-12.9722, Y2016jer=20.888, Y2016jesAbsoluteStat=30.7752, Y2016jesRelativeJEREC1=16.6366, Y2016jesRelativeJEREC2=3.6355e-11, Y2016jesRelativePtEC1=-7.14341, Y2016jesRelativePtEC2=1.12201e-11, Y2016jesRelativeSample=18.4672, Y2016jesRelativeStatEC=10.8578, Y2016jesRelativeStatFSR=52.7257, Y2016jesRelativeStatHF=-3.9017e-11, Y2016jesTimePtEta=19.8755, Y2016unclusMET=-66.8511, eleIDSf=65.0241, eleRecoSf=138.637, electronScale=35.1385, jesAbsoluteMPFBias=17.9313, jesAbsoluteScale=28.256, jesFlavorQCD=25.7486, jesFragmentation=27.6167, jesPileUpPtBB=-11.7943, jesPileUpPtEC1=31.5922, jesPileUpPtEC2=-4.1707e-11, jesPileUpPtHF=-4.1707e-11, jesPileUpPtRef=-96.4152, jesRelativeBal=-12.989, jesRelativeFSR=-14.0006, jesRelativeJERHF=-4.16861e-11, jesRelativePtBB=-8.12645, jesRelativePtHF=-4.16832e-11, jesRelativeStatFSR=53.0313, jesRelativeStatHF=-4.16826e-11, lumi2016=38.9399, lumiBBDef=144.233, lumiDynamicB=131.04, lumiGhostS=144.233, lumiXY=87.4622, muIdSf=129.243, muIsoSf=114.334, muonRes=1.30552, muonScale=1.82457, prefiring=-141.022, prop_binLFVTensorU_2016_llB1_bin1=45.3323, prop_binLFVTensorU_2016_llB1_bin10=12.2123, prop_binLFVTensorU_2016_llB1_bin11=8.81519, prop_binLFVTensorU_2016_llB1_bin2=47.617, prop_binLFVTensorU_2016_llB1_bin3=50.5325, prop_binLFVTensorU_2016_llB1_bin4=40.6305, prop_binLFVTensorU_2016_llB1_bin5=36.7985, prop_binLFVTensorU_2016_llB1_bin6=46.2285, prop_binLFVTensorU_2016_llB1_bin7=35.5006, prop_binLFVTensorU_2016_llB1_bin8=40.5978, prop_binLFVTensorU_2016_llB1_bin9=26.0082, pu=-162.842, r=0.466101, tW_norm=100.626, tt_CR=65.1254, tt_FSR=26.7832, tt_ISR=81.8153, tt_QS=106.824, tt_Tune=-24.9391, tt_hdamp=17.8857, tt_norm=20.357, tt_pdf=158.844, udsgTagSF=-70.1948
+
+  Parameter                         :   Best-fit               r            
+  prop_binLFVTensorU_2016_llB1_bin3 :   -0.160  -0.950/+0.949  +0.000/-0.000
+Done in 0.03 min (cpu), 0.06 min (real)
+  Parameter                         :   Best-fit               r            
+  prop_binLFVTensorU_2016_llB1_bin6 :   +0.132  -0.962/+0.962  +0.000/-0.000
+Done in 0.03 min (cpu), 0.06 min (real)
+  -0.000/-0.001
+Done in 0.03 min (cpu), 0.06 min (real)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter                         :   Best-fit               r            
+  prop_binLFVTensorU_2016_llB1_bin9 :   +0.349  -0.970/+0.970  -0.000/+0.000
+Done in 0.03 min (cpu), 0.07 min (real)
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+  Parameter :   Best-fit               r            
+  tt_ISR    :   -0.148  -0.889/+0.823  +0.000/-0.000
+Done in 0.03 min (cpu), 0.05 min (real)
+Error: closed range without finding crossing.
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  tt_hdamp  :   -0.137  -0.366/+0.000  -0.001/+0.000
+Done in 0.04 min (cpu), 0.07 min (real)
+  Parameter :   Best-fit               r            
+  udsgTagSF :   +0.074  -0.993/+0.993  -0.000/+0.000
+Done in 0.03 min (cpu), 0.04 min (real)
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jesAbsoluteStat --algo impact --redefineSignalPOIs r -P Y2016jesAbsoluteStat --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jesRelativeJEREC1 --algo impact --redefineSignalPOIs r -P Y2016jesRelativeJEREC1 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jesRelativeJEREC2 --algo impact --redefineSignalPOIs r -P Y2016jesRelativeJEREC2 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesAbsoluteScale --algo impact --redefineSignalPOIs r -P jesAbsoluteScale --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesFlavorQCD --algo impact --redefineSignalPOIs r -P jesFlavorQCD --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesFragmentation --algo impact --redefineSignalPOIs r -P jesFragmentation --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_prefiring --algo impact --redefineSignalPOIs r -P prefiring --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binLFVTensorU_2016_llB1_bin1 --algo impact --redefineSignalPOIs r -P prop_binLFVTensorU_2016_llB1_bin1 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binLFVTensorU_2016_llB1_bin10 --algo impact --redefineSignalPOIs r -P prop_binLFVTensorU_2016_llB1_bin10 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jesRelativeStatEC --algo impact --redefineSignalPOIs r -P Y2016jesRelativeStatEC --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jesRelativeStatFSR --algo impact --redefineSignalPOIs r -P Y2016jesRelativeStatFSR --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jesRelativeStatHF --algo impact --redefineSignalPOIs r -P Y2016jesRelativeStatHF --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesPileUpPtBB --algo impact --redefineSignalPOIs r -P jesPileUpPtBB --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesPileUpPtEC1 --algo impact --redefineSignalPOIs r -P jesPileUpPtEC1 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesPileUpPtEC2 --algo impact --redefineSignalPOIs r -P jesPileUpPtEC2 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binLFVTensorU_2016_llB1_bin11 --algo impact --redefineSignalPOIs r -P prop_binLFVTensorU_2016_llB1_bin11 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binLFVTensorU_2016_llB1_bin2 --algo impact --redefineSignalPOIs r -P prop_binLFVTensorU_2016_llB1_bin2 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binLFVTensorU_2016_llB1_bin3 --algo impact --redefineSignalPOIs r -P prop_binLFVTensorU_2016_llB1_bin3 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_eleRecoSf --algo impact --redefineSignalPOIs r -P eleRecoSf --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_electronScale --algo impact --redefineSignalPOIs r -P electronScale --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesAbsoluteMPFBias --algo impact --redefineSignalPOIs r -P jesAbsoluteMPFBias --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesPileUpPtHF --algo impact --redefineSignalPOIs r -P jesPileUpPtHF --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesPileUpPtRef --algo impact --redefineSignalPOIs r -P jesPileUpPtRef --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesRelativeBal --algo impact --redefineSignalPOIs r -P jesRelativeBal --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binLFVTensorU_2016_llB1_bin4 --algo impact --redefineSignalPOIs r -P prop_binLFVTensorU_2016_llB1_bin4 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binLFVTensorU_2016_llB1_bin5 --algo impact --redefineSignalPOIs r -P prop_binLFVTensorU_2016_llB1_bin5 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binLFVTensorU_2016_llB1_bin6 --algo impact --redefineSignalPOIs r -P prop_binLFVTensorU_2016_llB1_bin6 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Signal_FSR --algo impact --redefineSignalPOIs r -P Signal_FSR --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Signal_ISR --algo impact --redefineSignalPOIs r -P Signal_ISR --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Signal_QS --algo impact --redefineSignalPOIs r -P Signal_QS --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesRelativeFSR --algo impact --redefineSignalPOIs r -P jesRelativeFSR --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesRelativeJERHF --algo impact --redefineSignalPOIs r -P jesRelativeJERHF --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesRelativePtBB --algo impact --redefineSignalPOIs r -P jesRelativePtBB --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_pu --algo impact --redefineSignalPOIs r -P pu --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_tW_norm --algo impact --redefineSignalPOIs r -P tW_norm --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_trigSF --algo impact --redefineSignalPOIs r -P trigSF --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Signal_pdf --algo impact --redefineSignalPOIs r -P Signal_pdf --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016bcTagSF --algo impact --redefineSignalPOIs r -P Y2016bcTagSF --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jer --algo impact --redefineSignalPOIs r -P Y2016jer --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesRelativePtHF --algo impact --redefineSignalPOIs r -P jesRelativePtHF --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesRelativeStatFSR --algo impact --redefineSignalPOIs r -P jesRelativeStatFSR --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesRelativeStatHF --algo impact --redefineSignalPOIs r -P jesRelativeStatHF --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binLFVTensorU_2016_llB1_bin7 --algo impact --redefineSignalPOIs r -P prop_binLFVTensorU_2016_llB1_bin7 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binLFVTensorU_2016_llB1_bin8 --algo impact --redefineSignalPOIs r -P prop_binLFVTensorU_2016_llB1_bin8 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binLFVTensorU_2016_llB1_bin9 --algo impact --redefineSignalPOIs r -P prop_binLFVTensorU_2016_llB1_bin9 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jesTimePtEta --algo impact --redefineSignalPOIs r -P Y2016jesTimePtEta --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016unclusMET --algo impact --redefineSignalPOIs r -P Y2016unclusMET --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_eleIDSf --algo impact --redefineSignalPOIs r -P eleIDSf --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_lumiGhostS --algo impact --redefineSignalPOIs r -P lumiGhostS --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_lumiXY --algo impact --redefineSignalPOIs r -P lumiXY --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_muIdSf --algo impact --redefineSignalPOIs r -P muIdSf --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_tt_CR --algo impact --redefineSignalPOIs r -P tt_CR --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_tt_FSR --algo impact --redefineSignalPOIs r -P tt_FSR --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_tt_ISR --algo impact --redefineSignalPOIs r -P tt_ISR --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jesRelativePtEC1 --algo impact --redefineSignalPOIs r -P Y2016jesRelativePtEC1 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jesRelativePtEC2 --algo impact --redefineSignalPOIs r -P Y2016jesRelativePtEC2 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jesRelativeSample --algo impact --redefineSignalPOIs r -P Y2016jesRelativeSample --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_muIsoSf --algo impact --redefineSignalPOIs r -P muIsoSf --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_muonRes --algo impact --redefineSignalPOIs r -P muonRes --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_muonScale --algo impact --redefineSignalPOIs r -P muonScale --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_tt_QS --algo impact --redefineSignalPOIs r -P tt_QS --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_tt_Tune --algo impact --redefineSignalPOIs r -P tt_Tune --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_tt_hdamp --algo impact --redefineSignalPOIs r -P tt_hdamp --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_DY_norm --algo impact --redefineSignalPOIs r -P DY_norm --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Jets_norm --algo impact --redefineSignalPOIs r -P Jets_norm --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_Other_norm --algo impact --redefineSignalPOIs r -P Other_norm --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_lumi2016 --algo impact --redefineSignalPOIs r -P lumi2016 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_lumiBBDef --algo impact --redefineSignalPOIs r -P lumiBBDef --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_lumiDynamicB --algo impact --redefineSignalPOIs r -P lumiDynamicB --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_tt_norm --algo impact --redefineSignalPOIs r -P tt_norm --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_tt_pdf --algo impact --redefineSignalPOIs r -P tt_pdf --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+>> combine -M MultiDimFit -n _paramFit_Test_udsgTagSF --algo impact --redefineSignalPOIs r -P udsgTagSF --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -1 --rMax 1 -m 125 -d LFVTensorU_2016_llB1.root
+Have POIs: ['r']
+Have parameters: 72
+File higgsCombine_paramFit_Test_Y2016jesRelativeJEREC1.MultiDimFit.mH125.root did not contain a sufficient number of entries, skipping
+File higgsCombine_paramFit_Test_trigSF.MultiDimFit.mH125.root did not contain a sufficient number of entries, skipping
+File higgsCombine_paramFit_Test_tt_pdf.MultiDimFit.mH125.root did not contain a sufficient number of entries, skipping
+Missing inputs: Y2016jesRelativeJEREC1,trigSF,tt_pdf
+>> Doing page 0, have 30 parameters

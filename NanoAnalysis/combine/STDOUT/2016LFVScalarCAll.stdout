@@ -1,0 +1,1539 @@
+Channel ch1 will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
+============================================================
+Analysing bin errors for: prop_binch1
+Poisson cut-off: 10
+Processes excluded for sums: LFVStScalarC LFVTtScalarC
+============================================================
+Bin        Contents        Error           Notes                         
+0          0.000000        0.000000        total sum                     
+0          0.000000        0.000000        excluding marked processes    
+  => Error is zero, ignore      
+------------------------------------------------------------
+1          18263.317120    76.140982       total sum                     
+1          18263.019585    76.140982       excluding marked processes    
+1          57532.000000    239.858291      Unweighted events, alpha=0.317446
+  => Total parameter prop_binch1_bin1[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+2          35701.096197    80.465820       total sum                     
+2          35699.544662    80.465820       excluding marked processes    
+2          196835.000000   443.660907      Unweighted events, alpha=0.181376
+  => Total parameter prop_binch1_bin2[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+3          33684.995207    76.776132       total sum                     
+3          33681.852200    76.776132       excluding marked processes    
+3          192460.000000   438.702633      Unweighted events, alpha=0.175023
+  => Total parameter prop_binch1_bin3[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+4          21781.166706    59.099155       total sum                     
+4          21776.824936    59.099155       excluding marked processes    
+4          135777.000000   368.479307      Unweighted events, alpha=0.160419
+  => Total parameter prop_binch1_bin4[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+5          12529.491808    37.671273       total sum                     
+5          12523.725670    37.671273       excluding marked processes    
+5          110521.000000   332.446988      Unweighted events, alpha=0.113368
+  => Total parameter prop_binch1_bin5[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+6          8219.172802     32.574208       total sum                     
+6          8209.846266     32.574208       excluding marked processes    
+6          63522.000000    252.035712      Unweighted events, alpha=0.129391
+  => Total parameter prop_binch1_bin6[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+7          3869.140076     19.299211       total sum                     
+7          3857.205884     19.299211       excluding marked processes    
+7          39945.000000    199.862453      Unweighted events, alpha=0.096862
+  => Total parameter prop_binch1_bin7[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+8          2074.104429     14.160531       total sum                     
+8          2059.825896     14.160531       excluding marked processes    
+8          21159.000000    145.461335      Unweighted events, alpha=0.098025
+  => Total parameter prop_binch1_bin8[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+9          807.026071      7.796093        total sum                     
+9          792.592976      7.796093        excluding marked processes    
+9          10336.000000    101.666120      Unweighted events, alpha=0.078079
+  => Total parameter prop_binch1_bin9[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+10         297.733868      4.576704        total sum                     
+10         282.564475      4.576704        excluding marked processes    
+10         3812.000000     61.741396       Unweighted events, alpha=0.078104
+  => Total parameter prop_binch1_bin10[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+11         120.655273      2.860775        total sum                     
+11         104.121936      2.860775        excluding marked processes    
+11         1325.000000     36.400549       Unweighted events, alpha=0.091061
+  => Total parameter prop_binch1_bin11[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+12         0.000000        0.000000        total sum                     
+12         0.000000        0.000000        excluding marked processes    
+  => Error is zero, ignore      
+------------------------------------------------------------
+Channel ch2 will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
+============================================================
+Analysing bin errors for: prop_binch2
+Poisson cut-off: 10
+Processes excluded for sums: LFVStScalarC LFVTtScalarC
+============================================================
+Bin        Contents        Error           Notes                         
+0          0.000000        0.000000        total sum                     
+0          0.000000        0.000000        excluding marked processes    
+  => Error is zero, ignore      
+------------------------------------------------------------
+1          3018.276073     12.872851       total sum                     
+1          3018.269463     12.872851       excluding marked processes    
+1          54975.000000    234.467482      Unweighted events, alpha=0.054903
+  => Total parameter prop_binch2_bin1[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+2          14305.850591    29.389222       total sum                     
+2          14305.767326    29.389222       excluding marked processes    
+2          236944.000000   486.768939      Unweighted events, alpha=0.060377
+  => Total parameter prop_binch2_bin2[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+3          17745.248721    31.555927       total sum                     
+3          17745.006929    31.555927       excluding marked processes    
+3          316221.000000   562.335309      Unweighted events, alpha=0.056117
+  => Total parameter prop_binch2_bin3[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+4          14504.202291    28.072516       total sum                     
+4          14503.806204    28.072516       excluding marked processes    
+4          266932.000000   516.654624      Unweighted events, alpha=0.054337
+  => Total parameter prop_binch2_bin4[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+5          8880.595417     22.533698       total sum                     
+5          8879.952995     22.533698       excluding marked processes    
+5          155295.000000   394.074866      Unweighted events, alpha=0.057185
+  => Total parameter prop_binch2_bin5[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+6          6172.465283     18.603811       total sum                     
+6          6171.375523     18.603811       excluding marked processes    
+6          110042.000000   331.725790      Unweighted events, alpha=0.056092
+  => Total parameter prop_binch2_bin6[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+7          2886.787600     12.316630       total sum                     
+7          2885.534863     12.316630       excluding marked processes    
+7          54887.000000    234.279747      Unweighted events, alpha=0.052595
+  => Total parameter prop_binch2_bin7[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+8          1552.987736     9.205593        total sum                     
+8          1551.546461     9.205593        excluding marked processes    
+8          28407.000000    168.543763      Unweighted events, alpha=0.054669
+  => Total parameter prop_binch2_bin8[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+9          580.860479      5.686026        total sum                     
+9          579.293864      5.686026        excluding marked processes    
+9          10380.000000    101.882285      Unweighted events, alpha=0.055960
+  => Total parameter prop_binch2_bin9[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+10         192.210559      3.466547        total sum                     
+10         190.497546      3.466547        excluding marked processes    
+10         3020.000000     54.954527       Unweighted events, alpha=0.063646
+  => Total parameter prop_binch2_bin10[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+11         58.647185       2.027651        total sum                     
+11         56.926912       2.027651        excluding marked processes    
+11         788.000000      28.071338       Unweighted events, alpha=0.074425
+  => Total parameter prop_binch2_bin11[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+12         0.000000        0.000000        total sum                     
+12         0.000000        0.000000        excluding marked processes    
+  => Error is zero, ignore      
+------------------------------------------------------------
+Have POIs: ['r']
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+best fit parameter values and profile-likelihood uncertainties: 
+   r :    +1.000   -0.864/+0.887 (68%)
+Done in 0.21 min (cpu), 0.57 min (real)
+>> combine -M MultiDimFit -n _initialFit_Test --algo singles --redefineSignalPOIs r --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+Have POIs: ['r']
+Have parameters: 83
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+RooArgSet:: = ()
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+Computing results starting from expected outcome (a-priori)
+Computing results starting from expected outcome (a-priori)
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter  :   Best-fit               r            
+  Signal_pdf :   +0.000  -0.994/+0.994  +0.052/-0.048
+Done in 0.16 min (cpu), 0.49 min (real)
+  Parameter :   Best-fit               r            
+  DY_norm   :   +0.000  -0.959/+0.927  -0.019/+0.036
+Done in 0.16 min (cpu), 0.48 min (real)
+  Parameter             :   Best-fit               r            
+  Y2016jesRelativePtEC1 :   -0.000  -0.994/+0.994  +0.000/-0.002
+Done in 0.16 min (cpu), 0.50 min (real)
+  Parameter              :   Best-fit               r            
+  Y2016jesRelativeStatEC :   -0.000  -0.925/+0.985  +0.010/-0.011
+Done in 0.16 min (cpu), 0.50 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter            :   Best-fit               r            
+  Y2016jesAbsoluteStat :   +0.000  -0.981/+0.978  +0.012/-0.014
+Done in 0.17 min (cpu), 0.52 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter  :   Best-fit               r            
+  Signal_FSR :   +0.000  -0.994/+0.994  +0.023/-0.009
+Done in 0.18 min (cpu), 0.57 min (real)
+  Parameter         :   Best-fit               r            
+  Y2016jesTimePtEta :   +0.000  -0.935/+0.949  -0.066/+0.011
+Done in 0.17 min (cpu), 0.53 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter :   Best-fit               r            
+  eleRecoSf :   +0.000  -0.990/+0.989  +0.011/-0.010
+Done in 0.19 min (cpu), 0.58 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+Computing results starting from expected outcome (a-priori)
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter               :   Best-fit               r            
+  Y2016jesRelativeStatFSR :   +0.000  -0.993/+0.992  +0.005/-0.007
+Done in 0.13 min (cpu), 0.44 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  Jets_norm :   +0.000  -0.990/+0.986  -0.003/+0.006
+Done in 0.16 min (cpu), 0.51 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter              :   Best-fit               r            
+  Y2016jesRelativeJEREC1 :   +0.000  -0.932/+0.960  -0.009/-0.022
+Done in 0.15 min (cpu), 0.43 min (real)
+  Parameter             :   Best-fit               r            
+  Y2016jesRelativePtEC2 :   +0.000  -0.994/+0.994  +0.000/+0.000
+Done in 0.17 min (cpu), 0.58 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter  :   Best-fit               r            
+  Signal_ISR :   +0.000  -0.994/+0.994  +0.004/-0.005
+Done in 0.18 min (cpu), 0.51 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter     :   Best-fit               r            
+  electronScale :   +0.000  -0.950/+0.924  +0.091/-0.096
+Done in 0.19 min (cpu), 0.53 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+RooArgSet:: = ()
+  Parameter    :   Best-fit               r            
+  Y2016bcTagSF :   +0.000  -0.203/+0.238  -0.261/+0.279
+Done in 0.23 min (cpu), 0.66 min (real)
+Computing results starting from expected outcome (a-priori)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter      :   Best-fit               r            
+  Y2016unclusMET :   +0.000  -0.895/+0.777  +0.060/+0.011
+Done in 0.21 min (cpu), 0.58 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter              :   Best-fit               r            
+  Y2016jesRelativeStatHF :   +0.000  -0.994/+0.994  +0.000/+0.000
+Done in 0.18 min (cpu), 0.46 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter  :   Best-fit               r            
+  Other_norm :   +0.000  -0.990/+0.986  +0.008/-0.010
+Done in 0.18 min (cpu), 0.46 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter              :   Best-fit               r            
+  Y2016jesRelativeJEREC2 :   +0.000  -0.994/+0.994  +0.000/+0.000
+Done in 0.17 min (cpu), 0.44 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter              :   Best-fit               r            
+  Y2016jesRelativeSample :   +0.000  -0.939/+0.824  +0.044/+0.011
+Done in 0.18 min (cpu), 0.46 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  Signal_QS :   +0.000  -0.994/+0.994
+ --- MultiDimFit ---
+Parameter impacts: 
+  +0.003/-0.008
+Done in 0.17 min (cpu), 0.44 min (real)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  eleIDSf   :   +0.000  -0.966/+0.967  +0.050/+0.000
+Done in 0.16 min (cpu), 0.40 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter          :   Best-fit               r            
+  jesAbsoluteMPFBias :   +0.000  -0.961/+0.955  +0.032/+0.034
+Done in 0.19 min (cpu), 0.47 min (real)
+RooArgSet:: = ()
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+Computing results starting from expected outcome (a-priori)
+  Parameter :   Best-fit               r            
+  Y2016jer  :   +0.000  -0.794/+0.814  +0.058/+0.069
+Done in 0.19 min (cpu), 0.48 min (real)
+RooArgSet:: = ()
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+RooArgSet:: = ()
+  Parameter        :   Best-fit               r            
+  jesAbsoluteScale :   +0.000  -0.975/+0.966  +0.018/+0.007
+Done in 0.16 min (cpu), 0.46 min (real)
+Computing results starting from expected outcome (a-priori)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter     :   Best-fit               r            
+  jesPileUpPtHF :   +0.000  -0.994/+0.994  +0.000/+0.000
+Done in 0.18 min (cpu), 0.46 min (real)
+  Parameter     :   Best-fit               r            
+  jesPileUpPtBB :   +0.000  -0.990/+0.986  +0.000/-0.008
+Done in 0.20 min (cpu), 0.49 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter      :   Best-fit               r            
+  jesRelativeFSR :   +0.000  -0.974/+0.951  +0.016/-0.060
+Done in 0.20 min (cpu), 0.50 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter  :   Best-fit               r            
+  lumiGhostS :   +0.000  -0.992/+0.992  -0.002/+0.003
+Done in 0.13 min (cpu), 0.32 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter       :   Best-fit               r            
+  jesRelativePtHF :   +0.000  -0.994/+0.994  +0.000/+0.000
+Done in 0.18 min (cpu), 0.58 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  lumi2016  :   +0.000  -0.912/+0.912  -0.014/+0.016
+Done in 0.18 min (cpu), 0.59 min (real)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter :   Best-fit               r            
+  muIsoSf   :   +0.000  -0.994/+0.994  -0.005/+0.005
+Done in 0.17 min (cpu), 0.40 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter    :   Best-fit               r            
+  jesFlavorQCD :   +0.000  -0.687/+0.758  -0.016/+0.036
+Done in 0.19 min (cpu), 0.43 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter      :   Best-fit               r            
+  jesPileUpPtRef :   +0.000  -0.987/+0.989  +0.020/-0.008
+Done in 0.16 min (cpu), 0.35 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter      :   Best-fit               r            
+  jesPileUpPtEC1 :   +0.000  -0.931/+0.986  +0.038/-0.023
+Done in 0.16 min (cpu), 0.37 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter        :   Best-fit               r            
+  jesRelativeJERHF :   +0.000  -0.994/+0.994  +0.000/+0.000
+Done in 0.17 min (cpu), 0.37 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+RooArgSet:: = ()
+  Parameter          :   Best-fit               r            
+  jesRelativeStatFSR :   +0.000  -0.993/+0.992  +0.005/-0.007
+Done in 0.13 min (cpu), 0.30 min (real)
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+  Parameter :   Best-fit               r            
+  lumiBBDef :   +0.000  -0.992/+0.992  -0.003/+0.003
+Done in 0.14 min (cpu), 0.30 min (real)
+Computing results starting from expected outcome (a-priori)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  muonRes   :   +0.000  -0.992/+0.993  -0.037/-0.010
+Done in 0.15 min (cpu), 0.33 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter :   Best-fit               r            
+  lumiXY    :   +0.000  -0.981/+0.981  -0.006/+0.006
+Done in 0.21 min (cpu), 0.44 min (real)
+RooArgSet:: = ()
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter        :   Best-fit               r            
+  jesFragmentation :   +0.000  -0.983/+0.977  +0.024/-0.017
+Done in 0.17 min (cpu), 0.37 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter      :   Best-fit               r            
+  jesPileUpPtEC2 :   +0.000  -0.994/+0.994  +0.000/+0.000
+Done in 0.18 min (cpu), 0.41 min (real)
+  Parameter      :   Best-fit               r            
+  jesRelativeBal :   +0.000  -0.944/+0.916  -0.034/+0.056
+Done in 0.18 min (cpu), 0.42 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter       :   Best-fit               r            
+  jesRelativePtBB :   +0.000  -0.990/+0.991  -0.016/+0.009
+Done in 0.18 min (cpu), 0.56 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter    :   Best-fit               r            
+  lumiDynamicB :   +0.000  -0.990/+0.990  -0.003/+0.004
+Done in 0.17 min (cpu), 0.52 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+  Parameter         :   Best-fit               r            
+  jesRelativeStatHF :   +0.000  -0.994/+0.994  +0.000/+0.000
+Done in 0.18 min (cpu), 0.55 min (real)
+RooArgSet:: = ()
+
+ --- MultiDimFit ---
+Parameter impacts: 
+Computing results starting from expected outcome (a-priori)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+  Parameter :   Best-fit               r            
+  muonScale :   +0.000  -0.993/+0.991  -0.031/-0.016
+Done in 0.18 min (cpu), 0.53 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+  Parameter :   Best-fit               r            
+  muIdSf    :   +0.000  -0.987/+0.987  +0.017/-0.016
+Done in 0.22 min (cpu), 0.64 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter        :   Best-fit               r            
+  prop_binch1_bin4 :   +0.000  -0.953/+0.953  -0.030/+0.030
+Done in 0.16 min (cpu), 0.31 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+  Parameter :   Best-fit               r            
+  prefiring :   +0.000  -0.990/+0.989  -0.005/+0.004
+Done in 0.18 min (cpu), 0.37 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter         :   Best-fit               r            
+  prop_binch1_bin11 :   +0.000  -0.987/+0.987  +0.138/-0.138
+Done in 0.18 min (cpu), 0.37 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter        :   Best-fit               r            
+  prop_binch1_bin7 :   +0.000  -0.966/+0.961  -0.019/+0.026
+Done in 0.19 min (cpu), 0.36 min (real)
+  Parameter        :   Best-fit               r            
+  prop_binch2_bin1 :   +0.000  -0.973/+0.974  -0.014/+0.016
+Done in 0.15 min (cpu), 0.31 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+  Parameter        :   Best-fit               r            
+  prop_binch2_bin2 :   +0.000  -0.978/+0.978  -0.018/+0.019
+Done in 0.16 min (cpu), 0.32 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter        :   Best-fit               r            
+  prop_binch2_bin5 :   +0.000  -0.977/+0.977  +0.006/-0.002
+Done in 0.19 min (cpu), 0.39 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+Computing results starting from expected outcome (a-priori)
+  Parameter        :   Best-fit               r            
+  prop_binch2_bin8 :   +0.000  -0.976/+0.976  -0.016/+0.018
+Done in 0.17 min (cpu), 0.34 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+  Parameter        :   Best-fit               r            
+  prop_binch1_bin1 :   -0.000  -0.953/+0.955  -0.035/+0.043
+Done in 0.17 min (cpu), 0.33 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter        :   Best-fit               r            
+  prop_binch1_bin2 :   +0.000  -0.954/+0.955  +0.037/-0.033
+Done in 0.18 min (cpu), 0.37 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter        :   Best-fit               r            
+  prop_binch1_bin5 :   +0.000  -0.958/+0.958  -0.007/+0.008
+Done in 0.21 min (cpu), 0.43 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter         :   Best-fit               r            
+  prop_binch2_bin10 :   +0.000  -0.972/+0.972  -0.034/+0.034
+Done in 0.16 min (cpu), 0.33 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter        :   Best-fit               r            
+  prop_binch2_bin3 :   +0.000  -0.979/+0.979
+ --- MultiDimFit ---
+Parameter impacts: 
+  +0.020/-0.016
+Done in 0.16 min (cpu), 0.35 min (real)
+  Parameter        :   Best-fit               r            
+  prop_binch2_bin6 :   +0.000  -0.975/+0.975  -0.012/+0.010
+Done in 0.15 min (cpu), 0.27 min (real)
+  Parameter        :   Best-fit               r            
+  prop_binch1_bin8 :   +0.000  -0.965/+0.966  +0.004/-0.004
+Done in 0.18 min (cpu), 0.38 min (real)
+ <<< Combine >>> 
+ <<< Combine >>> 
+>>> including systematics
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+RooArgSet:: = ()
+  Parameter        :   Best-fit               r            
+  prop_binch2_bin9 :   +0.000  -0.972/+0.972Computing results starting from expected outcome (a-priori)
+  -0.017/+0.008
+Done in 0.18 min (cpu), 0.32 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter         :   Best-fit               r            
+  prop_binch1_bin10 :   +0.000  -0.972/+0.972  +0.102/-0.099
+Done in 0.16 min (cpu), 0.39 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter        :   Best-fit               r            
+  prop_binch1_bin3 :   +0.000  -0.948/+0.947  +0.008/-0.008
+Done in 0.17 min (cpu), 0.35 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter         :   Best-fit               r            
+  prop_binch2_bin11 :   +0.000  -0.975/+0.975  -0.071/+0.062
+Done in 0.17 min (cpu), 0.34 min (real)
+  Parameter        :   Best-fit               r            
+  prop_binch2_bin4 :   +0.000  -0.979/+0.979  +0.015/-0.013
+Done in 0.15 min (cpu), 0.30 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter        :   Best-fit               r            
+  prop_binch1_bin6 :   +0.000  -0.957/+0.960  -0.003/+0.007
+Done in 0.19 min (cpu), 0.39 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+RooArgSet:: = ()
+  Parameter        :   Best-fit               r            
+  prop_binch1_bin9 :   +0.000  -0.969/+0.969  -0.015/+0.028
+Done in 0.18 min (cpu), 0.35 min (real)
+Computing results starting from expected outcome (a-priori)
+  Parameter        :   Best-fit               r            
+  prop_binch2_bin7 :   +0.000  -0.977/+0.977  +0.016/-0.015
+Done in 0.18 min (cpu), 0.36 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  pu        :   +0.000  -0.953/+0.960  +0.011/-0.016
+Done in 0.17 min (cpu), 0.34 min (real)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  tW_norm   :   +0.000  -0.927/+0.915  +0.055/-0.044
+Done in 0.16 min (cpu), 0.28 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  tt_FSR    :   -0.000  -0.621/+0.788  +0.225/-0.199
+Done in 0.22 min (cpu), 0.36 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  tt_pdf    :   -0.000  -0.992/+0.991  -0.004/+0.006
+Done in 0.21 min (cpu), 0.36 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter :   Best-fit               r            
+  tt_Tune   :   +0.000  -0.642/+0.543  +0.181/+0.288
+Done in 0.28 min (cpu), 0.43 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  trigSF    :   +0.000  -0.911/+0.915  +0.198/-0.153
+Done in 0.17 min (cpu), 0.19 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  udsgTagSF :   +0.000  -0.986/+0.986  -0.017/+0.016
+Done in 0.25 min (cpu), 0.36 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  tt_CR     :   +0.000  -0.475/+0.444  +0.354/-0.498
+Done in 0.17 min (cpu), 0.31 min (real)
+  Parameter :   Best-fit               r            
+  tt_hdamp  :   +0.000  -0.378/+0.386  -0.079/+0.020
+Done in 0.22 min (cpu), 0.38 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+  Parameter :   Best-fit               r            
+  tt_ISR    :   +0.000  -0.917/+0.906  +0.017/-0.008
+Done in 0.25 min (cpu), 0.43 min (real)
+ <<< Combine >>> 
+>>> including systematics
+   Options for Robust Minimizer :: 
+        Tolerance  0.1
+        Strategy   0
+        Type,Algo  Minuit2,Migrad
+>>> method used is MultiDimFit
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+RooArgSet:: = ()
+Computing results starting from expected outcome (a-priori)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  tt_QS     :   +0.000  -0.646/+0.582  -0.137/+0.174
+Done in 0.18 min (cpu), 0.26 min (real)
+
+ --- MultiDimFit ---
+Parameter impacts: 
+  Parameter :   Best-fit               r            
+  tt_norm   :   +0.000  -0.584/+0.584  -0.160/+0.183
+Done in 0.22 min (cpu), 0.32 min (real)
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jesAbsoluteStat --algo impact --redefineSignalPOIs r -P Y2016jesAbsoluteStat --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jesRelativeJEREC1 --algo impact --redefineSignalPOIs r -P Y2016jesRelativeJEREC1 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jesRelativeJEREC2 --algo impact --redefineSignalPOIs r -P Y2016jesRelativeJEREC2 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesPileUpPtHF --algo impact --redefineSignalPOIs r -P jesPileUpPtHF --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesPileUpPtRef --algo impact --redefineSignalPOIs r -P jesPileUpPtRef --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesRelativeBal --algo impact --redefineSignalPOIs r -P jesRelativeBal --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binch1_bin4 --algo impact --redefineSignalPOIs r -P prop_binch1_bin4 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binch1_bin5 --algo impact --redefineSignalPOIs r -P prop_binch1_bin5 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binch1_bin6 --algo impact --redefineSignalPOIs r -P prop_binch1_bin6 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jesRelativePtEC1 --algo impact --redefineSignalPOIs r -P Y2016jesRelativePtEC1 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jesRelativePtEC2 --algo impact --redefineSignalPOIs r -P Y2016jesRelativePtEC2 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jesRelativeSample --algo impact --redefineSignalPOIs r -P Y2016jesRelativeSample --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesRelativeFSR --algo impact --redefineSignalPOIs r -P jesRelativeFSR --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesRelativeJERHF --algo impact --redefineSignalPOIs r -P jesRelativeJERHF --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesRelativePtBB --algo impact --redefineSignalPOIs r -P jesRelativePtBB --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binch1_bin7 --algo impact --redefineSignalPOIs r -P prop_binch1_bin7 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binch1_bin8 --algo impact --redefineSignalPOIs r -P prop_binch1_bin8 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binch1_bin9 --algo impact --redefineSignalPOIs r -P prop_binch1_bin9 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_Signal_pdf --algo impact --redefineSignalPOIs r -P Signal_pdf --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016bcTagSF --algo impact --redefineSignalPOIs r -P Y2016bcTagSF --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_Y2016jer --algo impact --redefineSignalPOIs r -P Y2016jer --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_muIsoSf --algo impact --redefineSignalPOIs r -P muIsoSf --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_muonRes --algo impact --redefineSignalPOIs r -P muonRes --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_muonScale --algo impact --redefineSignalPOIs r -P muonScale --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binch2_bin5 --algo impact --redefineSignalPOIs r -P prop_binch2_bin5 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binch2_bin6 --algo impact --redefineSignalPOIs r -P prop_binch2_bin6 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binch2_bin7 --algo impact --redefineSignalPOIs r -P prop_binch2_bin7 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_eleRecoSf --algo impact --redefineSignalPOIs r -P eleRecoSf --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_electronScale --algo impact --redefineSignalPOIs r -P electronScale --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesAbsoluteMPFBias --algo impact --redefineSignalPOIs r -P jesAbsoluteMPFBias --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_lumiGhostS --algo impact --redefineSignalPOIs r -P lumiGhostS --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_lumiXY --algo impact --redefineSignalPOIs r -P lumiXY --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_muIdSf --algo impact --redefineSignalPOIs r -P muIdSf --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binch2_bin8 --algo impact --redefineSignalPOIs r -P prop_binch2_bin8 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binch2_bin9 --algo impact --redefineSignalPOIs r -P prop_binch2_bin9 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_pu --algo impact --redefineSignalPOIs r -P pu --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_Signal_FSR --algo impact --redefineSignalPOIs r -P Signal_FSR --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_Signal_ISR --algo impact --redefineSignalPOIs r -P Signal_ISR --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_Signal_QS --algo impact --redefineSignalPOIs r -P Signal_QS --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesRelativePtHF --algo impact --redefineSignalPOIs r -P jesRelativePtHF --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesRelativeStatFSR --algo impact --redefineSignalPOIs r -P jesRelativeStatFSR --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_jesRelativeStatHF --algo impact --redefineSignalPOIs r -P jesRelativeStatHF --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binch2_bin2 --algo impact --redefineSignalPOIs r -P prop_binch2_bin2 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binch2_bin3 --algo impact --redefineSignalPOIs r -P prop_binch2_bin3 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_prop_binch2_bin4 --algo impact --redefineSignalPOIs r -P prop_binch2_bin4 --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_tt_pdf --algo impact --redefineSignalPOIs r -P tt_pdf --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+>> combine -M MultiDimFit -n _paramFit_Test_udsgTagSF --algo impact --redefineSignalPOIs r -P udsgTagSF --floatOtherPOIs 1 --saveInactivePOI 1 --robustFit 1 --rMin -3 --rMax 3 -t -1 --expectSignal=1 -m 125 -d LFVScalarC_2016_com.root
+Have POIs: ['r']
+Have parameters: 83
+File higgsCombine_paramFit_Test_eleIDSf.MultiDimFit.mH125.root did not contain a sufficient number of entries, skipping
+Missing inputs: eleIDSf
+>> Doing page 0, have 30 parameters

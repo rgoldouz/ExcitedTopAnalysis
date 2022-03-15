@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<MethodSetup Method="Fisher::Fisher">
+  <GeneralInfo>
+    <Info name="TMVA Release" value="4.2.1 [262657]"/>
+    <Info name="ROOT Release" value="6.12/07 [396295]"/>
+    <Info name="Creator" value="rgoldouz"/>
+    <Info name="Date" value="Mon Jun 28 07:04:57 2021"/>
+    <Info name="Host" value="Linux cmsbuild90.cern.ch 2.6.32-696.30.1.el6.x86_64 #1 SMP Tue May 22 06:09:36 CEST 2018 x86_64 x86_64 x86_64 GNU/Linux"/>
+    <Info name="Dir" value="/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/analysis/MVA"/>
+    <Info name="Training events" value="2000"/>
+    <Info name="TrainingTime" value="7.94005394e-03"/>
+    <Info name="AnalysisType" value="Classification"/>
+  </GeneralInfo>
+  <Options>
+    <Option name="V" modified="Yes">False</Option>
+    <Option name="VerbosityLevel" modified="No">Default</Option>
+    <Option name="VarTransform" modified="Yes">None</Option>
+    <Option name="H" modified="Yes">True</Option>
+    <Option name="CreateMVAPdfs" modified="Yes">True</Option>
+    <Option name="IgnoreNegWeightsInTraining" modified="No">False</Option>
+    <Option name="Method" modified="Yes">Fisher</Option>
+  </Options>
+  <Variables NVar="13">
+    <Variable VarIndex="0" Expression="MVA_Ph_pt" Label="MVA_Ph_pt" Title="photon pt" Unit="GeV" Internal="MVA_Ph_pt" Type="F" Min="2.50019653e+02" Max="2.24537524e+03"/>
+    <Variable VarIndex="1" Expression="MVA_Ph_eta" Label="MVA_Ph_eta" Title="photon eta" Unit="" Internal="MVA_Ph_eta" Type="F" Min="-1.47710586e+00" Max="1.47592831e+00"/>
+    <Variable VarIndex="2" Expression="MVA_Ak8_pt" Label="MVA_Ak8_pt" Title="Ak8 jet pt" Unit="GeV" Internal="MVA_Ak8_pt" Type="F" Min="2.25136948e+02" Max="2.10499512e+03"/>
+    <Variable VarIndex="3" Expression="MVA_Ak8_eta" Label="MVA_Ak8_eta" Title="Ak8 jet eta" Unit="" Internal="MVA_Ak8_eta" Type="F" Min="-2.36165094e+00" Max="2.35897899e+00"/>
+    <Variable VarIndex="4" Expression="MVA_Ak8_Mass" Label="MVA_Ak8_Mass" Title="Ak8 jet mass" Unit="GeV" Internal="MVA_Ak8_Mass" Type="F" Min="5.09361625e-01" Max="5.18985046e+02"/>
+    <Variable VarIndex="5" Expression="MVA_Ak8_TvsQCD" Label="MVA_Ak8_TvsQCD" Title="Ak8 jet TvsQCD" Unit="" Internal="MVA_Ak8_TvsQCD" Type="F" Min="6.70963551e-09" Max="9.99995172e-01"/>
+    <Variable VarIndex="6" Expression="MVA_Ak8_Nbsub" Label="MVA_Ak8_Nbsub" Title="Ak8 jet Nbsub" Unit="" Internal="MVA_Ak8_Nbsub" Type="F" Min="0.00000000e+00" Max="4.00000000e+00"/>
+    <Variable VarIndex="7" Expression="MVA_Ak8_N" Label="MVA_Ak8_N" Title="Ak8 jet N" Unit="" Internal="MVA_Ak8_N" Type="F" Min="2.00000000e+00" Max="5.00000000e+00"/>
+    <Variable VarIndex="8" Expression="MVA_Ak8_NtopTag" Label="MVA_Ak8_NtopTag" Title="Ak8 jet N top tag" Unit="" Internal="MVA_Ak8_NtopTag" Type="F" Min="0.00000000e+00" Max="3.00000000e+00"/>
+    <Variable VarIndex="9" Expression="MVA_Ak4_N" Label="MVA_Ak4_N" Title="Ak4 jet N" Unit="" Internal="MVA_Ak4_N" Type="F" Min="1.00000000e+00" Max="1.00000000e+01"/>
+    <Variable VarIndex="10" Expression="MVA_Ak4_pt" Label="MVA_Ak4_pt" Title="Ak4 jet pt" Unit="GeV" Internal="MVA_Ak4_pt" Type="F" Min="1.58133270e+02" Max="1.94219702e+03"/>
+    <Variable VarIndex="11" Expression="MVA_Ak4_eta" Label="MVA_Ak4_eta" Title="Ak4 jet eta" Unit="" Internal="MVA_Ak4_eta" Type="F" Min="-2.38594747e+00" Max="2.31253171e+00"/>
+    <Variable VarIndex="12" Expression="MVA_Ak4_HT" Label="MVA_Ak4_HT" Title="Ak4 jet HT" Unit="GeV" Internal="MVA_Ak4_HT" Type="F" Min="8.31387085e+02" Max="1.97475664e+04"/>
+  </Variables>
+  <Spectators NSpec="0"/>
+  <Classes NClass="2">
+    <Class Name="Signal" Index="0"/>
+    <Class Name="Background" Index="1"/>
+  </Classes>
+  <Transformations NTransformations="0"/>
+  <MVAPdfs>
+    <PDF Name="Fisher_PDFSig" MinNSmooth="10" MaxNSmooth="10" InterpolMethod="2" KDE_type="1" KDE_iter="1" KDE_border="1" KDE_finefactor="1.0000000000000000e+00">
+      <Histogram Name="Fisher_tr_S_original" NBins="50" XMin="-3.3673803806304932e+00" XMax="2.0128471851348877e+00" HasEquidistantBins="1">
+        0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 9.30258980e-03 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 9.30258980e-03 1.86051796e-02 9.30258980e-03 1.86051796e-02 3.72103592e-02 4.65129490e-02 2.79077694e-02 1.20933667e-01 8.37233082e-02 1.20933667e-01 8.37233082e-02 1.39538847e-01 2.32564745e-01 2.51169924e-01 3.34893233e-01 4.27919131e-01 4.93037259e-01 4.65129490e-01 6.60483875e-01 8.93048620e-01 6.97694235e-01 1.00467970e+00 1.11631078e+00 4.74432080e-01 6.32576106e-01 6.97694235e-01 1.67446616e-01 9.30258980e-03 9.30258980e-03 
+      </Histogram>
+    </PDF>
+    <PDF Name="Fisher_PDFBkg" MinNSmooth="10" MaxNSmooth="10" InterpolMethod="2" KDE_type="1" KDE_iter="1" KDE_border="1" KDE_finefactor="1.0000000000000000e+00">
+      <Histogram Name="Fisher_tr_B_original" NBins="50" XMin="-3.3673803806304932e+00" XMax="2.0128471851348877e+00" HasEquidistantBins="1">
+        9.29328721e-03 0.00000000e+00 3.71731488e-02 9.29328721e-03 3.71731488e-02 5.57597232e-02 2.78798616e-02 6.50530104e-02 1.48692595e-01 6.50530104e-02 1.48692595e-01 2.23038893e-01 2.32332180e-01 2.41625467e-01 3.90318063e-01 2.60212042e-01 4.27491211e-01 5.94770381e-01 4.27491211e-01 4.92544222e-01 4.46077786e-01 4.55371073e-01 4.46077786e-01 4.27491211e-01 3.99611350e-01 3.34558339e-01 3.25265052e-01 2.88091903e-01 3.25265052e-01 2.97385191e-01 3.15971765e-01 2.41625467e-01 2.60212042e-01 1.30106021e-01 1.30106021e-01 1.39399308e-01 1.48692595e-01 6.50530104e-02 7.43462976e-02 6.50530104e-02 1.85865744e-02 1.85865744e-02 1.85865744e-02 0.00000000e+00 1.85865744e-02 9.29328721e-03 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 
+      </Histogram>
+    </PDF>
+  </MVAPdfs>
+  <Weights NCoeff="14">
+    <Coefficient Index="0" Value="2.9417642210355996e+00"/>
+    <Coefficient Index="1" Value="-8.5342670907333695e-04"/>
+    <Coefficient Index="2" Value="-3.3733082851556427e-02"/>
+    <Coefficient Index="3" Value="-1.6592103402131558e-04"/>
+    <Coefficient Index="4" Value="2.6093879970811175e-02"/>
+    <Coefficient Index="5" Value="-9.4137936827497302e-04"/>
+    <Coefficient Index="6" Value="-1.1848084685990163e+00"/>
+    <Coefficient Index="7" Value="-3.3877155590343405e-01"/>
+    <Coefficient Index="8" Value="-1.6191799595926248e-01"/>
+    <Coefficient Index="9" Value="8.0345120201273906e-02"/>
+    <Coefficient Index="10" Value="-3.1853218345535828e-01"/>
+    <Coefficient Index="11" Value="-5.6381533822381577e-05"/>
+    <Coefficient Index="12" Value="1.3243223446720038e-02"/>
+    <Coefficient Index="13" Value="5.1372844233382904e-06"/>
+  </Weights>
+</MethodSetup>
