@@ -62,7 +62,7 @@ gs_resources = Category(
 wf = []
 for key, value in SAMPLES.items():
     FPT=10
-    if 'data' in key or 'GJets' in key:
+    if 'data' in key or 'GJets' in key or 'TT' in key:
         FPT=2
     if path.exists('/hadoop/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_' + key) and len(os.listdir('/hadoop/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_' + key))>0:
         continue

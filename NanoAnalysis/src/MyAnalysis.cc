@@ -8,6 +8,9 @@
 #include "BTagCalibrationStandalone.h"
 #include "Utils.h"
 #include "correction.h"
+#include "CondFormats/Serialization/interface/Archive.h"
+#include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
+#include "CondFormats/JetMETObjects/interface/JetCorrectionUncertainty.h"
 
 using namespace std;
 using namespace correction;
@@ -17,6 +20,9 @@ int vInd(std::map<TString, std::vector<float>> V, TString name){
 }
 
 void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year, TString run, float xs, float lumi, float Nevent, int iseft, int nRuns){
+// Get starting timepoint
+   auto start = high_resolution_clock::now();
+
    string deepAk8TopTagSF="";
    string photonSF="";
 
@@ -182,103 +188,135 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
     }
   }
 
-  std::vector<TString> sys{"phIDSf", "pu", "prefiring", "trigSF", "jes", "jer"};
-  Dim4 HistsSysUp(channels.size(),Dim3(regions.size(),Dim2(vars.size(),Dim1(sys.size()))));
-  Dim4 HistsSysDown(channels.size(),Dim3(regions.size(),Dim2(vars.size(),Dim1(sys.size()))));
+  std::vector<TString> sys{"phIDSf", "pu", "prefiring", "trigSF"};
+  HistsSysUp.resize(1);
+  for (int i=0;i<1;++i){
+    HistsSysUp[i].resize(regions.size());
+    for (int k=0;k<regions.size();++k){
+      HistsSysUp[i][k].resize(vars.size());
+      for (int n=0;n<vars.size();++n){
+        HistsSysUp[i][k][n].resize(sys.size());
+      }
+    }
+  }
 
-  if(data == "mc"){
-    for (int i=0;i<channels.size();++i){
-      for (int k=0;k<regions.size();++k){
-        for( auto it = vars.cbegin() ; it != vars.cend() ; ++it ){
-          for (int n=0;n<sys.size();++n){
-            name<<channels[i]<<"_"<<regions[k]<<"_"<<it->first<<"_"<<sys[n]<<"_Up";
-            h_test = new TH1F((name.str()).c_str(),(name.str()).c_str(),it->second.at(1), it->second.at(2), it->second.at(3));
-            h_test->StatOverflows(kTRUE);
-            h_test->Sumw2(kTRUE);
-            HistsSysUp[i][k][it->second.at(0)][n] = h_test;
-            name.str("");
-            name<<channels[i]<<"_"<<regions[k]<<"_"<<it->first<<"_"<<sys[n]<<"_Down";
-            h_test = new TH1F((name.str()).c_str(),(name.str()).c_str(),it->second.at(1), it->second.at(2), it->second.at(3));
-            h_test->StatOverflows(kTRUE);
-            h_test->Sumw2(kTRUE);
-            HistsSysDown[i][k][it->second.at(0)][n] = h_test;
-            name.str("");
-          }
+  HistsSysDown.resize(1);
+  for (int i=0;i<1;++i){
+    HistsSysDown[i].resize(regions.size());
+    for (int k=0;k<regions.size();++k){
+      HistsSysDown[i][k].resize(vars.size());
+      for (int n=0;n<vars.size();++n){
+        HistsSysDown[i][k][n].resize(sys.size());
+      }
+    }
+  }
+
+  for (int i=0;i<1;++i){
+    for (int k=0;k<regions.size();++k){
+      for( auto it = vars.cbegin() ; it != vars.cend() ; ++it ){
+        for (int n=0;n<sys.size();++n){
+          name<<channels[i]<<"_"<<regions[k]<<"_"<<it->first<<"_"<<sys[n]<<"_Up";
+          h_test = new TH1F((name.str()).c_str(),(name.str()).c_str(),it->second.at(1), it->second.at(2), it->second.at(3));
+          h_test->StatOverflows(kTRUE);
+          h_test->Sumw2(kTRUE);
+          HistsSysUp[i][k][it->second.at(0)][n] = h_test;
+          name.str("");
+          name<<channels[i]<<"_"<<regions[k]<<"_"<<it->first<<"_"<<sys[n]<<"_Down";
+          h_test = new TH1F((name.str()).c_str(),(name.str()).c_str(),it->second.at(1), it->second.at(2), it->second.at(3));
+          h_test->StatOverflows(kTRUE);
+          h_test->Sumw2(kTRUE);
+          HistsSysDown[i][k][it->second.at(0)][n] = h_test;
+          name.str("");
         }
       }
     }
   }
 
+  std::string JECFile04;
+  if(year == "2016preVFP")    JECFile04 = "/afs/crc.nd.edu/user/r/rgoldouz/BNV/NanoAnalysis/input/Summer19UL16APV_V7_MC/Summer19UL16APV_V7_MC_UncertaintySources_AK4PFchs.txt";
+  if(year == "2016postVFP")   JECFile04 = "/afs/crc.nd.edu/user/r/rgoldouz/BNV/NanoAnalysis/input/Summer19UL16_V7_MC/Summer19UL16_V7_MC_UncertaintySources_AK4PFchs.txt";
+  if(year == "2017")          JECFile04 = "/afs/crc.nd.edu/user/r/rgoldouz/BNV/NanoAnalysis/input/Summer19UL17_V5_MC/Summer19UL17_V5_MC_UncertaintySources_AK4PFchs.txt";
+  if(year == "2018")          JECFile04 = "/afs/crc.nd.edu/user/r/rgoldouz/BNV/NanoAnalysis/input/Summer19UL18_V5_MC/Summer19UL18_V5_MC_UncertaintySources_AK4PFchs.txt";
 
+  std::vector<TString> sysJecNames{"AbsoluteMPFBias","AbsoluteScale","AbsoluteStat","FlavorQCD","Fragmentation","PileUpDataMC","PileUpPtBB","PileUpPtEC1","PileUpPtEC2","PileUpPtHF","PileUpPtRef","RelativeFSR","RelativePtBB","RelativePtEC1","RelativePtEC2","RelativePtHF","RelativeBal","RelativeSample","RelativeStatEC","RelativeStatFSR","RelativeStatHF","SinglePionECAL","SinglePionHCAL","TimePtEta", "Total"};
+  const int nsrc = 25;
+  const char* srcnames[nsrc] = {"AbsoluteMPFBias","AbsoluteScale","AbsoluteStat","FlavorQCD","Fragmentation","PileUpDataMC","PileUpPtBB","PileUpPtEC1","PileUpPtEC2","PileUpPtHF","PileUpPtRef","RelativeFSR","RelativePtBB","RelativePtEC1","RelativePtEC2","RelativePtHF","RelativeBal","RelativeSample","RelativeStatEC","RelativeStatFSR","RelativeStatHF","SinglePionECAL","SinglePionHCAL","TimePtEta", "Total"};
+  std::vector<JetCorrectionUncertainty*> vsrc04(nsrc);
+  for (int isrc = 0; isrc < nsrc; isrc++) {
+    JetCorrectorParameters *p = new JetCorrectorParameters(JECFile04, srcnames[isrc]);
+    JetCorrectionUncertainty *unc = new JetCorrectionUncertainty(*p);
+    vsrc04[isrc] = unc;
+  }
+
+  std::string JECFile08;
+  if(year == "2016preVFP")    JECFile08 = "/afs/crc.nd.edu/user/r/rgoldouz/BNV/NanoAnalysis/input/Summer19UL16APV_V7_MC/Summer19UL16APV_V7_MC_UncertaintySources_AK8PFPuppi.txt";
+  if(year == "2016postVFP")   JECFile08 = "/afs/crc.nd.edu/user/r/rgoldouz/BNV/NanoAnalysis/input/Summer19UL16_V7_MC/Summer19UL16_V7_MC_UncertaintySources_AK8PFPuppi.txt";
+  if(year == "2017")          JECFile08 = "/afs/crc.nd.edu/user/r/rgoldouz/BNV/NanoAnalysis/input/Summer19UL17_V5_MC/Summer19UL17_V5_MC_UncertaintySources_AK8PFPuppi.txt";
+  if(year == "2018")          JECFile08 = "/afs/crc.nd.edu/user/r/rgoldouz/BNV/NanoAnalysis/input/Summer19UL18_V5_MC/Summer19UL18_V5_MC_UncertaintySources_AK8PFPuppi.txt";
+
+  std::vector<JetCorrectionUncertainty*> vsrc08(nsrc);
+  for (int isrc = 0; isrc < nsrc; isrc++) {
+    JetCorrectorParameters *p = new JetCorrectorParameters(JECFile08, srcnames[isrc]);
+    JetCorrectionUncertainty *unc = new JetCorrectionUncertainty(*p);
+    vsrc08[isrc] = unc;
+  }
+
+
+  HistsJecUp.resize(1);
+  for (int i=0;i<1;++i){
+    HistsJecUp[i].resize(regions.size());
+    for (int k=0;k<regions.size();++k){
+      HistsJecUp[i][k].resize(vars.size());
+      for (int n=0;n<vars.size();++n){
+        HistsJecUp[i][k][n].resize(sysJecNames.size());
+      }
+    }
+  }
+
+  HistsJecDown.resize(1);
+  for (int i=0;i<1;++i){
+    HistsJecDown[i].resize(regions.size());
+    for (int k=0;k<regions.size();++k){
+      HistsJecDown[i][k].resize(vars.size());
+      for (int n=0;n<vars.size();++n){
+        HistsJecDown[i][k][n].resize(sysJecNames.size());
+      }
+    }
+  }
+
+  for (int i=0;i<1;++i){
+    for (int k=0;k<regions.size();++k){
+      for( auto it = vars.cbegin() ; it != vars.cend() ; ++it ){
+        for (int n=0;n<sysJecNames.size();++n){
+          name<<channels[i]<<"_"<<regions[k]<<"_"<<it->first<<"_"<<sysJecNames[n]<<"_Up";
+          h_test = new TH1F((name.str()).c_str(),(name.str()).c_str(),it->second.at(1), it->second.at(2), it->second.at(3));
+          h_test->StatOverflows(kTRUE);
+          h_test->Sumw2(kTRUE);
+          HistsJecUp[i][k][it->second.at(0)][n] = h_test;
+          name.str("");
+          name<<channels[i]<<"_"<<regions[k]<<"_"<<it->first<<"_"<<sysJecNames[n]<<"_Down";
+          h_test = new TH1F((name.str()).c_str(),(name.str()).c_str(),it->second.at(1), it->second.at(2), it->second.at(3));
+          h_test->StatOverflows(kTRUE);
+          h_test->Sumw2(kTRUE);
+          HistsJecDown[i][k][it->second.at(0)][n] = h_test;
+          name.str("");
+        }
+      }
+    }
+  }
 
   typedef vector<TH2F*> TH2FDim1;
   typedef vector<TH2FDim1> TH2FDim2;
   typedef vector<TH2FDim2> TH2FDim3;
   typedef vector<TH2FDim3> TH2FDim4;
   TH2F *h_test2d;
-  std::vector<TString> vars2d {"NtopTagvsNlepLHE", "NtopTagvsNak8", "t21vsJetPt", "t32vsJetPt", "topTagvsmass", "massJ1vsmassJ2","npvsJetPt","npvsmass", "npvstopTag","mergedvsTopPt", "nSubbvsPt", "nSubbvsmass","nSubbvstopTag", "nSubbvsBdis","subFlavorvsSubBTag"};
+  std::vector<TString> vars2d {"M1vsM2"};
   TH2FDim3 Hists2d(channels.size(),TH2FDim2(regions.size(),TH2FDim1(vars2d.size())));
   for (int i=0;i<channels.size();++i){
     for (int k=0;k<regions.size();++k){
         name<<channels[i]<<"_"<<regions[k]<<"_"<<vars2d[0];
-        h_test2d = new TH2F((name.str()).c_str(),(name.str()).c_str(),5,0,5,4,0,4);
-        Hists2d[i][k][0] = h_test2d;
-        name.str("");
-        name<<channels[i]<<"_"<<regions[k]<<"_"<<vars2d[1];
-        h_test2d = new TH2F((name.str()).c_str(),(name.str()).c_str(),5,0,5,4,0,4);
-        Hists2d[i][k][1] = h_test2d;
-        name.str("");
-        name<<channels[i]<<"_"<<regions[k]<<"_"<<vars2d[2];
-        h_test2d = new TH2F((name.str()).c_str(),(name.str()).c_str(),20,0,1,40,400,1000);
-        Hists2d[i][k][2] = h_test2d;
-        name.str("");
-        name<<channels[i]<<"_"<<regions[k]<<"_"<<vars2d[3];
-        h_test2d = new TH2F((name.str()).c_str(),(name.str()).c_str(),20,0,1,40,400,1000);
-        Hists2d[i][k][3] = h_test2d;
-        name.str("");
-        name<<channels[i]<<"_"<<regions[k]<<"_"<<vars2d[4];
-        h_test2d = new TH2F((name.str()).c_str(),(name.str()).c_str(),20,0,1,40,0,400);
-        Hists2d[i][k][4] = h_test2d;
-        name.str("");
-        name<<channels[i]<<"_"<<regions[k]<<"_"<<vars2d[5];
-        h_test2d = new TH2F((name.str()).c_str(),(name.str()).c_str(),40,0,400,40,0,400);
-        Hists2d[i][k][5] = h_test2d;
-        name.str("");
-        name<<channels[i]<<"_"<<regions[k]<<"_"<<vars2d[6];
-        h_test2d = new TH2F((name.str()).c_str(),(name.str()).c_str(),7,0,7,40,200,1000);
-        Hists2d[i][k][6] = h_test2d;
-        name.str("");
-        name<<channels[i]<<"_"<<regions[k]<<"_"<<vars2d[7];
-        h_test2d = new TH2F((name.str()).c_str(),(name.str()).c_str(),7,0,7,40,0,400);
-        Hists2d[i][k][7] = h_test2d;
-        name.str("");
-        name<<channels[i]<<"_"<<regions[k]<<"_"<<vars2d[8];
-        h_test2d = new TH2F((name.str()).c_str(),(name.str()).c_str(),7,0,7,20,0,1);
-        Hists2d[i][k][8] = h_test2d;
-        name.str("");
-        name<<channels[i]<<"_"<<regions[k]<<"_"<<vars2d[9];
-        h_test2d = new TH2F((name.str()).c_str(),(name.str()).c_str(),4,0,4,20,0,1500);
-        Hists2d[i][k][9] = h_test2d;
-        name.str("");
-        name<<channels[i]<<"_"<<regions[k]<<"_"<<vars2d[10];
-        h_test2d = new TH2F((name.str()).c_str(),(name.str()).c_str(),4,0,4,20,0,1500);
-        Hists2d[i][k][10] = h_test2d;
-        name.str("");
-        name<<channels[i]<<"_"<<regions[k]<<"_"<<vars2d[11];
-        h_test2d = new TH2F((name.str()).c_str(),(name.str()).c_str(),4,0,4,20,0,500);
-        Hists2d[i][k][11] = h_test2d;
-        name.str("");
-        name<<channels[i]<<"_"<<regions[k]<<"_"<<vars2d[12];
-        h_test2d = new TH2F((name.str()).c_str(),(name.str()).c_str(),4,0,4,20,0,1);
-        Hists2d[i][k][12] = h_test2d;
-        name.str("");
-        name<<channels[i]<<"_"<<regions[k]<<"_"<<vars2d[13];
-        h_test2d = new TH2F((name.str()).c_str(),(name.str()).c_str(),4,0,4,20,0,1);
-        Hists2d[i][k][13] = h_test2d;
-        name.str("");
-        name<<channels[i]<<"_"<<regions[k]<<"_"<<vars2d[14];
         h_test2d = new TH2F((name.str()).c_str(),(name.str()).c_str(),100,0,2000,100,0,2000);
-        Hists2d[i][k][14] = h_test2d;
+        Hists2d[i][k][0] = h_test2d;
         name.str("");
     }
   }
@@ -295,6 +333,12 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
   std::vector<lepton_candidate*> *selectedPhotons;
   std::vector<jet_candidate*> *selectedJets08;
   std::vector<jet_candidate*> *selectedJets04;
+  std::vector<std::vector<jet_candidate*>> *JEC08sysUp;
+  std::vector<std::vector<jet_candidate*>> *JEC08sysDown;
+  std::vector<std::vector<jet_candidate*>> *JEC04sysUp;
+  std::vector<std::vector<jet_candidate*>> *JEC04sysDown;
+  std::vector<jet_candidate*> *JECJetsUp;
+  std::vector<jet_candidate*> *JECJetsDown;
   std::vector<lepton_candidate*> *selectedLeptons;
   std::vector<int> *topIndex;
   std::vector<int> *wIndex;
@@ -302,6 +346,7 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
   std::vector<int> *topTagIndex;
   std::vector<int> *WTagIndex;
 
+  PU wPU;
   int nAccept=0;
   int nMerged=0;
   int nOL=0;
@@ -328,17 +373,27 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
   int ch;
   std::vector<int> reg;
   std::vector<float> wgt;
+  std::vector<float> wgtUp;
+  std::vector<float> wgtDown;
   float topPt;
   float tStarMass;
   bool topEvent=false;
+  bool topLeptonicEvent=false;
   int NtopPartons;
   int NlepLHE;
   int Nmerged;
-  double PX;
-  double PY;
   double ptts;
   double MVAOutput;
   double fr=1;
+  double sup = 0;
+  double sdw = 0;
+
+  std::vector<float> nominalWeights;
+  nominalWeights.assign(sys.size(), 1);
+  std::vector<float> sysUpWeights;
+  sysUpWeights.assign(sys.size(), 1);
+  std::vector<float> sysDownWeights;
+  sysDownWeights.assign(sys.size(), 1);
 
   std::vector<long int> EVENT = {14113658};
   std::vector<TLorentzVector*> *topObjects;
@@ -393,11 +448,16 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
     topPt=0;
     Nmerged=0;
     NlepLHE=0;
-    PX=0;
-    PY=0;
     ptts=0;
     MVAOutput=-1;
+    topLeptonicEvent=false;
     Ts2Candidate.SetPxPyPzE(0,0,0,0);
+
+    for (int n=0;n<sys.size();++n){
+      nominalWeights[n] =1;
+      sysUpWeights[n] =1;
+      sysDownWeights[n] =1;
+    }
 
     if(data == "mc"){
       for (int l=0;l<nGenPart;l++){
@@ -410,6 +470,10 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
     topObjects = new std::vector<TLorentzVector*>();
     if(topEvent){
       for (int l=0;l<nGenPart;l++){
+       if(abs(GenPart_pdgId[l])==11 || GenPart_pdgId[l]==13 ||GenPart_pdgId[l]==15){
+         if(abs(GenPart_pdgId[GenPart_genPartIdxMother[l]])==24) topLeptonicEvent=true;
+       }
+
        if(abs(GenPart_pdgId[l])==600) ptts=GenPart_pt[l];
         if(abs(GenPart_pdgId[l])>0 && abs(GenPart_pdgId[l])<5 && abs(GenPart_pdgId[GenPart_genPartIdxMother[l]])==24) {
             topObj = new TLorentzVector ();
@@ -482,6 +546,12 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
 //      else fakePhotonsOther->push_back(new lepton_candidate(Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
 //
       std::vector<bool> cuts_medium = parsePhotonVIDCuts(Photon_vidNestedWPBitmap[l],2);
+      
+      nominalWeights[0] = nominalWeights[0] * csetPhotonIdSF->evaluate({"2017", "sf", "Medium", Photon_eta[l], Photon_pt[l]}) * csetPhotonCsevSF->evaluate({"2017", "sf", "Medium", "EBInc"});
+      sysUpWeights[0] = sysUpWeights[0] * csetPhotonIdSF->evaluate({"2017", "sfup", "Medium", Photon_eta[l], Photon_pt[l]}) * csetPhotonCsevSF->evaluate({"2017", "sfup", "Medium", "EBInc"});
+      sysDownWeights[0] = sysDownWeights[0] * csetPhotonIdSF->evaluate({"2017", "sfdown", "Medium", Photon_eta[l], Photon_pt[l]}) * csetPhotonCsevSF->evaluate({"2017", "sfdown", "Medium", "EBInc"});
+
+
       if(Photon_cutBased[l]>=2) PhotonsMedium->push_back(new lepton_candidate(Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
       else if(cuts_medium[1] && cuts_medium[2] &&  cuts_medium[4] && cuts_medium[5] && Photon_pfRelIso03_chg[l]*Photon_pt[l] > 10) fakePhotonsIso->push_back(new lepton_candidate(Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
       else if(cuts_medium[1] && !cuts_medium[2] && cuts_medium[4] && cuts_medium[5] && Photon_sieie[l] > 0.011) fakePhotonsSiSi->push_back(new lepton_candidate(Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
@@ -537,9 +607,6 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           if(deltaR((*topObjects)[i]->Eta(),(*topObjects)[i]->Phi(),FatJet_eta[l],FatJet_phi[l]) < 0.8 ) NtopPartons++;
          }
       }
-      Hists2d[0][0][6]->Fill(NtopPartons,FatJet_pt[l]);
-      Hists2d[0][0][7]->Fill(NtopPartons,FatJet_msoftdrop[l]);
-      Hists2d[0][0][8]->Fill(NtopPartons,FatJet_deepTagMD_TvsQCD[l]);
       if(NtopPartons==3) Nmerged++;
       nsubB = 0;
       if (SubJet_btagCSVV2[FatJet_subJetIdx1[l]] > 0.580) nsubB = nsubB +1;
@@ -554,13 +621,43 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
       for (int j=0; j<PhotonsMedium->size();j++){
         if (deltaR((*PhotonsMedium)[j]->eta_, (*PhotonsMedium)[j]->phi_, FatJet_eta[l],FatJet_phi[l])< drgj08) drgj08 = deltaR((*PhotonsMedium)[j]->eta_, (*PhotonsMedium)[j]->phi_,FatJet_eta[l],FatJet_phi[l]);
       }
-
-      Hists2d[0][0][10]->Fill(nsubB, FatJet_pt[l]);
-      Hists2d[0][0][11]->Fill(nsubB, FatJet_msoftdrop[l]);
-      Hists2d[0][0][12]->Fill(nsubB,FatJet_deepTagMD_TvsQCD[l]);
-      Hists2d[0][0][13]->Fill(nsubB,FatJet_btagDeepB[l]);
     }
     sort(selectedJets08->begin(), selectedJets08->end(), CompareMassJet);
+
+    JEC08sysUp = new std::vector<std::vector<jet_candidate*>>();
+    JEC08sysDown = new std::vector<std::vector<jet_candidate*>>();
+    if(data == "mc"){
+      for (int n=0;n<sysJecNames.size();++n){
+        JECJetsUp= new std::vector<jet_candidate*>();
+        JECJetsDown= new std::vector<jet_candidate*>();
+        for (int l=0;l<nFatJet;l++){
+          if(abs(FatJet_eta[l]) > 2.4) continue;
+          jetlepfail = false;
+          for (int i=0;i<PhotonsMedium->size();i++){
+            if(deltaR((*PhotonsMedium)[i]->eta_,(*PhotonsMedium)[i]->phi_,FatJet_eta[l],FatJet_phi[l]) < 0.8 ) jetlepfail=true;
+          }
+          if(jetlepfail) continue;
+          JetCorrectionUncertainty *unc = vsrc08[n];
+          unc->setJetPt(FatJet_pt[l]);
+          unc->setJetEta(FatJet_eta[l]);
+          sup = unc->getUncertainty(true);
+          if ((1+sup)*FatJet_pt[l]>225) {
+            JECJetsUp->push_back(new jet_candidate((1+sup)*FatJet_pt[l],FatJet_eta[l],FatJet_phi[l],FatJet_mass[l],FatJet_btagDeepB[l], year,0,l,NtopPartons,2,nsubB, FatJet_msoftdrop[l], FatJet_deepTagMD_TvsQCD[l],FatJet_deepTagMD_WvsQCD[l]));
+          }
+          unc->setJetPt(FatJet_pt[l]);
+          unc->setJetEta(FatJet_eta[l]);
+          sdw = unc->getUncertainty(false);
+          if ((1-sdw)*FatJet_pt[l]>225){
+            JECJetsDown->push_back(new jet_candidate((1-sdw)*FatJet_pt[l],FatJet_eta[l],FatJet_phi[l],FatJet_mass[l],FatJet_btagDeepB[l], year,0,l,NtopPartons,2,nsubB, FatJet_msoftdrop[l], FatJet_deepTagMD_TvsQCD[l],FatJet_deepTagMD_WvsQCD[l]));
+          }
+        }
+        sort(JECJetsUp->begin(), JECJetsUp->end(), CompareMassJet);
+        sort(JECJetsDown->begin(), JECJetsDown->end(), CompareMassJet);
+        JEC08sysUp->push_back(*JECJetsUp);
+        JEC08sysDown->push_back(*JECJetsDown);
+      }
+    }
+
     for (int j=0; j<selectedJets08->size();j++){
         if(FatJet_msoftdrop[(*selectedJets08)[j]->indice_]>50) wIndex->push_back((*selectedJets08)[j]->indice_);
         if(FatJet_msoftdrop[(*selectedJets08)[j]->indice_]>120) topIndex->push_back((*selectedJets08)[j]->indice_);
@@ -568,13 +665,12 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
         if((*selectedJets08)[j]->toptag_>0) topTagIndex->push_back(j);
         if((*selectedJets08)[j]->Wtag_>0) WTagIndex->push_back(j);
     }
-    Hists2d[0][0][9]->Fill(Nmerged,topPt/2);
 
 //select jets AK4
 
     selectedJets04 = new std::vector<jet_candidate*>();
     for (int l=0;l<nJet;l++){
-      if(Jet_pt[l] <50 || abs(Jet_eta[l]) > 2.4 || Jet_jetId[l]<6) continue;
+      if(Jet_pt[l] <30 || abs(Jet_eta[l]) > 5 || Jet_jetId[l]<6) continue;
       jetlepfail = false;
       for (int i=0;i<PhotonsMedium->size();i++){
         if(deltaR((*PhotonsMedium)[i]->eta_,(*PhotonsMedium)[i]->phi_,Jet_eta[l],Jet_phi[l]) < 0.4 ) jetlepfail=true;
@@ -595,30 +691,51 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
         if (deltaR((*PhotonsMedium)[j]->eta_, (*PhotonsMedium)[j]->phi_,Jet_eta[l],Jet_phi[l])< drgj04)  drgj04 = deltaR((*PhotonsMedium)[j]->eta_, (*PhotonsMedium)[j]->phi_,Jet_eta[l],Jet_phi[l]);
       }
     }
-
     sort(selectedJets04->begin(), selectedJets04->end(), ComparePtJet);
+    JEC04sysUp = new std::vector<std::vector<jet_candidate*>>();
+    JEC04sysDown = new std::vector<std::vector<jet_candidate*>>();
+    if(data == "mc"){
+      for (int n=0;n<sysJecNames.size();++n){
+        JECJetsUp= new std::vector<jet_candidate*>();
+        JECJetsDown= new std::vector<jet_candidate*>();
+        for (int l=0;l<nJet;l++){
+          if(abs(Jet_eta[l]) > 5 || Jet_jetId[l]<6) continue;
+          jetlepfail = false;
+          for (int i=0;i<PhotonsMedium->size();i++){
+            if(deltaR((*PhotonsMedium)[i]->eta_,(*PhotonsMedium)[i]->phi_,Jet_eta[l],Jet_phi[l]) < 0.4 ) jetlepfail=true;
+          }
+          if(jetlepfail) continue;
+          JetCorrectionUncertainty *unc = vsrc04[n];
+          unc->setJetPt(Jet_pt[l]);
+          unc->setJetEta(Jet_eta[l]);
+          sup = unc->getUncertainty(true);
+          if ((1+sup)*FatJet_pt[l]>30) {
+            JECJetsUp->push_back(new jet_candidate((1+sup)*Jet_pt[l],Jet_eta[l],Jet_phi[l],Jet_mass[l],Jet_btagDeepB[l], year,Jet_partonFlavour[l],l,0,0,0,0,0,0));
+          }
+          unc->setJetPt(Jet_pt[l]);
+          unc->setJetEta(Jet_eta[l]);
+          sdw = unc->getUncertainty(false);
+          if ((1-sdw)*FatJet_pt[l]>30){
+            JECJetsDown->push_back(new jet_candidate((1-sdw)*Jet_pt[l],Jet_eta[l],Jet_phi[l],Jet_mass[l],Jet_btagDeepB[l], year,Jet_partonFlavour[l],l,0,0,0,0,0,0));
+          }
+        }
+        sort(JECJetsUp->begin(), JECJetsUp->end(), ComparePtJet);
+        sort(JECJetsDown->begin(), JECJetsDown->end(), ComparePtJet);
+        JEC04sysUp->push_back(*JECJetsUp);
+        JEC04sysDown->push_back(*JECJetsDown);
+      }
+    }
 
-
-
-    int f=1;
     for (int l=0;l<selectedJets04->size();l++){
-    PX += (*selectedJets04)[l]->pt_ * cos((*selectedJets04)[l]->phi_);
-    PY += (*selectedJets04)[l]->pt_ * sin((*selectedJets04)[l]->phi_);
-      ht = ht + (*selectedJets04)[0]->pt_;
+      ht = ht + (*selectedJets04)[l]->pt_;
       if((*selectedJets04)[l]->btag_) nbjet04++;
       if(selectedJets08->size()>0){
         if (deltaR((*selectedJets04)[l]->eta_, (*selectedJets04)[l]->phi_,(*selectedJets08)[0]->eta_, (*selectedJets08)[0]->phi_) > 0.8) Ts2Candidate += (*selectedJets04)[l]->p4_;
-      }
-
-
-      for (int j=0;j<selectedJets08->size();j++){
-        if(deltaR((*selectedJets08)[j]->eta_, (*selectedJets08)[j]->phi_,Jet_eta[l],Jet_phi[l])<0.8) f=0 ;
       }
     }
 
 
     for (int l=0;l<selectedJets08->size();l++){
-      ht = ht + (*selectedJets08)[0]->pt_;
       if((*selectedJets08)[l]->btag_) nbjet08++;
       if((*selectedJets08)[l]->toptag_) ntopTag++;
       if((*selectedJets08)[l]->toptag_) topTagSF= topTagSF*fatjetscalefactors.ak8SF(false, 2017, 6, false, 1, (*selectedJets08)[l]->eta_, (*selectedJets08)[l]->pt_,  0);
@@ -631,9 +748,6 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
     if(selectedJets04->size()>1 && selectedJets08->size()>0 && PhotonsMedium->size()==0&& fakePhotonsOther->size()>0) ch=3;
     if(ch>10) continue;
 
-    if (data == "mc") weight_Lumi = (1000*xs*lumi)/Nevent;
-    if (data == "mc") finalWeight = weight_Lumi * signnum_typical(genWeight);
-    if (data == "mc") finalWeightSF = weight_Lumi * signnum_typical(genWeight)*topTagSF;
     if(ch==0){
       MVA_Ph_pt= (*PhotonsMedium)[0]->pt_;
       MVA_Ph_eta= (*PhotonsMedium)[0]->eta_;
@@ -673,6 +787,31 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
         FR = FR * (1-rate(&h_topMistagRate,(*selectedJets08)[l]->pt_));
       }
     }
+
+    if (data == "mc" && year == "2016preVFP") {
+      nominalWeights[1] = wPU.PU_2016preVFP(int(Pileup_nTrueInt),"nominal");
+      sysUpWeights[1] = wPU.PU_2016preVFP(int(Pileup_nTrueInt),"up");
+      sysDownWeights[1] = wPU.PU_2016preVFP(int(Pileup_nTrueInt),"down");
+    }
+    if (data == "mc" && year == "2016postVFP") {
+      nominalWeights[1] = wPU.PU_2016postVFP(int(Pileup_nTrueInt),"nominal");
+      sysUpWeights[1] = wPU.PU_2016postVFP(int(Pileup_nTrueInt),"up");
+      sysDownWeights[1] = wPU.PU_2016postVFP(int(Pileup_nTrueInt),"down");
+    }
+    if (data == "mc" && year == "2017") {
+      nominalWeights[1] = wPU.PU_2017(int(Pileup_nTrueInt),"nominal");
+      sysUpWeights[1] = wPU.PU_2017(int(Pileup_nTrueInt),"up");
+      sysDownWeights[1] = wPU.PU_2017(int(Pileup_nTrueInt),"down");
+    }
+    if (data == "mc" && year == "2018") {
+      nominalWeights[1] = wPU.PU_2018(int(Pileup_nTrueInt),"nominal");
+      sysUpWeights[1] = wPU.PU_2018(int(Pileup_nTrueInt),"up");
+      sysDownWeights[1] = wPU.PU_2018(int(Pileup_nTrueInt),"down");
+    }
+
+    if (data == "mc") weight_Lumi = (1000*xs*lumi)/Nevent;
+    if (data == "mc") finalWeight = weight_Lumi * signnum_typical(genWeight) * nominalWeights[0]*nominalWeights[1]*nominalWeights[2]*nominalWeights[3];
+    if (data == "mc") finalWeightSF = weight_Lumi * signnum_typical(genWeight)*topTagSF * nominalWeights[0]*nominalWeights[1]*nominalWeights[2]*nominalWeights[3];
 
 //regions{"nAk8G0", "nAk81", "nAk81nTtag1", "nAk8G1nTtagG0", "nAk8G1TtagG0MTs2G300", "nAk8G1nTtag0","nAk8G1nTtag0MTs2G300", "nAk8G1nTtag0XtopMissTagRate", "nAk8G1Ttag0MTs2G300XtopMissTagRate"};
     reg.push_back(0);
@@ -744,550 +883,277 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
     FillD3Hists(Hists, ch, reg, vInd(vars,"nWTag"),            WTagIndex->size()                ,wgt); 
     FillD3Hists(Hists, ch, reg, vInd(vars,"masstS2"),          Ts2Candidate.M()                 ,wgt); 
     FillD3Hists(Hists, ch, reg, vInd(vars,"Sietaieta"),        Photon_sieie[(*selectedPhotons)[0]->indice_],wgt); 
-//    if(selectedPhotons->size()>0) {
-//        Hists[ch][0][0]->Fill((*selectedPhotons)[0]->pt_,finalWeight);
-//        Hists[ch][0][1]->Fill((*selectedPhotons)[0]->eta_,finalWeight);
-//        Hists[ch][0][2]->Fill((*selectedPhotons)[0]->phi_,finalWeight);
-//        Hists[ch][0][15]->Fill(Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],finalWeight);
-//        Hists[ch][0][16]->Fill(Photon_pfRelIso03_all[(*selectedPhotons)[0]->indice_],finalWeight);
-//        Hists[ch][0][19]->Fill(drgj08,finalWeight);
-//        Hists[ch][0][21]->Fill(Photon_hoe[(*selectedPhotons)[0]->indice_],finalWeight);
-//        Hists[ch][0][38]->Fill(abs(deltaPhi((*selectedPhotons)[0]->phi_, atan(PY/PX))));
-//        Hists[ch][0][39]->Fill(Ts2Candidate.M(),finalWeight);
-//        Hists[ch][0][40]->Fill(abs(deltaPhi(Ts2Candidate.Phi(),((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).Phi())),finalWeight);
-//        Hists[ch][0][41]->Fill(MVAOutput,finalWeight);
-//        Hists[ch][0][42]->Fill(Photon_sieie[(*selectedPhotons)[0]->indice_],finalWeight);
-//        Hists[ch][0][35]->Fill(((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),finalWeight);
-//        Hists2d[ch][0][14]->Fill(Ts2Candidate.M(),Ts2Candidate.M());
-//    }
-//    if(selectedJets04->size()>0) Hists[ch][0][3]->Fill((*selectedJets04)[0]->pt_,finalWeight);
-//    if(selectedJets04->size()>0) Hists[ch][0][4]->Fill((*selectedJets04)[0]->eta_,finalWeight);
-//    if(selectedJets04->size()>0) Hists[ch][0][5]->Fill((*selectedJets04)[0]->phi_,finalWeight);
-//    Hists[ch][0][6]->Fill(selectedJets04->size(),finalWeight);
-//    Hists[ch][0][7]->Fill(nbjet04,finalWeight);
-//    Hists[ch][0][8]->Fill((*selectedJets08)[0]->pt_,finalWeight);
-//    Hists[ch][0][9]->Fill((*selectedJets08)[0]->eta_,finalWeight);
-//    Hists[ch][0][10]->Fill((*selectedJets08)[0]->phi_,finalWeight);
-//    Hists[ch][0][11]->Fill(selectedJets08->size(),finalWeight);
-//    Hists[ch][0][12]->Fill(MET_pt,finalWeight);
-//    Hists[ch][0][13]->Fill(PV_npvsGood,finalWeight);
-//    Hists[ch][0][14]->Fill(selectedPhotons->size(),finalWeight);
-//    if(selectedJets04->size()>0) Hists[ch][0][18]->Fill(drgj04,finalWeight);
-//    Hists[ch][0][20]->Fill(ht,finalWeight);
-//    Hists[ch][0][22]->Fill(FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeight);
-//    Hists[ch][0][23]->Fill(FatJet_tau2[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeight);
-//    Hists[ch][0][24]->Fill(FatJet_tau3[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeight);
-//    Hists[ch][0][25]->Fill(nbjet08,finalWeight);
-//    Hists[ch][0][26]->Fill(FatJet_deepTagMD_TvsQCD[(*selectedJets08)[0]->indice_],finalWeight);
-//    if(selectedLeptons->size()>0) {
-//      Hists[ch][0][27]->Fill((*selectedLeptons)[0]->pt_,finalWeight);
-//      Hists[ch][0][28]->Fill((*selectedLeptons)[0]->eta_,finalWeight);
-//      Hists[ch][0][29]->Fill((*selectedLeptons)[0]->phi_,finalWeight);
-//    }
-//    Hists[ch][0][30]->Fill(bsubIndex->size(),finalWeight);
-//    if(bsubIndex->size()>0) {
-//      Hists[ch][0][31]->Fill(FatJet_msoftdrop[bsubIndex->at(0)],finalWeight);
-//      Hists[ch][0][32]->Fill(FatJet_deepTagMD_TvsQCD[bsubIndex->at(0)],finalWeight);
-//    }
-//    Hists[ch][0][33]->Fill(wIndex->size(),finalWeight);
-//    Hists[ch][0][34]->Fill(topIndex->size(),finalWeight);
-//    Hists[ch][0][36]->Fill(ntopTag,finalWeight);
-//    Hists[ch][0][37]->Fill(WTagIndex->size(),finalWeight);
-//    if((*selectedJets08)[0]->btag_) {
-//      Hists2d[ch][0][1]->Fill(FatJet_msoftdrop[(*selectedJets08)[0]->indice_],(*selectedJets08)[0]->pt_);
-//      Hists2d[ch][0][2]->Fill(FatJet_tau2[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],(*selectedJets08)[0]->pt_);
-//      Hists2d[ch][0][3]->Fill(FatJet_tau3[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],(*selectedJets08)[0]->pt_);
-//      Hists2d[ch][0][4]->Fill(FatJet_deepTagMD_TvsQCD[(*selectedJets08)[0]->indice_], FatJet_msoftdrop[(*selectedJets08)[0]->indice_]);
-//    }
-//    Hists2d[ch][0][5]->Fill(FatJet_msoftdrop[(*selectedJets08)[0]->indice_],FatJet_msoftdrop[(*selectedJets08)[1]->indice_]);
-/*
-//top tag
-    if(topTagIndex->size()==1 && selectedJets08->size()==1){
-      if(selectedPhotons->size()>0) {
-          Hists[ch][1][0]->Fill((*selectedPhotons)[0]->pt_,finalWeight);
-          Hists[ch][1][1]->Fill((*selectedPhotons)[0]->eta_,finalWeight);
-          Hists[ch][1][2]->Fill((*selectedPhotons)[0]->phi_,finalWeight);
-          Hists[ch][1][15]->Fill(Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][1][16]->Fill(Photon_pfRelIso03_all[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][1][19]->Fill(drgj08,finalWeight);
-          Hists[ch][1][21]->Fill(Photon_hoe[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][1][38]->Fill(abs(deltaPhi((*selectedPhotons)[0]->phi_, atan(PY/PX))));
-          Hists[ch][1][39]->Fill(Ts2Candidate.M(),finalWeight);
-          Hists[ch][1][40]->Fill(abs(deltaPhi(Ts2Candidate.Phi(),((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).Phi())),finalWeight);
-          Hists[ch][1][41]->Fill(MVAOutput,finalWeight);
-          Hists[ch][1][42]->Fill(Photon_sieie[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][1][35]->Fill(((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),finalWeight);
+
+    if (data == "mc"){
+//Wieght dependent sys
+      for(int n=0;n<sys.size();++n){
+        if(ch>0) continue;
+        wgtUp.clear();
+        wgtDown.clear();
+        for(int l=0;l<wgt.size();++l){
+          wgtUp.push_back( wgt[l]*(sysUpWeights[n]/nominalWeights[n]));
+          wgtDown.push_back( wgt[l]*(sysDownWeights[n]/nominalWeights[n]));
+        }
+  //Up
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"GammaPt"),         n, (*selectedPhotons)[0]->pt_       ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"GammaEta"),        n, (*selectedPhotons)[0]->eta_      ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"GammaPhi"),        n, (*selectedPhotons)[0]->phi_      ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"jet04Pt"),         n, (*selectedJets04)[0]->pt_        ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"jet04Eta"),        n, (*selectedJets04)[0]->eta_       ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"jet04Phi"),        n, (*selectedJets04)[0]->phi_       ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"njet04"),          n, selectedJets04->size()           ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"nbjet04"),         n, nbjet04                          ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"jet08Pt"),         n, (*selectedJets08)[0]->pt_        ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"jet08Eta"),        n, (*selectedJets08)[0]->eta_        ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"jet08Phi"),        n, (*selectedJets08)[0]->phi_        ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"njet08"),          n, selectedJets08->size()           ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"Met"),             n, MET_pt                           ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"nVtx"),            n, PV_npvsGood                      ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"nPh"),             n, selectedPhotons->size()          ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"phoChargedIso"),   n, Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"drGj04"),          n, drgj04                           ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"dPhiGj08"),        n, drgj08                           ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"HT"),              n, ht                               ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"HoE"),             n, Photon_hoe[(*selectedPhotons)[0]->indice_],wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"softdropMass"),    n, FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"tau21"),           n, FatJet_tau2[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"tau31"),           n, FatJet_tau3[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"nbjet08"),         n, nbjet08                          ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"TvsQCD"),          n, FatJet_deepTagMD_TvsQCD[(*selectedJets08)[0]->indice_],wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"nBsub"),           n, bsubIndex->size()                ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"njet08massG50"),   n, wIndex->size()                   ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"njet08massG120"),  n, topIndex->size()                 ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"TsMass1"),         n, ((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"nTopTag"),         n, ntopTag                          ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"nWTag"),           n, WTagIndex->size()                ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"masstS2"),         n, Ts2Candidate.M()                 ,wgtUp);
+        FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"Sietaieta"),       n, Photon_sieie[(*selectedPhotons)[0]->indice_],wgtUp);
+  //Down
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"GammaPt"),         n, (*selectedPhotons)[0]->pt_       ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"GammaEta"),        n, (*selectedPhotons)[0]->eta_      ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"GammaPhi"),        n, (*selectedPhotons)[0]->phi_      ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"jet04Pt"),         n, (*selectedJets04)[0]->pt_        ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"jet04Eta"),        n, (*selectedJets04)[0]->eta_       ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"jet04Phi"),        n, (*selectedJets04)[0]->phi_       ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"njet04"),          n, selectedJets04->size()           ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"nbjet04"),         n, nbjet04                          ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"jet08Pt"),         n, (*selectedJets08)[0]->pt_        ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"jet08Eta"),        n, (*selectedJets08)[0]->eta_        ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"jet08Phi"),        n, (*selectedJets08)[0]->phi_        ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"njet08"),          n, selectedJets08->size()           ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"Met"),             n, MET_pt                           ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"nVtx"),            n, PV_npvsGood                      ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"nPh"),             n, selectedPhotons->size()          ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"phoChargedIso"),   n, Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"drGj04"),          n, drgj04                           ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"dPhiGj08"),        n, drgj08                           ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"HT"),              n, ht                               ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"HoE"),             n, Photon_hoe[(*selectedPhotons)[0]->indice_],wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"softdropMass"),    n, FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"tau21"),           n, FatJet_tau2[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"tau31"),           n, FatJet_tau3[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"nbjet08"),         n, nbjet08                          ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"TvsQCD"),          n, FatJet_deepTagMD_TvsQCD[(*selectedJets08)[0]->indice_],wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"nBsub"),           n, bsubIndex->size()                ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"njet08massG50"),   n, wIndex->size()                   ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"njet08massG120"),  n, topIndex->size()                 ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"TsMass1"),         n, ((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"nTopTag"),         n, ntopTag                          ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"nWTag"),           n, WTagIndex->size()                ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"masstS2"),         n, Ts2Candidate.M()                 ,wgtDown);
+        FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"Sietaieta"),       n, Photon_sieie[(*selectedPhotons)[0]->indice_],wgtDown);
+      } 
+//JES UP sys
+      for (int n=0;n<sysJecNames.size();++n){
+        ch=999;
+        if((*JEC04sysUp)[n].size()>1 && (*JEC08sysUp)[n].size()>0 && PhotonsMedium->size()>0) ch=0;
+        if(ch>0) continue;
+        ntopTag=0;
+        ntopTagRandom=0;
+        ht=0;
+        FR=1;
+        Ts2Candidate.SetPxPyPzE(0,0,0,0);
+        for (int l=0;l<(*JEC04sysUp)[n].size();l++){
+          ht = ht + (*JEC04sysUp)[n][l]->pt_;
+          if((*JEC08sysUp)[n].size()>0){
+            if (deltaR((*JEC04sysUp)[n][l]->eta_, (*JEC04sysUp)[n][l]->phi_,(*JEC08sysUp)[n][0]->eta_, (*JEC08sysUp)[n][0]->phi_) > 0.8) Ts2Candidate += (*JEC04sysUp)[n][l]->p4_;
+          }
+        }
+
+        for (int l=0;l<(*JEC08sysUp)[n].size();l++){
+          if((*JEC08sysUp)[n][l]->toptag_) ntopTag++;
+          if((*JEC08sysUp)[n][l]->mass_>105 && (*JEC08sysUp)[n][l]->mass_<210){
+            ntopTagRandom++;
+            FR = FR * (1-rate(&h_topMistagRate,(*JEC08sysUp)[n][l]->pt_));
+          }
+        }
+  
+        reg.clear();
+        wgt.clear();
+        reg.push_back(0);
+        wgt.push_back(finalWeight);
+        if((*JEC08sysUp)[n].size()==1 && (*JEC08sysUp)[n][0]->mass_>105 && (*JEC08sysUp)[n][0]->mass_<210){
+          reg.push_back(1);
+          wgt.push_back(finalWeight);
+        }
+        if((*JEC08sysUp)[n].size()==1 && ntopTag==1){
+          reg.push_back(2);
+          wgt.push_back(finalWeight);
+        }
+        if((*JEC08sysUp)[n].size() && ntopTag>0){
+          reg.push_back(3);
+          wgt.push_back(finalWeight);
+        }
+        if((*JEC08sysUp)[n].size()>1 && ntopTag>0 && Ts2Candidate.M()>300){
+          reg.push_back(4);
+          wgt.push_back(finalWeight);
+        }
+        if((*JEC08sysUp)[n].size()>1 && ntopTag==0) {
+          reg.push_back(5);
+          wgt.push_back(finalWeight);
+        }
+        if((*JEC08sysUp)[n].size()>1 && ntopTag==0 && Ts2Candidate.M()>300){
+          reg.push_back(6);
+          wgt.push_back(finalWeight);
+        }
+        if((*JEC08sysUp)[n].size()>1 && ntopTag==0 && ntopTagRandom>0) {
+          reg.push_back(7);
+          wgt.push_back(finalWeight*((1-FR)/FR));
+        }
+        if((*JEC08sysUp)[n].size()>1 && ntopTag==0 && ntopTagRandom>0 &&  Ts2Candidate.M()>300){
+          reg.push_back(8);
+          wgt.push_back(finalWeight*((1-FR)/FR));
+        }
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"GammaPt"),          n, (*selectedPhotons)[0]->pt_       ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"GammaEta"),         n, (*selectedPhotons)[0]->eta_      ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"GammaPhi"),         n, (*selectedPhotons)[0]->phi_      ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"jet04Pt"),          n, (*JEC04sysUp)[n][0]->pt_        ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"jet04Eta"),         n, (*JEC04sysUp)[n][0]->eta_       ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"jet04Phi"),         n, (*JEC04sysUp)[n][0]->phi_       ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"njet04"),           n, (*JEC04sysUp)[n].size()           ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"nbjet04"),          n, nbjet04                          ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"jet08Pt"),          n, (*JEC08sysUp)[n][0]->pt_        ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"jet08Eta"),         n, (*JEC08sysUp)[n][0]->eta_        ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"jet08Phi"),         n, (*JEC08sysUp)[n][0]->phi_        ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"njet08"),           n, (*JEC08sysUp)[n].size()           ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"Met"),              n, MET_pt                           ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"nVtx"),             n, PV_npvsGood                      ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"nPh"),              n, selectedPhotons->size()          ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"phoChargedIso"),    n, Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"drGj04"),           n, drgj04                           ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"dPhiGj08"),         n, drgj08                           ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"HT"),               n, ht                               ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"HoE"),              n, Photon_hoe[(*selectedPhotons)[0]->indice_],wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"softdropMass"),     n, FatJet_msoftdrop[(*JEC08sysUp)[n][0]->indice_],wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"tau21"),            n, FatJet_tau2[(*JEC08sysUp)[n][0]->indice_]/FatJet_tau1[(*JEC08sysUp)[n][0]->indice_],wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"tau31"),            n, FatJet_tau3[(*JEC08sysUp)[n][0]->indice_]/FatJet_tau1[(*JEC08sysUp)[n][0]->indice_],wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"nbjet08"),          n, nbjet08                          ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"TvsQCD"),           n, FatJet_deepTagMD_TvsQCD[(*JEC08sysUp)[n][0]->indice_],wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"nBsub"),            n, bsubIndex->size()                ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"njet08massG50"),    n, wIndex->size()                   ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"njet08massG120"),   n, topIndex->size()                 ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"TsMass1"),          n, ((*selectedPhotons)[0]->p4_+(*JEC08sysUp)[n][0]->p4_).M(),wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"nTopTag"),          n, ntopTag                          ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"nWTag"),            n, WTagIndex->size()                ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"masstS2"),          n, Ts2Candidate.M()                 ,wgt);
+        FillD4Hists(HistsJecUp, ch, reg, vInd(vars,"Sietaieta"),        n, Photon_sieie[(*selectedPhotons)[0]->indice_],wgt);
       }
-      if(selectedJets04->size()>0) {
-          Hists[ch][1][3]->Fill((*selectedJets04)[0]->pt_,finalWeight);
-          Hists[ch][1][4]->Fill((*selectedJets04)[0]->eta_,finalWeight);
-          Hists[ch][1][5]->Fill((*selectedJets04)[0]->phi_,finalWeight);
-          Hists[ch][1][18]->Fill(drgj04,finalWeight);
-      }
-      Hists[ch][1][6]->Fill(selectedJets04->size(),finalWeight);
-      Hists[ch][1][7]->Fill(nbjet04,finalWeight);
-      Hists[ch][1][8]->Fill((*selectedJets08)[0]->pt_,finalWeight);
-      Hists[ch][1][9]->Fill((*selectedJets08)[0]->eta_,finalWeight);
-      Hists[ch][1][10]->Fill((*selectedJets08)[0]->phi_,finalWeight);
-      Hists[ch][1][11]->Fill(selectedJets08->size(),finalWeight);
-      Hists[ch][1][12]->Fill(MET_pt,finalWeight);
-      Hists[ch][1][13]->Fill(PV_npvsGood,finalWeight);
-      Hists[ch][1][14]->Fill(selectedPhotons->size(),finalWeight);
-      Hists[ch][1][20]->Fill(ht,finalWeight);
-      Hists[ch][1][22]->Fill(FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][1][23]->Fill(FatJet_tau2[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][1][24]->Fill(FatJet_tau3[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][1][25]->Fill(nbjet08,finalWeight);
-      Hists[ch][1][26]->Fill(FatJet_deepTagMD_TvsQCD[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][1][33]->Fill(wIndex->size(),finalWeight);
-      Hists[ch][1][34]->Fill(topIndex->size(),finalWeight);
-      Hists[ch][1][36]->Fill(ntopTag,finalWeight);
-      Hists[ch][1][37]->Fill(WTagIndex->size(),finalWeight);
-      Hists[ch][1][30]->Fill(bsubIndex->size(),finalWeight);
-      if(selectedLeptons->size()>0) {
-        Hists[ch][1][27]->Fill((*selectedLeptons)[0]->pt_,finalWeight);
-        Hists[ch][1][28]->Fill((*selectedLeptons)[0]->eta_,finalWeight);
-        Hists[ch][1][29]->Fill((*selectedLeptons)[0]->phi_,finalWeight);
-      }
-      if(bsubIndex->size()>0) {
-        Hists[ch][1][31]->Fill(FatJet_msoftdrop[bsubIndex->at(0)],finalWeight);
-        Hists[ch][1][32]->Fill(FatJet_deepTagMD_TvsQCD[bsubIndex->at(0)],finalWeight);
+  //JES Down sys
+      for (int n=0;n<sysJecNames.size();++n){
+        ch=999;
+        if((*JEC04sysDown)[n].size()>1 && (*JEC08sysDown)[n].size()>0 && PhotonsMedium->size()>0) ch=0;
+        if(ch>0) continue;
+        ntopTag=0;
+        ntopTagRandom=0;
+        ht=0;
+        FR=1;
+        Ts2Candidate.SetPxPyPzE(0,0,0,0);
+        for (int l=0;l<(*JEC04sysDown)[n].size();l++){
+          ht = ht + (*JEC04sysDown)[n][l]->pt_;
+          if((*JEC08sysDown)[n].size()>0){
+            if (deltaR((*JEC04sysDown)[n][l]->eta_, (*JEC04sysDown)[n][l]->phi_,(*JEC08sysDown)[n][0]->eta_, (*JEC08sysDown)[n][0]->phi_) > 0.8) Ts2Candidate += (*JEC04sysDown)[n][l]->p4_;
+          }
+        }
+        for (int l=0;l<(*JEC08sysDown)[n].size();l++){
+          if((*JEC08sysDown)[n][l]->toptag_) ntopTag++;
+          if((*JEC08sysDown)[n][l]->mass_>105 && (*JEC08sysDown)[n][l]->mass_<210){
+            ntopTagRandom++;
+            FR = FR * (1-rate(&h_topMistagRate,(*JEC08sysDown)[n][l]->pt_));
+          }
+        }
+  
+        reg.clear();
+        wgt.clear();
+        reg.push_back(0);
+        wgt.push_back(finalWeight);
+        if((*JEC08sysDown)[n].size()==1 && (*JEC08sysDown)[n][0]->mass_>105 && (*JEC08sysDown)[n][0]->mass_<210){
+          reg.push_back(1);
+          wgt.push_back(finalWeight);
+        }
+        if((*JEC08sysDown)[n].size()==1 && ntopTag==1){
+          reg.push_back(2);
+          wgt.push_back(finalWeight);
+        }
+        if((*JEC08sysDown)[n].size() && ntopTag>0){
+          reg.push_back(3);
+          wgt.push_back(finalWeight);
+        }
+        if((*JEC08sysDown)[n].size()>1 && ntopTag>0 && Ts2Candidate.M()>300){
+          reg.push_back(4);
+          wgt.push_back(finalWeight);
+        }
+        if((*JEC08sysDown)[n].size()>1 && ntopTag==0) {
+          reg.push_back(5);
+          wgt.push_back(finalWeight);
+        }
+        if((*JEC08sysDown)[n].size()>1 && ntopTag==0 && Ts2Candidate.M()>300){
+          reg.push_back(6);
+          wgt.push_back(finalWeight);
+        }
+        if((*JEC08sysDown)[n].size()>1 && ntopTag==0 && ntopTagRandom>0) {
+          reg.push_back(7);
+          wgt.push_back(finalWeight*((1-FR)/FR));
+        }
+        if((*JEC08sysDown)[n].size()>1 && ntopTag==0 && ntopTagRandom>0 &&  Ts2Candidate.M()>300){
+          reg.push_back(8);
+          wgt.push_back(finalWeight*((1-FR)/FR));
+        }
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"GammaPt"),          n, (*selectedPhotons)[0]->pt_       ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"GammaEta"),         n, (*selectedPhotons)[0]->eta_      ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"GammaPhi"),         n, (*selectedPhotons)[0]->phi_      ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"jet04Pt"),          n, (*JEC04sysDown)[n][0]->pt_        ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"jet04Eta"),         n, (*JEC04sysDown)[n][0]->eta_       ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"jet04Phi"),         n, (*JEC04sysDown)[n][0]->phi_       ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"njet04"),           n, (*JEC04sysUp)[n].size()           ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"nbjet04"),          n, nbjet04                          ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"jet08Pt"),          n, (*JEC08sysDown)[n][0]->pt_        ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"jet08Eta"),         n, (*JEC08sysDown)[n][0]->eta_        ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"jet08Phi"),         n, (*JEC08sysDown)[n][0]->phi_        ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"njet08"),           n, (*JEC08sysUp)[n].size()           ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"Met"),              n, MET_pt                           ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"nVtx"),             n, PV_npvsGood                      ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"nPh"),              n, selectedPhotons->size()          ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"phoChargedIso"),    n, Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"drGj04"),           n, drgj04                           ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"dPhiGj08"),         n, drgj08                           ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"HT"),               n, ht                               ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"HoE"),              n, Photon_hoe[(*selectedPhotons)[0]->indice_],wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"softdropMass"),     n, FatJet_msoftdrop[(*JEC08sysDown)[n][0]->indice_],wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"tau21"),            n, FatJet_tau2[(*JEC08sysDown)[n][0]->indice_]/FatJet_tau1[(*JEC08sysDown)[n][0]->indice_],wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"tau31"),            n, FatJet_tau3[(*JEC08sysDown)[n][0]->indice_]/FatJet_tau1[(*JEC08sysDown)[n][0]->indice_],wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"nbjet08"),          n, nbjet08                          ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"TvsQCD"),           n, FatJet_deepTagMD_TvsQCD[(*JEC08sysDown)[n][0]->indice_],wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"nBsub"),            n, bsubIndex->size()                ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"njet08massG50"),    n, wIndex->size()                   ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"njet08massG120"),   n, topIndex->size()                 ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"TsMass1"),          n, ((*selectedPhotons)[0]->p4_+(*JEC08sysDown)[n][0]->p4_).M(),wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"nTopTag"),          n, ntopTag                          ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"nWTag"),            n, WTagIndex->size()                ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"masstS2"),          n, Ts2Candidate.M()                 ,wgt);
+        FillD4Hists(HistsJecDown, ch, reg, vInd(vars,"Sietaieta"),        n, Photon_sieie[(*selectedPhotons)[0]->indice_],wgt);
       }
     }
 
-    if(topTagIndex->size()>0 && selectedJets08->size()>1){
-      if(selectedPhotons->size()>0) {
-          Hists[ch][2][0]->Fill((*selectedPhotons)[0]->pt_,finalWeight);
-          Hists[ch][2][1]->Fill((*selectedPhotons)[0]->eta_,finalWeight);
-          Hists[ch][2][2]->Fill((*selectedPhotons)[0]->phi_,finalWeight);
-          Hists[ch][2][15]->Fill(Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][2][16]->Fill(Photon_pfRelIso03_all[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][2][19]->Fill(drgj08,finalWeight);
-          Hists[ch][2][21]->Fill(Photon_hoe[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][2][38]->Fill(abs(deltaPhi((*selectedPhotons)[0]->phi_, atan(PY/PX))));
-          Hists[ch][2][39]->Fill(Ts2Candidate.M(),finalWeight);
-          Hists[ch][2][40]->Fill(abs(deltaPhi(Ts2Candidate.Phi(),((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).Phi())),finalWeight);
-          Hists[ch][2][41]->Fill(MVAOutput,finalWeight);
-          Hists[ch][2][42]->Fill(Photon_sieie[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][2][35]->Fill(((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),finalWeight);
-      }
-      if(selectedJets04->size()>0) {
-          Hists[ch][2][3]->Fill((*selectedJets04)[0]->pt_,finalWeight);
-          Hists[ch][2][4]->Fill((*selectedJets04)[0]->eta_,finalWeight);
-          Hists[ch][2][5]->Fill((*selectedJets04)[0]->phi_,finalWeight);
-          Hists[ch][2][18]->Fill(drgj04,finalWeight);
-      }
-      Hists[ch][2][6]->Fill(selectedJets04->size(),finalWeight);
-      Hists[ch][2][7]->Fill(nbjet04,finalWeight);
-      Hists[ch][2][8]->Fill((*selectedJets08)[0]->pt_,finalWeight);
-      Hists[ch][2][9]->Fill((*selectedJets08)[0]->eta_,finalWeight);
-      Hists[ch][2][10]->Fill((*selectedJets08)[0]->phi_,finalWeight);
-      Hists[ch][2][11]->Fill(selectedJets08->size(),finalWeight);
-      Hists[ch][2][12]->Fill(MET_pt,finalWeight);
-      Hists[ch][2][13]->Fill(PV_npvsGood,finalWeight);
-      Hists[ch][2][14]->Fill(selectedPhotons->size(),finalWeight);
-      Hists[ch][2][20]->Fill(ht,finalWeight);
-      Hists[ch][2][22]->Fill(FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][2][23]->Fill(FatJet_tau2[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][2][24]->Fill(FatJet_tau3[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][2][25]->Fill(nbjet08,finalWeight);
-      Hists[ch][2][26]->Fill(FatJet_deepTagMD_TvsQCD[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][2][33]->Fill(wIndex->size(),finalWeight);
-      Hists[ch][2][34]->Fill(topIndex->size(),finalWeight);
-      Hists[ch][2][36]->Fill(ntopTag,finalWeight);
-      Hists[ch][2][37]->Fill(WTagIndex->size(),finalWeight);
-      Hists[ch][2][30]->Fill(bsubIndex->size(),finalWeight);
-      if(selectedLeptons->size()>0) {
-        Hists[ch][2][27]->Fill((*selectedLeptons)[0]->pt_,finalWeight);
-        Hists[ch][2][28]->Fill((*selectedLeptons)[0]->eta_,finalWeight);
-        Hists[ch][2][29]->Fill((*selectedLeptons)[0]->phi_,finalWeight);
-      }
-      if(bsubIndex->size()>0) {
-        Hists[ch][2][31]->Fill(FatJet_msoftdrop[bsubIndex->at(0)],finalWeight);
-        Hists[ch][2][32]->Fill(FatJet_deepTagMD_TvsQCD[bsubIndex->at(0)],finalWeight);
-      }
-    }
-
-    if(MVAOutput>0.8 && selectedJets08->size()>1){
-      if(selectedPhotons->size()>0) {
-          Hists[ch][3][0]->Fill((*selectedPhotons)[0]->pt_,finalWeight);
-          Hists[ch][3][1]->Fill((*selectedPhotons)[0]->eta_,finalWeight);
-          Hists[ch][3][2]->Fill((*selectedPhotons)[0]->phi_,finalWeight);
-          Hists[ch][3][15]->Fill(Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][3][16]->Fill(Photon_pfRelIso03_all[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][3][19]->Fill(drgj08,finalWeight);
-          Hists[ch][3][21]->Fill(Photon_hoe[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][3][38]->Fill(abs(deltaPhi((*selectedPhotons)[0]->phi_, atan(PY/PX))));
-          Hists[ch][3][39]->Fill(Ts2Candidate.M(),finalWeight);
-          Hists[ch][3][40]->Fill(abs(deltaPhi(Ts2Candidate.Phi(),((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).Phi())),finalWeight);
-          Hists[ch][3][41]->Fill(MVAOutput,finalWeight);
-          Hists[ch][3][42]->Fill(Photon_sieie[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][3][35]->Fill(((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),finalWeight);
-      }
-      if(selectedJets04->size()>0) {
-          Hists[ch][3][3]->Fill((*selectedJets04)[0]->pt_,finalWeight);
-          Hists[ch][3][4]->Fill((*selectedJets04)[0]->eta_,finalWeight);
-          Hists[ch][3][5]->Fill((*selectedJets04)[0]->phi_,finalWeight);
-          Hists[ch][3][18]->Fill(drgj04,finalWeight);
-      }
-      Hists[ch][3][6]->Fill(selectedJets04->size(),finalWeight);
-      Hists[ch][3][7]->Fill(nbjet04,finalWeight);
-      Hists[ch][3][8]->Fill((*selectedJets08)[0]->pt_,finalWeight);
-      Hists[ch][3][9]->Fill((*selectedJets08)[0]->eta_,finalWeight);
-      Hists[ch][3][10]->Fill((*selectedJets08)[0]->phi_,finalWeight);
-      Hists[ch][3][11]->Fill(selectedJets08->size(),finalWeight);
-      Hists[ch][3][12]->Fill(MET_pt,finalWeight);
-      Hists[ch][3][13]->Fill(PV_npvsGood,finalWeight);
-      Hists[ch][3][14]->Fill(selectedPhotons->size(),finalWeight);
-      Hists[ch][3][20]->Fill(ht,finalWeight);
-      Hists[ch][3][22]->Fill(FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][3][23]->Fill(FatJet_tau2[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][3][24]->Fill(FatJet_tau3[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][3][25]->Fill(nbjet08,finalWeight);
-      Hists[ch][3][26]->Fill(FatJet_deepTagMD_TvsQCD[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][3][33]->Fill(wIndex->size(),finalWeight);
-      Hists[ch][3][34]->Fill(topIndex->size(),finalWeight);
-      Hists[ch][3][36]->Fill(ntopTag,finalWeight);
-      Hists[ch][3][37]->Fill(WTagIndex->size(),finalWeight);
-      Hists[ch][3][30]->Fill(bsubIndex->size(),finalWeight);
-      if(selectedLeptons->size()>0) {
-        Hists[ch][3][27]->Fill((*selectedLeptons)[0]->pt_,finalWeight);
-        Hists[ch][3][28]->Fill((*selectedLeptons)[0]->eta_,finalWeight);
-        Hists[ch][3][29]->Fill((*selectedLeptons)[0]->phi_,finalWeight);
-      }
-      if(bsubIndex->size()>0) {
-        Hists[ch][3][31]->Fill(FatJet_msoftdrop[bsubIndex->at(0)],finalWeight);
-        Hists[ch][3][32]->Fill(FatJet_deepTagMD_TvsQCD[bsubIndex->at(0)],finalWeight);
-      }
-    }
-
-    if(MVAOutput>0.8 &&  topTagIndex->size()>0 && selectedJets08->size()>1){
-      if(selectedPhotons->size()>0) {
-          Hists[ch][4][0]->Fill((*selectedPhotons)[0]->pt_,finalWeight);
-          Hists[ch][4][1]->Fill((*selectedPhotons)[0]->eta_,finalWeight);
-          Hists[ch][4][2]->Fill((*selectedPhotons)[0]->phi_,finalWeight);
-          Hists[ch][4][15]->Fill(Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][4][16]->Fill(Photon_pfRelIso03_all[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][4][19]->Fill(drgj08,finalWeight);
-          Hists[ch][4][21]->Fill(Photon_hoe[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][4][38]->Fill(abs(deltaPhi((*selectedPhotons)[0]->phi_, atan(PY/PX))));
-          Hists[ch][4][39]->Fill(Ts2Candidate.M(),finalWeight);
-          Hists[ch][4][40]->Fill(abs(deltaPhi(Ts2Candidate.Phi(),((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).Phi())),finalWeight);
-          Hists[ch][4][41]->Fill(MVAOutput,finalWeight);
-          Hists[ch][4][42]->Fill(Photon_sieie[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][4][35]->Fill(((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),finalWeight);
-      }
-      if(selectedJets04->size()>0) {
-          Hists[ch][4][3]->Fill((*selectedJets04)[0]->pt_,finalWeight);
-          Hists[ch][4][4]->Fill((*selectedJets04)[0]->eta_,finalWeight);
-          Hists[ch][4][5]->Fill((*selectedJets04)[0]->phi_,finalWeight);
-          Hists[ch][4][18]->Fill(drgj04,finalWeight);
-      }
-      Hists[ch][4][6]->Fill(selectedJets04->size(),finalWeight);
-      Hists[ch][4][7]->Fill(nbjet04,finalWeight);
-      Hists[ch][4][8]->Fill((*selectedJets08)[0]->pt_,finalWeight);
-      Hists[ch][4][9]->Fill((*selectedJets08)[0]->eta_,finalWeight);
-      Hists[ch][4][10]->Fill((*selectedJets08)[0]->phi_,finalWeight);
-      Hists[ch][4][11]->Fill(selectedJets08->size(),finalWeight);
-      Hists[ch][4][12]->Fill(MET_pt,finalWeight);
-      Hists[ch][4][13]->Fill(PV_npvsGood,finalWeight);
-      Hists[ch][4][14]->Fill(selectedPhotons->size(),finalWeight);
-      Hists[ch][4][20]->Fill(ht,finalWeight);
-      Hists[ch][4][22]->Fill(FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][4][23]->Fill(FatJet_tau2[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][4][24]->Fill(FatJet_tau3[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][4][25]->Fill(nbjet08,finalWeight);
-      Hists[ch][4][26]->Fill(FatJet_deepTagMD_TvsQCD[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][4][33]->Fill(wIndex->size(),finalWeight);
-      Hists[ch][4][34]->Fill(topIndex->size(),finalWeight);
-      Hists[ch][4][36]->Fill(ntopTag,finalWeight);
-      Hists[ch][4][37]->Fill(WTagIndex->size(),finalWeight);
-      Hists[ch][4][30]->Fill(bsubIndex->size(),finalWeight);
-      if(selectedLeptons->size()>0) {
-        Hists[ch][4][27]->Fill((*selectedLeptons)[0]->pt_,finalWeight);
-        Hists[ch][4][28]->Fill((*selectedLeptons)[0]->eta_,finalWeight);
-        Hists[ch][4][29]->Fill((*selectedLeptons)[0]->phi_,finalWeight);
-      }
-      if(bsubIndex->size()>0) {
-        Hists[ch][4][31]->Fill(FatJet_msoftdrop[bsubIndex->at(0)],finalWeight);
-        Hists[ch][4][32]->Fill(FatJet_deepTagMD_TvsQCD[bsubIndex->at(0)],finalWeight);
-      }
-    }
-
-    if(Ts2Candidate.M()>300 && topTagIndex->size()>0 && selectedJets08->size()>1){
-      if(selectedPhotons->size()>0) {
-          Hists[ch][5][0]->Fill((*selectedPhotons)[0]->pt_,finalWeight);
-          Hists[ch][5][1]->Fill((*selectedPhotons)[0]->eta_,finalWeight);
-          Hists[ch][5][2]->Fill((*selectedPhotons)[0]->phi_,finalWeight);
-          Hists[ch][5][15]->Fill(Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][5][16]->Fill(Photon_pfRelIso03_all[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][5][19]->Fill(drgj08,finalWeight);
-          Hists[ch][5][21]->Fill(Photon_hoe[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][5][38]->Fill(abs(deltaPhi((*selectedPhotons)[0]->phi_, atan(PY/PX))));
-          Hists[ch][5][39]->Fill(Ts2Candidate.M(),finalWeight);
-          Hists[ch][5][40]->Fill(abs(deltaPhi(Ts2Candidate.Phi(),((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).Phi())),finalWeight);
-          Hists[ch][5][41]->Fill(MVAOutput,finalWeight);
-          Hists[ch][5][42]->Fill(Photon_sieie[(*selectedPhotons)[0]->indice_],finalWeight);
-          Hists[ch][5][35]->Fill(((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),finalWeight);
-      }
-      if(selectedJets04->size()>0) {
-          Hists[ch][5][3]->Fill((*selectedJets04)[0]->pt_,finalWeight);
-          Hists[ch][5][4]->Fill((*selectedJets04)[0]->eta_,finalWeight);
-          Hists[ch][5][5]->Fill((*selectedJets04)[0]->phi_,finalWeight);
-          Hists[ch][5][18]->Fill(drgj04,finalWeight);
-      }
-      Hists[ch][5][6]->Fill(selectedJets04->size(),finalWeight);
-      Hists[ch][5][7]->Fill(nbjet04,finalWeight);
-      Hists[ch][5][8]->Fill((*selectedJets08)[0]->pt_,finalWeight);
-      Hists[ch][5][9]->Fill((*selectedJets08)[0]->eta_,finalWeight);
-      Hists[ch][5][10]->Fill((*selectedJets08)[0]->phi_,finalWeight);
-      Hists[ch][5][11]->Fill(selectedJets08->size(),finalWeight);
-      Hists[ch][5][12]->Fill(MET_pt,finalWeight);
-      Hists[ch][5][13]->Fill(PV_npvsGood,finalWeight);
-      Hists[ch][5][14]->Fill(selectedPhotons->size(),finalWeight);
-      Hists[ch][5][20]->Fill(ht,finalWeight);
-      Hists[ch][5][22]->Fill(FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][5][23]->Fill(FatJet_tau2[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][5][24]->Fill(FatJet_tau3[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][5][25]->Fill(nbjet08,finalWeight);
-      Hists[ch][5][26]->Fill(FatJet_deepTagMD_TvsQCD[(*selectedJets08)[0]->indice_],finalWeight);
-      Hists[ch][5][33]->Fill(wIndex->size(),finalWeight);
-      Hists[ch][5][34]->Fill(topIndex->size(),finalWeight);
-      Hists[ch][5][36]->Fill(ntopTag,finalWeight);
-      Hists[ch][5][37]->Fill(WTagIndex->size(),finalWeight);
-      Hists[ch][5][30]->Fill(bsubIndex->size(),finalWeight);
-      if(selectedLeptons->size()>0) {
-        Hists[ch][5][27]->Fill((*selectedLeptons)[0]->pt_,finalWeight);
-        Hists[ch][5][28]->Fill((*selectedLeptons)[0]->eta_,finalWeight);
-        Hists[ch][5][29]->Fill((*selectedLeptons)[0]->phi_,finalWeight);
-      }
-      if(bsubIndex->size()>0) {
-        Hists[ch][5][31]->Fill(FatJet_msoftdrop[bsubIndex->at(0)],finalWeight);
-        Hists[ch][5][32]->Fill(FatJet_deepTagMD_TvsQCD[bsubIndex->at(0)],finalWeight);
-      }
-    }
-
-
-    if(MVAOutput>0.8 &&  topTagIndex->size()==0 && selectedJets08->size()==1){
-      if(selectedPhotons->size()>0) {
-          Hists[ch][6][0]->Fill((*selectedPhotons)[0]->pt_,finalWeightSF);
-          Hists[ch][6][1]->Fill((*selectedPhotons)[0]->eta_,finalWeightSF);
-          Hists[ch][6][2]->Fill((*selectedPhotons)[0]->phi_,finalWeightSF);
-          Hists[ch][6][15]->Fill(Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],finalWeightSF);
-          Hists[ch][6][16]->Fill(Photon_pfRelIso03_all[(*selectedPhotons)[0]->indice_],finalWeightSF);
-          Hists[ch][6][19]->Fill(drgj08,finalWeightSF);
-          Hists[ch][6][21]->Fill(Photon_hoe[(*selectedPhotons)[0]->indice_],finalWeightSF);
-          Hists[ch][6][38]->Fill(abs(deltaPhi((*selectedPhotons)[0]->phi_, atan(PY/PX))));
-          Hists[ch][6][39]->Fill(Ts2Candidate.M(),finalWeightSF);
-          Hists[ch][6][40]->Fill(abs(deltaPhi(Ts2Candidate.Phi(),((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).Phi())),finalWeightSF);
-          Hists[ch][6][41]->Fill(MVAOutput,finalWeightSF);
-          Hists[ch][6][42]->Fill(Photon_sieie[(*selectedPhotons)[0]->indice_],finalWeightSF);
-          Hists[ch][6][35]->Fill(((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),finalWeightSF);
-      }
-      if(selectedJets04->size()>0) {
-          Hists[ch][6][3]->Fill((*selectedJets04)[0]->pt_,finalWeightSF);
-          Hists[ch][6][4]->Fill((*selectedJets04)[0]->eta_,finalWeightSF);
-          Hists[ch][6][5]->Fill((*selectedJets04)[0]->phi_,finalWeightSF);
-          Hists[ch][6][18]->Fill(drgj04,finalWeightSF);
-      }
-      Hists[ch][6][6]->Fill(selectedJets04->size(),finalWeightSF);
-      Hists[ch][6][7]->Fill(nbjet04,finalWeightSF);
-      Hists[ch][6][8]->Fill((*selectedJets08)[0]->pt_,finalWeightSF);
-      Hists[ch][6][9]->Fill((*selectedJets08)[0]->eta_,finalWeightSF);
-      Hists[ch][6][10]->Fill((*selectedJets08)[0]->phi_,finalWeightSF);
-      Hists[ch][6][11]->Fill(selectedJets08->size(),finalWeightSF);
-      Hists[ch][6][12]->Fill(MET_pt,finalWeightSF);
-      Hists[ch][6][13]->Fill(PV_npvsGood,finalWeightSF);
-      Hists[ch][6][14]->Fill(selectedPhotons->size(),finalWeightSF);
-      Hists[ch][6][20]->Fill(ht,finalWeightSF);
-      Hists[ch][6][22]->Fill(FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeightSF);
-      Hists[ch][6][23]->Fill(FatJet_tau2[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeightSF);
-      Hists[ch][6][24]->Fill(FatJet_tau3[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeightSF);
-      Hists[ch][6][25]->Fill(nbjet08,finalWeightSF);
-      Hists[ch][6][26]->Fill(FatJet_deepTagMD_TvsQCD[(*selectedJets08)[0]->indice_],finalWeightSF);
-      Hists[ch][6][33]->Fill(wIndex->size(),finalWeightSF);
-      Hists[ch][6][34]->Fill(topIndex->size(),finalWeightSF);
-      Hists[ch][6][36]->Fill(ntopTag,finalWeightSF);
-      Hists[ch][6][37]->Fill(WTagIndex->size(),finalWeightSF);
-      Hists[ch][6][30]->Fill(bsubIndex->size(),finalWeightSF);
-      if(selectedLeptons->size()>0) {
-        Hists[ch][6][27]->Fill((*selectedLeptons)[0]->pt_,finalWeightSF);
-        Hists[ch][6][28]->Fill((*selectedLeptons)[0]->eta_,finalWeightSF);
-        Hists[ch][6][29]->Fill((*selectedLeptons)[0]->phi_,finalWeightSF);
-      }
-      if(bsubIndex->size()>0) {
-        Hists[ch][6][31]->Fill(FatJet_msoftdrop[bsubIndex->at(0)],finalWeightSF);
-        Hists[ch][6][32]->Fill(FatJet_deepTagMD_TvsQCD[bsubIndex->at(0)],finalWeightSF);
-      }
-    }
-
-    if( selectedJets08->size()==1 && (*selectedJets08)[0]->mass_>105 && (*selectedJets08)[0]->mass_<210){
-      if(selectedPhotons->size()>0) {
-          Hists[ch][7][0]->Fill((*selectedPhotons)[0]->pt_,finalWeightSF);
-          Hists[ch][7][1]->Fill((*selectedPhotons)[0]->eta_,finalWeightSF);
-          Hists[ch][7][2]->Fill((*selectedPhotons)[0]->phi_,finalWeightSF);
-          Hists[ch][7][15]->Fill(Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],finalWeightSF);
-          Hists[ch][7][16]->Fill(Photon_pfRelIso03_all[(*selectedPhotons)[0]->indice_],finalWeightSF);
-          Hists[ch][7][19]->Fill(drgj08,finalWeightSF);
-          Hists[ch][7][21]->Fill(Photon_hoe[(*selectedPhotons)[0]->indice_],finalWeightSF);
-          Hists[ch][7][38]->Fill(abs(deltaPhi((*selectedPhotons)[0]->phi_, atan(PY/PX))));
-          Hists[ch][7][39]->Fill(Ts2Candidate.M(),finalWeightSF);
-          Hists[ch][7][40]->Fill(abs(deltaPhi(Ts2Candidate.Phi(),((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).Phi())),finalWeightSF);
-          Hists[ch][7][41]->Fill(MVAOutput,finalWeightSF);
-          Hists[ch][7][42]->Fill(Photon_sieie[(*selectedPhotons)[0]->indice_],finalWeightSF);
-          Hists[ch][7][35]->Fill(((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),finalWeightSF);
-      }
-      if(selectedJets04->size()>0) {
-          Hists[ch][7][3]->Fill((*selectedJets04)[0]->pt_,finalWeightSF);
-          Hists[ch][7][4]->Fill((*selectedJets04)[0]->eta_,finalWeightSF);
-          Hists[ch][7][5]->Fill((*selectedJets04)[0]->phi_,finalWeightSF);
-          Hists[ch][7][18]->Fill(drgj04,finalWeightSF);
-      }
-      Hists[ch][7][6]->Fill(selectedJets04->size(),finalWeightSF);
-      Hists[ch][7][7]->Fill(nbjet04,finalWeightSF);
-      Hists[ch][7][8]->Fill((*selectedJets08)[0]->pt_,finalWeightSF);
-      Hists[ch][7][9]->Fill((*selectedJets08)[0]->eta_,finalWeightSF);
-      Hists[ch][7][10]->Fill((*selectedJets08)[0]->phi_,finalWeightSF);
-      Hists[ch][7][11]->Fill(selectedJets08->size(),finalWeightSF);
-      Hists[ch][7][12]->Fill(MET_pt,finalWeightSF);
-      Hists[ch][7][13]->Fill(PV_npvsGood,finalWeightSF);
-      Hists[ch][7][14]->Fill(selectedPhotons->size(),finalWeightSF);
-      Hists[ch][7][20]->Fill(ht,finalWeightSF);
-      Hists[ch][7][22]->Fill(FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeightSF);
-      Hists[ch][7][23]->Fill(FatJet_tau2[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeightSF);
-      Hists[ch][7][24]->Fill(FatJet_tau3[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeightSF);
-      Hists[ch][7][25]->Fill(nbjet08,finalWeightSF);
-      Hists[ch][7][26]->Fill(FatJet_deepTagMD_TvsQCD[(*selectedJets08)[0]->indice_],finalWeightSF);
-      Hists[ch][7][33]->Fill(wIndex->size(),finalWeightSF);
-      Hists[ch][7][34]->Fill(topIndex->size(),finalWeightSF);
-      Hists[ch][7][36]->Fill(ntopTag,finalWeightSF);
-      Hists[ch][7][37]->Fill(WTagIndex->size(),finalWeightSF);
-      Hists[ch][7][30]->Fill(bsubIndex->size(),finalWeightSF);
-      if(selectedLeptons->size()>0) {
-        Hists[ch][7][27]->Fill((*selectedLeptons)[0]->pt_,finalWeightSF);
-        Hists[ch][7][28]->Fill((*selectedLeptons)[0]->eta_,finalWeightSF);
-        Hists[ch][7][29]->Fill((*selectedLeptons)[0]->phi_,finalWeightSF);
-      }
-      if(bsubIndex->size()>0) {
-        Hists[ch][7][31]->Fill(FatJet_msoftdrop[bsubIndex->at(0)],finalWeightSF);
-        Hists[ch][7][32]->Fill(FatJet_deepTagMD_TvsQCD[bsubIndex->at(0)],finalWeightSF);
-      }
-    }
-
-    for (int l=0;l<selectedJets08->size();l++){
-      if((*selectedJets08)[l]->mass_>105 && (*selectedJets08)[l]->mass_<210){
-        ntopTagRandom++;
-        FR = FR * (1-rate(&h_topMistagRate,(*selectedJets08)[l]->pt_));
-      }
-    }
-    finalWeightSF = finalWeightSF*((1-FR)/FR);
-
-    if( selectedJets08->size()>1 && topTagIndex->size()==0 && ntopTagRandom>0){
-      if(selectedPhotons->size()>0) {
-          Hists[ch][8][0]->Fill((*selectedPhotons)[0]->pt_,finalWeightSF);
-          Hists[ch][8][1]->Fill((*selectedPhotons)[0]->eta_,finalWeightSF);
-          Hists[ch][8][2]->Fill((*selectedPhotons)[0]->phi_,finalWeightSF);
-          Hists[ch][8][15]->Fill(Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],finalWeightSF);
-          Hists[ch][8][16]->Fill(Photon_pfRelIso03_all[(*selectedPhotons)[0]->indice_],finalWeightSF);
-          Hists[ch][8][19]->Fill(drgj08,finalWeightSF);
-          Hists[ch][8][21]->Fill(Photon_hoe[(*selectedPhotons)[0]->indice_],finalWeightSF);
-          Hists[ch][8][38]->Fill(abs(deltaPhi((*selectedPhotons)[0]->phi_, atan(PY/PX))));
-          Hists[ch][8][39]->Fill(Ts2Candidate.M(),finalWeightSF);
-          Hists[ch][8][40]->Fill(abs(deltaPhi(Ts2Candidate.Phi(),((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).Phi())),finalWeightSF);
-          Hists[ch][8][41]->Fill(MVAOutput,finalWeightSF);
-          Hists[ch][8][42]->Fill(Photon_sieie[(*selectedPhotons)[0]->indice_],finalWeightSF);
-          Hists[ch][8][35]->Fill(((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),finalWeightSF);
-      }
-      if(selectedJets04->size()>0) {
-          Hists[ch][8][3]->Fill((*selectedJets04)[0]->pt_,finalWeightSF);
-          Hists[ch][8][4]->Fill((*selectedJets04)[0]->eta_,finalWeightSF);
-          Hists[ch][8][5]->Fill((*selectedJets04)[0]->phi_,finalWeightSF);
-          Hists[ch][8][18]->Fill(drgj04,finalWeightSF);
-      }
-      Hists[ch][8][6]->Fill(selectedJets04->size(),finalWeightSF);
-      Hists[ch][8][7]->Fill(nbjet04,finalWeightSF);
-      Hists[ch][8][8]->Fill((*selectedJets08)[0]->pt_,finalWeightSF);
-      Hists[ch][8][9]->Fill((*selectedJets08)[0]->eta_,finalWeightSF);
-      Hists[ch][8][10]->Fill((*selectedJets08)[0]->phi_,finalWeightSF);
-      Hists[ch][8][11]->Fill(selectedJets08->size(),finalWeightSF);
-      Hists[ch][8][12]->Fill(MET_pt,finalWeightSF);
-      Hists[ch][8][13]->Fill(PV_npvsGood,finalWeightSF);
-      Hists[ch][8][14]->Fill(selectedPhotons->size(),finalWeightSF);
-      Hists[ch][8][20]->Fill(ht,finalWeightSF);
-      Hists[ch][8][22]->Fill(FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeightSF);
-      Hists[ch][8][23]->Fill(FatJet_tau2[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeightSF);
-      Hists[ch][8][24]->Fill(FatJet_tau3[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeightSF);
-      Hists[ch][8][25]->Fill(nbjet08,finalWeightSF);
-      Hists[ch][8][26]->Fill(FatJet_deepTagMD_TvsQCD[(*selectedJets08)[0]->indice_],finalWeightSF);
-      Hists[ch][8][33]->Fill(wIndex->size(),finalWeightSF);
-      Hists[ch][8][34]->Fill(topIndex->size(),finalWeightSF);
-      Hists[ch][8][36]->Fill(ntopTagRandom,finalWeightSF);
-      Hists[ch][8][37]->Fill(WTagIndex->size(),finalWeightSF);
-      Hists[ch][8][30]->Fill(bsubIndex->size(),finalWeightSF);
-      if(selectedLeptons->size()>0) {
-        Hists[ch][8][27]->Fill((*selectedLeptons)[0]->pt_,finalWeightSF);
-        Hists[ch][8][28]->Fill((*selectedLeptons)[0]->eta_,finalWeightSF);
-        Hists[ch][8][29]->Fill((*selectedLeptons)[0]->phi_,finalWeightSF);
-      }
-      if(bsubIndex->size()>0) {
-        Hists[ch][8][31]->Fill(FatJet_msoftdrop[bsubIndex->at(0)],finalWeightSF);
-        Hists[ch][8][32]->Fill(FatJet_deepTagMD_TvsQCD[bsubIndex->at(0)],finalWeightSF);
-      }
-    }
-
-    if( selectedJets08->size()>1 && topTagIndex->size()==0 && ntopTagRandom>0 &&  Ts2Candidate.M()>300){
-      if(selectedPhotons->size()>0) {
-          Hists[ch][9][0]->Fill((*selectedPhotons)[0]->pt_,finalWeightSF);
-          Hists[ch][9][1]->Fill((*selectedPhotons)[0]->eta_,finalWeightSF);
-          Hists[ch][9][2]->Fill((*selectedPhotons)[0]->phi_,finalWeightSF);
-          Hists[ch][9][15]->Fill(Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],finalWeightSF);
-          Hists[ch][9][16]->Fill(Photon_pfRelIso03_all[(*selectedPhotons)[0]->indice_],finalWeightSF);
-          Hists[ch][9][19]->Fill(drgj08,finalWeightSF);
-          Hists[ch][9][21]->Fill(Photon_hoe[(*selectedPhotons)[0]->indice_],finalWeightSF);
-          Hists[ch][9][38]->Fill(abs(deltaPhi((*selectedPhotons)[0]->phi_, atan(PY/PX))));
-          Hists[ch][9][39]->Fill(Ts2Candidate.M(),finalWeightSF);
-          Hists[ch][9][40]->Fill(abs(deltaPhi(Ts2Candidate.Phi(),((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).Phi())),finalWeightSF);
-          Hists[ch][9][41]->Fill(MVAOutput,finalWeightSF);
-          Hists[ch][9][42]->Fill(Photon_sieie[(*selectedPhotons)[0]->indice_],finalWeightSF);
-          Hists[ch][9][35]->Fill(((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),finalWeightSF);
-      }
-      if(selectedJets04->size()>0) {
-          Hists[ch][9][3]->Fill((*selectedJets04)[0]->pt_,finalWeightSF);
-          Hists[ch][9][4]->Fill((*selectedJets04)[0]->eta_,finalWeightSF);
-          Hists[ch][9][5]->Fill((*selectedJets04)[0]->phi_,finalWeightSF);
-          Hists[ch][9][18]->Fill(drgj04,finalWeightSF);
-      }
-      Hists[ch][9][6]->Fill(selectedJets04->size(),finalWeightSF);
-      Hists[ch][9][7]->Fill(nbjet04,finalWeightSF);
-      Hists[ch][9][8]->Fill((*selectedJets08)[0]->pt_,finalWeightSF);
-      Hists[ch][9][9]->Fill((*selectedJets08)[0]->eta_,finalWeightSF);
-      Hists[ch][9][10]->Fill((*selectedJets08)[0]->phi_,finalWeightSF);
-      Hists[ch][9][11]->Fill(selectedJets08->size(),finalWeightSF);
-      Hists[ch][9][12]->Fill(MET_pt,finalWeightSF);
-      Hists[ch][9][13]->Fill(PV_npvsGood,finalWeightSF);
-      Hists[ch][9][14]->Fill(selectedPhotons->size(),finalWeightSF);
-      Hists[ch][9][20]->Fill(ht,finalWeightSF);
-      Hists[ch][9][22]->Fill(FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeightSF);
-      Hists[ch][9][23]->Fill(FatJet_tau2[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeightSF);
-      Hists[ch][9][24]->Fill(FatJet_tau3[(*selectedJets08)[0]->indice_]/FatJet_tau1[(*selectedJets08)[0]->indice_],finalWeightSF);
-      Hists[ch][9][25]->Fill(nbjet08,finalWeightSF);
-      Hists[ch][9][26]->Fill(FatJet_deepTagMD_TvsQCD[(*selectedJets08)[0]->indice_],finalWeightSF);
-      Hists[ch][9][33]->Fill(wIndex->size(),finalWeightSF);
-      Hists[ch][9][34]->Fill(topIndex->size(),finalWeightSF);
-      Hists[ch][9][36]->Fill(ntopTagRandom,finalWeightSF);
-      Hists[ch][9][37]->Fill(WTagIndex->size(),finalWeightSF);
-      Hists[ch][9][30]->Fill(bsubIndex->size(),finalWeightSF);
-      if(selectedLeptons->size()>0) {
-        Hists[ch][9][27]->Fill((*selectedLeptons)[0]->pt_,finalWeightSF);
-        Hists[ch][9][28]->Fill((*selectedLeptons)[0]->eta_,finalWeightSF);
-        Hists[ch][9][29]->Fill((*selectedLeptons)[0]->phi_,finalWeightSF);
-      }
-      if(bsubIndex->size()>0) {
-        Hists[ch][9][31]->Fill(FatJet_msoftdrop[bsubIndex->at(0)],finalWeightSF);
-        Hists[ch][9][32]->Fill(FatJet_deepTagMD_TvsQCD[bsubIndex->at(0)],finalWeightSF);
-      }
-    }
-*/
     nAccept++;
     if(Nmerged==2)nMerged++;
     if(Nmerged==1)nSemiMerged++;
@@ -1327,6 +1193,41 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
     fakePhotonsSiSi->clear();
     fakePhotonsSiSi->shrink_to_fit();
     delete fakePhotonsSiSi;
+
+    for (int l=0;l<JEC04sysUp->size();l++){
+      for (int n=0;n<(*JEC04sysUp)[l].size();n++){
+        delete (*JEC04sysUp)[l][n];
+      }
+    }
+    for (int l=0;l<JEC04sysDown->size();l++){
+      for (int n=0;n<(*JEC04sysDown)[l].size();n++){
+        delete (*JEC04sysDown)[l][n];
+      }
+    }
+    JEC04sysUp->clear();
+    JEC04sysUp->shrink_to_fit();
+    JEC04sysDown->clear();
+    JEC04sysDown->shrink_to_fit();
+    delete JEC04sysUp;
+    delete JEC04sysDown;
+
+    for (int l=0;l<JEC08sysUp->size();l++){
+      for (int n=0;n<(*JEC08sysUp)[l].size();n++){
+        delete (*JEC08sysUp)[l][n];
+      }
+    }
+    for (int l=0;l<JEC08sysDown->size();l++){
+      for (int n=0;n<(*JEC08sysDown)[l].size();n++){
+        delete (*JEC08sysDown)[l][n];
+      }
+    }
+    JEC08sysUp->clear();
+    JEC08sysUp->shrink_to_fit();
+    JEC08sysDown->clear();
+    JEC08sysDown->shrink_to_fit();
+    delete JEC08sysUp;
+    delete JEC08sysDown;
+
    }
   cout<<"from "<<ntr<<" events, "<<nAccept<<" events are accepted"<<endl;
   cout<<"from "<<ntr<<" events, "<<nOL<<" events are rejected by overlap removal requierment"<<endl;
@@ -1337,6 +1238,12 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
     for (int k=0;k<regions.size();++k){
       for (int l=0;l<vars.size();++l){
         Hists[i][k][l]  ->Write("",TObject::kOverwrite);
+        if(i==0){
+          for (int n=0;n<sys.size();++n){
+            HistsSysUp[i][k][l][n]->Write("",TObject::kOverwrite);
+            HistsSysDown[i][k][l][n]->Write("",TObject::kOverwrite);
+          }
+        }
       }
     }
   }
@@ -1348,6 +1255,23 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
       }
     }
   }
+
+
+  file_out.mkdir("JECSys");
+  for (int i=0;i<1;++i){
+    for (int k=0;k<regions.size();++k){
+      file_out.mkdir("JECSys/"+regions[k]);
+      file_out.cd("JECSys/"+regions[k]);
+      for (int l=0;l<vars.size();++l){
+        for (int n=0;n<sysJecNames.size();++n){
+          HistsJecUp[i][k][l][n]->Write("",TObject::kOverwrite);
+          HistsJecDown[i][k][l][n]->Write("",TObject::kOverwrite);
+        }
+      }
+    }
+  }
+  file_out.cd("");
+
   tree_out.Write() ;
   file_out.Close() ;
   Hists.clear();
@@ -1357,6 +1281,10 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
   HistsSysDown.clear();
   cout<<"HistsSysDown cleaned"<<endl;
   cout<<"Job is finished"<<endl;
+
+  auto stop = high_resolution_clock::now();
+  auto duration = duration_cast<seconds>(stop - start);
+  cout << "Time taken: " << duration.count() << " seconds" << endl;
 }
 
 
@@ -1443,5 +1371,11 @@ bool MyAnalysis::overlapRemoval(double Et_cut, double Eta_cut, double dR_cut, bo
 void MyAnalysis::FillD3Hists(D3HistsContainer H3, int v1, std::vector<int> v2, int v3, float value, std::vector<float> weight){
   for (int i = 0; i < v2.size(); ++i) {
     H3[v1][v2[i]][v3]->Fill(value, weight[i]);
+  }
+}
+
+void MyAnalysis::FillD4Hists(D4HistsContainer H4, int v1, std::vector<int> v2, int v3, int v4, float value, std::vector<float> weight){
+  for (int i = 0; i < v2.size(); ++i) {
+    H4[v1][v2[i]][v3][v4]->Fill(value, weight[i]);
   }
 }
