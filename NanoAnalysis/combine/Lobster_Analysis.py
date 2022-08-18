@@ -11,7 +11,7 @@ timestamp_tag = datetime.datetime.now().strftime('%Y%m%d_%H%M')
 
 username = "rgoldouz"
 
-production_tag = "TOPBNVLimits"            # For 'full_production' setup
+production_tag = "LimitsExcitedTop"            # For 'full_production' setup
 
 # Only run over lhe steps from specific processes/coeffs/runs
 process_whitelist = []
@@ -57,37 +57,35 @@ gs_resources = Category(
 wf = []
 
 year=['2016preVFP', '2016postVFP', '2017','2018', '2016preVFP_2016postVFP_2017_2018']
-#year=[']
-top = 'T'
-lep = ['E','Mu']
-UP=['U','C']
-DOWN=['D','S','B']
-Couplings = ['cS','cT']
-SignalSamples=[]
-for l in lep:
-    for u in UP:
-        for d in DOWN:
-            SignalSamples.append(top+d+u+l)
+year=['2017']
 
-for coup in Couplings:
-    for namesig in SignalSamples:
-        for numyear, nameyear in enumerate(year):
-            key = coup +'_' + namesig +'_' +nameyear
-            print key
-            Analysis = Workflow(
-                label=key,
-                sandbox=cmssw.Sandbox(release='/afs/crc.nd.edu/user/r/rgoldouz/Limit_combined/forLobster/CMSSW_10_2_13'),
-                globaltag=False,
-                command='python Lobster_check.py '  + coup +' ' + namesig +' ' +nameyear,
-                extra_inputs=[
-                    'Lobster_check.py',
-                    'CombinedFilesBNV',
-                ],
-                outputs=[key+'_impacts.pdf', key+'_results.tex'],
-                dataset=EmptyDataset(),
-                category=gs_resources
-            )
-            wf.append(Analysis)
+SignalSamples=[
+['TTga_M1600','1600'],
+['TTga_M1400','1400'],
+['TTga_M1300','1300'],
+['TTga_M1200','1200'],
+['TTga_M0800','800'],
+['TTga_M1000','1000']
+]
+
+for namesig in SignalSamples:
+    for numyear, nameyear in enumerate(year):
+        key = namesig[0] + '_' + nameyear
+        print key
+        Analysis = Workflow(
+            label=key,
+            sandbox=cmssw.Sandbox(release='/afs/crc.nd.edu/user/r/rgoldouz/Limit_combined/forLobster/CMSSW_10_2_13'),
+            globaltag=False,
+            command='python Lobster_check.py '  + ' ' + namesig[0] +' ' +nameyear +' '+namesig[1],
+            extra_inputs=[
+                'Lobster_check.py',
+                'CombinedFilesETop',
+            ],
+            outputs=[key+'_impacts.pdf', key+'_results.tex', 'higgsCombineTest.AsymptoticLimits.mH'+namesig[1]+'.root'],
+            dataset=EmptyDataset(),
+            category=gs_resources
+        )
+        wf.append(Analysis)
 
 config = Config(
     label=master_label,

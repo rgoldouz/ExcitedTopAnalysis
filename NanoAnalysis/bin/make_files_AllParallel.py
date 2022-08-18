@@ -80,12 +80,13 @@ if __name__ == '__main__':
    
     bTyTg = 0.03*0.97*2 
     crossSection = {
-    'ST_antitop_tchannel': '26.38',
-    'ST_top_tchannel': '44.33',
-    'ST_top_schannel': '3.36',
-    'tW': '19.47',
-    'tbarW': '19.47',
+    'tWNoFullyHadronic': '19.47',
+    'antitWNoFullyHadronic': '19.47',
+    'ST_t-channel_top': '136.02',
+    'ST_t-channel_antitop': '80.95',
     'TTTo2L2Nu': '87.31',
+    'TTToSemiLeptonic': '365.34',
+    'TTToHadronic': '379.11',
     'TTJets': '831.76',
     'DY10to50': '18610',
     'DY50': '6077.22',
@@ -117,17 +118,20 @@ if __name__ == '__main__':
     'QCD_HT2000toInf':'25.24',
     'WGJets_MonoPhoton_PtG_40to130':'17.018',
     'WGJets_MonoPhoton_PtG_130':'0.88',
-    'TTga_M0800':str(bTyTg*1.68),
-    'TTga_M1200':str(bTyTg*0.0537),
-    'TTga_M1400':str(bTyTg*0.0131),
+    'TTga_M700':str(bTyTg*4.92),
+    'TTga_M800':str(bTyTg*1.68),
+    'TTga_M900':str(bTyTg*0.636),
     'TTga_M1000':str(bTyTg*0.262),
-    'TTga_M1600':str(bTyTg*0.00359),
+    'TTga_M1100':str(bTyTg*0.116),
+    'TTga_M1200':str(bTyTg*0.0537),
     'TTga_M1300':str(bTyTg*0.0261),
-    'TTga_M1700':str(bTyTg*4.92),
+    'TTga_M1400':str(bTyTg*0.0131),
+    'TTga_M1500':str(bTyTg*0.00677),
+    'TTga_M1600':str(bTyTg*0.00359),
     }
     
 #    blackList = ['ST_antitop_tchannel','ST_top_tchannel', 'ST_top_schannel', 'TTJets','fcnc', 'tbarW_Inclusive', 'tW_Inclusive', 'FCNC', 'WZTo', 'WWTo', 'ZZTo', 'TTG','pythia']
-    blackList = ['TTgg','TTaa', 'TTga_M2300', 'TTga_M1100', 'TTga_M1500', 'TTga_M2500', 'TTga_M2200', 'TTga_M2000', 'TTga_M2100', 'TTga_M0172', 'TTga_M1800', 'TTga_M0400', 'TTga_M2400', 'TTga_M1900']   
+    blackList = ['TTJets','TTga_M1600','TTga_M1700','TTga_M1800','TTga_M1900','TTga_M2000']   
     text = ''
     text += 'import sys \n'
     text += 'import os \n'
@@ -140,7 +144,7 @@ if __name__ == '__main__':
 #    'UL16preVFP': ['2016preVFP','/hadoop/store/user/rgoldouz/NanoAodPostProcessingUL/UL16preVFP/v2','19.52'],
 #    'UL16postVFP': ['2016postVFP','/hadoop/store/user/rgoldouz/NanoAodPostProcessingUL/UL16postVFP/v2','16.81'],
     '2017': ['2017' , '/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL17/v1',"41.48"],
-    '2017S': ['2017' , '/hadoop/store/user/rbucci/ExcitedTops/SlimNano/SlimNano_Feb2021',"41.48"],
+#    '2017S': ['2017' , '/hadoop/store/user/rbucci/ExcitedTops/SlimNano/SlimNano_Feb2021',"41.48"],
 #    '2018': ['2018' , '/hadoop/store/user/rgoldouz/NanoAodPostProcessingUL/UL18/v2',"59.83"],
     }
     

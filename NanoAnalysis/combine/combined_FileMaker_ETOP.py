@@ -77,14 +77,15 @@ ULyear=['UL16preVFP', 'UL16postVFP', 'UL17','UL18']
 year=['2017']
 #ULyear=['UL17']
 LumiErr = [0.018, 0.018, 0.018, 0.018]
-regions=["nAk8G1TtagG0MTs2G300"]
+regions=["nAk8G1TtagG0MTs2G300","nAk8G1nTtag0MTs2G300", "nAk8G1Ttag0MTs2G300XtopMissTagRate"]
+scaleSig = [1,1,1,1,1,0.5,40,1,1,1,1,1,1,1]
+channels=["aJets", "fakeAJetsIso", "fakeAJetsSiSi","fakeAJetsOthers"];
 regionsCombined = ['SR']
-channels=["aJets"];
 variables=["TsMass1"]
-#sys = ["eleRecoSf", "eleIDSf", "muIdSf", "muIsoSf", "bcTagSF", "udsgTagSF","pu", "prefiring", "trigSF", "jer", "muonScale","electronScale","muonRes","unclusMET"]
-#sysJecNames = ["AbsoluteMPFBias","AbsoluteScale","AbsoluteStat","FlavorQCD","Fragmentation","PileUpPtBB","PileUpPtEC1","PileUpPtEC2","PileUpPtHF","PileUpPtRef","RelativeFSR","RelativePtBB","RelativePtEC1","RelativePtEC2","RelativePtHF","RelativeBal","RelativeSample","RelativeStatEC","RelativeStatFSR","RelativeStatHF","SinglePionECAL","SinglePionHCAL","TimePtEta"]
-sys = []
-sysJecNames = []
+sys = ["phIDSf", "pu"]
+sysJec= ["AbsoluteMPFBias","AbsoluteScale","AbsoluteStat","FlavorQCD","Fragmentation","PileUpDataMC","PileUpPtBB","PileUpPtEC1","PileUpPtEC2","PileUpPtHF","PileUpPtRef","RelativeFSR","RelativePtBB","RelativePtEC1","RelativePtEC2","RelativePtHF","RelativeBal","RelativeSample","RelativeStatEC","RelativeStatFSR","RelativeStatHF","SinglePionECAL","SinglePionHCAL","TimePtEta"]
+sysJecNames=[
+"AbsoluteMPFBias","AbsoluteScale","AbsoluteStat","FlavorQCD","Fragmentation","PileUpDataMC","PileUpPtBB","PileUpPtEC1","PileUpPtEC2","PileUpPtHF","PileUpPtRef","RelativeFSR","RelativePtBB","RelativePtEC1","RelativePtEC2","RelativePtHF","RelativeBal","RelativeSample","RelativeStatEC","RelativeStatFSR","RelativeStatHF","SinglePionECAL","SinglePionHCAL","TimePtEta"]
 sysJecNamesUnCorr = ["AbsoluteStat","RelativePtEC1","RelativePtEC2","RelativeSample","RelativeStatEC","RelativeStatFSR","RelativeStatHF","TimePtEta"]
 sysJecNamesCorr =["AbsoluteMPFBias","AbsoluteScale","FlavorQCD","Fragmentation","PileUpPtBB","PileUpPtEC1","PileUpPtEC2","PileUpPtHF","PileUpPtRef","RelativeFSR","RelativePtBB","RelativePtHF","RelativeBal","RelativeStatFSR","RelativeStatHF"]
 
@@ -187,15 +188,17 @@ for numyear, nameyear in enumerate(year):
                     copyl3.append(h.Clone())
                     if 'data' in Samples[f]:
                         continue
+                    if namech!="aJets":
+                        continue
                     for numsys, namesys in enumerate(sys):
                         h= Files[f].Get(namech + '_' + namereg + '_' + namevar+ '_' + namesys+ '_Up')
                         h.SetFillColor(colors[f])
                         h.SetLineColor(colors[f])
 #                        h.SetBinContent(h.GetXaxis().GetNbins(), h.GetBinContent(h.GetXaxis().GetNbins()) + h.GetBinContent(h.GetXaxis().GetNbins()+1))
                         for b in range(h.GetNbinsX()):
-                            if h.GetBinContent(b+1,wc1)<0:
+                            if h.GetBinContent(b+1)<0:
                                 h.SetBinContent(b+1,0)
-                            if h.GetBinContent(b+1,wc1)==h.GetBinError(b+1):
+                            if h.GetBinContent(b+1)==h.GetBinError(b+1):
                                 h.SetBinContent(b+1,0)
                                 h.SetBinError(b+1,0)
                         SysUpl4.append(h)
@@ -204,28 +207,28 @@ for numyear, nameyear in enumerate(year):
                         h.SetLineColor(colors[f])
 #                        h.SetBinContent(h.GetXaxis().GetNbins(), h.GetBinContent(h.GetXaxis().GetNbins()) + h.GetBinContent(h.GetXaxis().GetNbins()+1))
                         for b in range(h.GetNbinsX()):
-                            if h.GetBinContent(b+1,wc1)<0:
+                            if h.GetBinContent(b+1)<0:
                                 h.SetBinContent(b+1,0)
-                            if h.GetBinContent(b+1,wc1)==h.GetBinError(b+1):
+                            if h.GetBinContent(b+1)==h.GetBinError(b+1):
                                 h.SetBinContent(b+1,0)
                                 h.SetBinError(b+1,0)
                         SysDownl4.append(h)
                     for numsys, namesys in enumerate(sysJecNames):
-                        h= Files[f].Get('JECSys/' +namech + '_' + namereg + '_' + namevar+ '_' + namesys+ '_Up')
+                        h= Files[f].Get("JECSys/"+ namereg + '/' + namech + '_' + namereg + '_' + namevar+ '_' + namesys+ '_Up')
 #                        h.SetBinContent(h.GetXaxis().GetNbins(), h.GetBinContent(h.GetXaxis().GetNbins()) + h.GetBinContent(h.GetXaxis().GetNbins()+1))
                         for b in range(h.GetNbinsX()):
-                            if h.GetBinContent(b+1,wc1)<0:
+                            if h.GetBinContent(b+1)<0:
                                 h.SetBinContent(b+1,0)
-                            if h.GetBinContent(b+1,wc1)==h.GetBinError(b+1):
+                            if h.GetBinContent(b+1)==h.GetBinError(b+1):
                                 h.SetBinContent(b+1,0)
                                 h.SetBinError(b+1,0)
                         JecUpl4.append(h)
-                        h= Files[f].Get('JECSys/' + namech + '_' + namereg + '_' + namevar+ '_' + namesys+ '_Down')
+                        h= Files[f].Get("JECSys/"+ namereg + '/' + namech + '_' + namereg + '_' + namevar+ '_' + namesys+ '_Down')
 #                        h.SetBinContent(h.GetXaxis().GetNbins(), h.GetBinContent(h.GetXaxis().GetNbins()) + h.GetBinContent(h.GetXaxis().GetNbins()+1))
                         for b in range(h.GetNbinsX()):
-                            if h.GetBinContent(b+1,wc1)<0:
+                            if h.GetBinContent(b+1)<0:
                                 h.SetBinContent(b+1,0)
-                            if h.GetBinContent(b+1,wc1)==h.GetBinError(b+1):
+                            if h.GetBinContent(b+1)==h.GetBinError(b+1):
                                 h.SetBinContent(b+1,0)
                                 h.SetBinError(b+1,0)
                         JecDownl4.append(h)
@@ -257,6 +260,27 @@ for numyear, nameyear in enumerate(year):
     HistsSysDown.append(SysDownl0)
     HistsJecUp.append(JecUpl0)
     HistsJecDown.append(JecDownl0)
+
+
+#Data Driven Gamma Jet
+for numvar, namevar in enumerate(variables):
+    Hists[0][Samples.index("Gjets.root")][channels.index("aJets")][regions.index("nAk8G1TtagG0MTs2G300")][numvar] = Hists[0][Samples.index("data.root")][channels.index("aJets")][regions.index("nAk8G1Ttag0MTs2G300XtopMissTagRate")][numvar]
+    Hists[0][Samples.index("Gjets.root")][channels.index("aJets")][regions.index("nAk8G1TtagG0MTs2G300")][numvar].SetFillColor(colors[Samples.index("Gjets.root")])
+    Hists[0][Samples.index("Gjets.root")][channels.index("aJets")][regions.index("nAk8G1TtagG0MTs2G300")][numvar].SetLineColor(colors[Samples.index("Gjets.root")])
+#Data Driven Fake photon
+    hDataCR2 = Hists[0][Samples.index("data.root")][channels.index("fakeAJetsIso")][regions.index("nAk8G1TtagG0MTs2G300")][numvar].Clone()
+    hDataCR2.Add(Hists[0][Samples.index("data.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk8G1TtagG0MTs2G300")][numvar])
+    hDataCR2.Add(Hists[0][Samples.index("data.root")][channels.index("fakeAJetsOthers")][regions.index("nAk8G1TtagG0MTs2G300")][numvar])
+    hDataCR2.Scale(0.022/(1-0.022))
+    hGjetsCR2 = Hists[0][Samples.index("Gjets.root")][channels.index("fakeAJetsIso")][regions.index("nAk8G1TtagG0MTs2G300")][numvar].Clone()
+    hGjetsCR2.Add(Hists[0][Samples.index("Gjets.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk8G1TtagG0MTs2G300")][numvar])
+    hGjetsCR2.Add(Hists[0][Samples.index("Gjets.root")][channels.index("fakeAJetsOthers")][regions.index("nAk8G1TtagG0MTs2G300")][numvar])
+    hGjetsCR2.Scale(0.022/(1-0.022))
+    hDataCR2.Add(hGjetsCR2,-1)
+    hDataCR2.SetFillColor(colors[Samples.index("Fake.root")])
+    hDataCR2.SetLineColor(colors[Samples.index("Fake.root")])
+    Hists[0][Samples.index("Fake.root")][channels.index("aJets")][regions.index("nAk8G1TtagG0MTs2G300")][numvar] = hDataCR2
+
 
 
 #find signal uncertainties
@@ -444,33 +468,39 @@ if not os.path.exists('CombinedFilesETop'):
 for numyear, nameyear in enumerate(year):
     for numch, namech in enumerate(channels):
         for numreg, namereg in enumerate(regionsCombined):
+            if namereg!="nAk8G1TtagG0MTs2G300" and namech!="aJets":
+                continue
             hfile = ROOT.TFile( 'CombinedFilesETop/' + nameyear+'_'+namech+'_'+namereg+'.root', 'RECREATE', 'combine input histograms' )
             for f in range(len(Samples)):
+                print str(f) + Samples[f]
                 Hists[numyear][f][numch][numreg][0].SetName(SamplesNameCombined[f])
                 Hists[numyear][f][numch][numreg][0].Write()
-#                if f==0:
-#                    continue
-#                for numsys, namesys in enumerate(sys):
-#                    if 'jer' in namesys or 'unclusMET' in namesys or 'bcTagSF' in namesys:
-#                        HistsSysUp[numyear][f][numch][numreg][0][numsys].SetName(SamplesNameCombined[f] + '_' + 'Y'+ nameyear +namesys + 'Up')
-#                        HistsSysDown[numyear][f][numch][numreg][0][numsys].SetName(SamplesNameCombined[f] + '_' + 'Y'+ nameyear + namesys + 'Down')
-#                    else:
-#                        HistsSysUp[numyear][f][numch][numreg][0][numsys].SetName(SamplesNameCombined[f] + '_' + namesys + 'Up')
-#                        HistsSysDown[numyear][f][numch][numreg][0][numsys].SetName(SamplesNameCombined[f] + '_' + namesys + 'Down')
-#                    HistsSysUp[numyear][f][numch][numreg][0][numsys].Write()
-#                    HistsSysDown[numyear][f][numch][numreg][0][numsys].Write()
-#    #JEC uncertainties
-#                for numsys, namesys in enumerate(sysJecNames):
-#                    if namesys in sysJecNamesCorr:
-#                        HistsJecUp[numyear][f][numch][numreg][0][numsys].SetName(SamplesNameCombined[f] + '_jes' + namesys + 'Up')
-#                        HistsJecDown[numyear][f][numch][numreg][0][numsys].SetName(SamplesNameCombined[f] + '_jes' + namesys + 'Down')
-#                        HistsJecUp[numyear][f][numch][numreg][0][numsys].Write()
-#                        HistsJecDown[numyear][f][numch][numreg][0][numsys].Write()
-#                    if namesys in sysJecNamesUnCorr:
-#                        HistsJecUp[numyear][f][numch][numreg][0][numsys].SetName(SamplesNameCombined[f] + '_' + 'Y'+ nameyear + 'jes' + namesys + 'Up')
-#                        HistsJecDown[numyear][f][numch][numreg][0][numsys].SetName(SamplesNameCombined[f] + '_' + 'Y'+ nameyear + 'jes' + namesys + 'Down')
-#                        HistsJecUp[numyear][f][numch][numreg][0][numsys].Write()
-#                        HistsJecDown[numyear][f][numch][numreg][0][numsys].Write()
+                if f<3:
+                    continue
+                print str(f) + Samples[f]
+                for numsys, namesys in enumerate(sys):
+                    print namesys
+                    if 'jer' in namesys or 'unclusMET' in namesys or 'bcTagSF' in namesys:
+                        HistsSysUp[numyear][f][numch][numreg][0][numsys].SetName(SamplesNameCombined[f] + '_' + 'Y'+ nameyear +namesys + 'Up')
+                        HistsSysDown[numyear][f][numch][numreg][0][numsys].SetName(SamplesNameCombined[f] + '_' + 'Y'+ nameyear + namesys + 'Down')
+                    else:
+                        HistsSysUp[numyear][f][numch][numreg][0][numsys].SetName(SamplesNameCombined[f] + '_' + namesys + 'Up')
+                        HistsSysDown[numyear][f][numch][numreg][0][numsys].SetName(SamplesNameCombined[f] + '_' + namesys + 'Down')
+                    HistsSysUp[numyear][f][numch][numreg][0][numsys].Write()
+                    HistsSysDown[numyear][f][numch][numreg][0][numsys].Write()
+    #JEC uncertainties
+                for numsys, namesys in enumerate(sysJecNames):
+                    print namesys
+                    if namesys in sysJecNamesCorr:
+                        HistsJecUp[numyear][f][numch][numreg][0][numsys].SetName(SamplesNameCombined[f] + '_jes' + namesys + 'Up')
+                        HistsJecDown[numyear][f][numch][numreg][0][numsys].SetName(SamplesNameCombined[f] + '_jes' + namesys + 'Down')
+                        HistsJecUp[numyear][f][numch][numreg][0][numsys].Write()
+                        HistsJecDown[numyear][f][numch][numreg][0][numsys].Write()
+                    if namesys in sysJecNamesUnCorr:
+                        HistsJecUp[numyear][f][numch][numreg][0][numsys].SetName(SamplesNameCombined[f] + '_' + 'Y'+ nameyear + 'jes' + namesys + 'Up')
+                        HistsJecDown[numyear][f][numch][numreg][0][numsys].SetName(SamplesNameCombined[f] + '_' + 'Y'+ nameyear + 'jes' + namesys + 'Down')
+                        HistsJecUp[numyear][f][numch][numreg][0][numsys].Write()
+                        HistsJecDown[numyear][f][numch][numreg][0][numsys].Write()
 #    #ttbar modeling uncertainties
 #            for g in range(len(Gttsys)):
 #                hup = Hists[numyear][3][numch][numreg][0].Clone()
@@ -607,11 +637,13 @@ SignalSamplesD['TSCMu']=['STBNV_TSCMu','TTBNV_TSCMu']
 SignalSamplesD['TSUMu']=['STBNV_TSUMu','TTBNV_TSUMu']
 
 
-'data_obs','Fake','Gjets','ttG','Others'
+#'data_obs','Fake','Gjets','ttG','Others'
 for valueD, namesig  in enumerate(SignalSamples):
     for numyear, nameyear in enumerate(year):
         for numch, namech in enumerate(channels):
             for numreg, namereg in enumerate(regionsCombined):
+                if namereg!="nAk8G1TtagG0MTs2G300" and namech!="aJets":
+                    continue
                 cardName = namesig+'_'+namech+'_'+nameyear+'_' + namereg
                 Sid0= Samples.index(namesig + '.root')
 #                Sid1= Samples.index(valueD[1] + '.root')
@@ -635,32 +667,32 @@ for valueD, namesig  in enumerate(SignalSamples):
                      'Gjets_norm'.ljust(35)+'lnN'.ljust(10)  + '-'.ljust(40) + '-'.ljust(40) + '1.3'.ljust(40) + '-'.ljust(40) +'\n'+\
                      'ttG_norm'.ljust(35)+'lnN'.ljust(10)  + '-'.ljust(40) + '-'.ljust(40) + '-'.ljust(40) + '1.15'.ljust(40) + '\n'
                 if '2016' in nameyear:
-                    T1 = T1 + 'lumi2016'.ljust(35)+'lnN'.ljust(10) + '1.022'.ljust(40) + '1.022'.ljust(40) + '1.022'.ljust(40) + '1.022'.ljust(40)  +'\n'    
-                    T1 = T1 + 'lumiXY'.ljust(35)+'lnN'.ljust(10) + '1.009'.ljust(40) + '1.009'.ljust(40) + '1.009'.ljust(40) + '1.009'.ljust(40)  + '\n'
-                    T1 = T1 + 'lumiBBDef'.ljust(35)+'lnN'.ljust(10) + '1.004'.ljust(40) + '1.004'.ljust(40)  + '1.004'.ljust(40) + '1.004'.ljust(40)  + '\n'
-                    T1 = T1 + 'lumiDynamicB'.ljust(35)+'lnN'.ljust(10) + '1.005'.ljust(40) + '1.005'.ljust(40)+ '1.005'.ljust(40) + '1.005'.ljust(40) +'\n'
-                    T1 = T1 + 'lumiGhostS'.ljust(35)+'lnN'.ljust(10) + '1.004'.ljust(40) + '1.004'.ljust(40)  + '1.004'.ljust(40) + '1.004'.ljust(40)  +'\n'
+                    T1 = T1 + 'lumi2016'.ljust(35)+'lnN'.ljust(10) + '1.022'.ljust(40) + '-'.ljust(40) + '-'.ljust(40) + '1.022'.ljust(40)  +'\n'    
+                    T1 = T1 + 'lumiXY'.ljust(35)+'lnN'.ljust(10) + '1.009'.ljust(40) + '-'.ljust(40) + '-'.ljust(40) + '1.009'.ljust(40)  + '\n'
+                    T1 = T1 + 'lumiBBDef'.ljust(35)+'lnN'.ljust(10) + '1.004'.ljust(40) + '-'.ljust(40)  + '-'.ljust(40) + '1.004'.ljust(40)  + '\n'
+                    T1 = T1 + 'lumiDynamicB'.ljust(35)+'lnN'.ljust(10) + '1.005'.ljust(40) + '-'.ljust(40)+ '-'.ljust(40) + '1.005'.ljust(40) +'\n'
+                    T1 = T1 + 'lumiGhostS'.ljust(35)+'lnN'.ljust(10) + '1.004'.ljust(40) + '-'.ljust(40)  + '-'.ljust(40) + '1.004'.ljust(40)  +'\n'
                 if '2017' in nameyear:
-                    T1 = T1 + 'lumi2017'.ljust(35)+'lnN'.ljust(10) + '1.02'.ljust(40) + '1.02'.ljust(40) + '1.02'.ljust(40) + '1.02'.ljust(40)  +'\n'
-                    T1 = T1 + 'lumiXY'.ljust(35)+'lnN'.ljust(10) + '1.008'.ljust(40) + '1.008'.ljust(40) + '1.008'.ljust(40) + '1.008'.ljust(40)  +'\n'
-                    T1 = T1 + 'lumiBBDef'.ljust(35)+'lnN'.ljust(10) + '1.004'.ljust(40) + '1.004'.ljust(40) + '1.004'.ljust(40) + '1.004'.ljust(40) + '\n'
-                    T1 = T1 + 'lumiDynamicB'.ljust(35)+'lnN'.ljust(10) + '1.005'.ljust(40) + '1.005'.ljust(40)  + '1.005'.ljust(40) + '1.005'.ljust(40)  +'\n'
-                    T1 = T1 + 'lumiGhostS'.ljust(35)+'lnN'.ljust(10) + '1.001'.ljust(40) + '1.001'.ljust(40) + '1.001'.ljust(40) + '1.001'.ljust(40)  +'\n'
-                    T1 = T1 + 'lumiLengthS'.ljust(35)+'lnN'.ljust(10) + '1.003'.ljust(40) + '1.003'.ljust(40) + '1.003'.ljust(40) + '1.003'.ljust(40)  + '\n'
-                    T1 = T1 + 'lumiBeamCC'.ljust(35)+'lnN'.ljust(10) + '1.003'.ljust(40) + '1.003'.ljust(40)  + '1.003'.ljust(40) + '1.003'.ljust(40)  + '\n'
+                    T1 = T1 + 'lumi2017'.ljust(35)+'lnN'.ljust(10) + '1.02'.ljust(40) + '-'.ljust(40) + '-'.ljust(40) + '1.02'.ljust(40)  +'\n'
+                    T1 = T1 + 'lumiXY'.ljust(35)+'lnN'.ljust(10) + '1.008'.ljust(40) + '-'.ljust(40) + '-'.ljust(40) + '1.008'.ljust(40)  +'\n'
+                    T1 = T1 + 'lumiBBDef'.ljust(35)+'lnN'.ljust(10) + '1.004'.ljust(40) + '-'.ljust(40) + '-'.ljust(40) + '1.004'.ljust(40) + '\n'
+                    T1 = T1 + 'lumiDynamicB'.ljust(35)+'lnN'.ljust(10) + '1.005'.ljust(40) + '-'.ljust(40)  + '-'.ljust(40) + '1.005'.ljust(40)  +'\n'
+                    T1 = T1 + 'lumiGhostS'.ljust(35)+'lnN'.ljust(10) + '1.001'.ljust(40) + '-'.ljust(40) + '-'.ljust(40) + '1.001'.ljust(40)  +'\n'
+                    T1 = T1 + 'lumiLengthS'.ljust(35)+'lnN'.ljust(10) + '1.003'.ljust(40) + '-'.ljust(40) + '-'.ljust(40) + '1.003'.ljust(40)  + '\n'
+                    T1 = T1 + 'lumiBeamCC'.ljust(35)+'lnN'.ljust(10) + '1.003'.ljust(40) + '-'.ljust(40)  + '-'.ljust(40) + '1.003'.ljust(40)  + '\n'
                 if '2018' in nameyear:
-                    T1 = T1 + 'lumi2018'.ljust(35)+'lnN'.ljust(10) + '1.015'.ljust(40) + '1.015'.ljust(40) + '1.015'.ljust(40) + '1.015'.ljust(40)  + '\n'
-                    T1 = T1 + 'lumiXY'.ljust(35)+'lnN'.ljust(10) + '1.02'.ljust(40) + '1.02'.ljust(40) + '1.02'.ljust(40) + '1.02'.ljust(40) + '\n'
-                    T1 = T1 + 'lumiLengthS'.ljust(35)+'lnN'.ljust(10) + '1.002'.ljust(40)  + '1.002'.ljust(40) + '1.002'.ljust(40) + '1.002'.ljust(40)  + '\n'
-                    T1 = T1 + 'lumiBeamCC'.ljust(35)+'lnN'.ljust(10) + '1.002'.ljust(40) + '1.002'.ljust(40) + '1.002'.ljust(40) + '1.002'.ljust(40)  + '\n'
-#                for numsys, namesys in enumerate(sysJecNamesCorr):
-#                    T1 = T1 +  'jes' + namesys.ljust(32)  +'shape'.ljust(10)  + '1'.ljust(40) +  '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) +'\n'
-#                for numsys, namesys in enumerate(sysJecNamesUnCorr):
-#                    T1 = T1 + 'Y'+  nameyear + 'jes' + namesys.ljust(27)  +'shape'.ljust(10)  + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) +'\n'
-#                for b in sys:
-#                    if 'prefiring' in b or 'jer' in b or 'unclusMET' in b or 'bcTagSF' in b:
-#                        continue 
-#                    T1 = T1 +  b.ljust(35)  +'shape'.ljust(10)  + '1'.ljust(40) + '1'.ljust(40)  + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) +'\n'
+                    T1 = T1 + 'lumi2018'.ljust(35)+'lnN'.ljust(10) + '1.015'.ljust(40) + '-'.ljust(40) + '-'.ljust(40) + '1.015'.ljust(40)  + '\n'
+                    T1 = T1 + 'lumiXY'.ljust(35)+'lnN'.ljust(10) + '1.02'.ljust(40) + '-'.ljust(40) + '-'.ljust(40) + '1.02'.ljust(40) + '\n'
+                    T1 = T1 + 'lumiLengthS'.ljust(35)+'lnN'.ljust(10) + '1.002'.ljust(40)  + '-'.ljust(40) + '-'.ljust(40) + '1.002'.ljust(40)  + '\n'
+                    T1 = T1 + 'lumiBeamCC'.ljust(35)+'lnN'.ljust(10) + '1.002'.ljust(40) + '-'.ljust(40) + '-'.ljust(40) + '1.002'.ljust(40)  + '\n'
+                for numsys, namesys in enumerate(sysJecNamesCorr):
+                    T1 = T1 +  'jes' + namesys.ljust(32)  +'shape'.ljust(10)  + '1'.ljust(40) +  '-'.ljust(40) + '-'.ljust(40) + '1'.ljust(40) + '\n'
+                for numsys, namesys in enumerate(sysJecNamesUnCorr):
+                    T1 = T1 + 'Y'+  nameyear + 'jes' + namesys.ljust(27)  +'shape'.ljust(10)  + '1'.ljust(40) + '-'.ljust(40) + '-'.ljust(40) + '1'.ljust(40) + '\n'
+                for b in sys:
+                    if 'prefiring' in b or 'jer' in b or 'unclusMET' in b or 'bcTagSF' in b:
+                        continue 
+                    T1 = T1 +  b.ljust(35)  +'shape'.ljust(10)  + '1'.ljust(40) + '-'.ljust(40)  + '-'.ljust(40) + '1'.ljust(40) +'\n'
 #                T1 = T1 + 'Y'+ nameyear + 'jer'.ljust(30)  +'shape'.ljust(10)  + '1'.ljust(40)  + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) +'\n'
 #                T1 = T1 + 'Y'+ nameyear + 'unclusMET'.ljust(30)  +'shape'.ljust(10)  + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) +'\n'
 #                T1 = T1 + 'Y'+ nameyear + 'bcTagSF'.ljust(30)  +'shape'.ljust(10)  + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) + '1'.ljust(40) +'\n'

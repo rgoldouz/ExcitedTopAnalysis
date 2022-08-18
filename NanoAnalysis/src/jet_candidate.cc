@@ -7,7 +7,7 @@ jet_candidate::jet_candidate(float pt_in, float eta_in, float phi_in, float E_in
   btag_ = isb(btag_in,year);
   toptag_ = istop(toptag_in,year, mass_in);
   Wtag_ = isW(Wtag_in,year);
-  p4_.SetPtEtaPhiM(pt_, eta_, phi_, E_in) ;
+  p4_.SetPtEtaPhiM(pt_, eta_, phi_, mass_in) ;
   flavor_ = flavor_in;
   indice_ = ind_in;
   NtopObj_ = NtopObj_in;
@@ -26,10 +26,11 @@ int jet_candidate::isb(float btag_in , TString year){
 }
  
 int jet_candidate::istop(float toptag_in , TString year, float mSD){
+  float topTagWP=0.889;
   int R = 0;
-  if (year == "2016" && toptag_in > 0.863 && mSD>105 && mSD<210) R=1;
-  if (year == "2017" && toptag_in > 0.863 && mSD>105 && mSD<210) R=1;
-  if (year == "2018" && toptag_in > 0.863 && mSD>105 && mSD<210) R=1;
+  if (year == "2016" && toptag_in > topTagWP && mSD>120 && mSD<210) R=1;
+  if (year == "2017" && toptag_in > topTagWP && mSD>120 && mSD<210) R=1;
+  if (year == "2018" && toptag_in > topTagWP && mSD>120 && mSD<210) R=1;
   return R;
 }
  

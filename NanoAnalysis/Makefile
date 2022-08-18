@@ -19,7 +19,7 @@ LDFLAGS        =
 SOFLAGS        = -O -shared  -fPIC #-flat_namespace 
 LIBS           = $(ROOTLIBS) 
 
-GLIBS         = $(ROOTGLIBS) -lMinuit -lMinuit2 -lTreePlayer -lGenVector -lTMVA
+GLIBS         = $(ROOTGLIBS) -lMinuit -lMinuit2 -lTreePlayer -lGenVector -lTMVA -lGenVector
 
 SRCS = src/ScaleFactors.cc src/GEScaleSyst.cc src/Utils.cc src/BTagCalibrationStandalone.cc src/RoccoR.cc src/lepton_candidate.cc src/jet_candidate.cc src/PU_reWeighting.cc src/sumOfWeights.cc  src/MyAnalysis.cc 
 OBJS =  $(patsubst %.C,%.o,$(SRCS:.cc=.o))

@@ -55,15 +55,15 @@ storage = StorageConfiguration(
 gs_resources = Category(
     name='gs',
     cores=1,
-    memory=2000,
-    disk=10000
+    memory=4000,
+    disk=5000
 )
 #################################################################
 wf = []
 for key, value in SAMPLES.items():
     FPT=10
-    if 'data' in key or 'GJets' in key or 'TT' in key:
-        FPT=2
+    if 'data' in key or 'GJets' in key or 'TTga' in key:
+        FPT=1
     if path.exists('/hadoop/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_' + key) and len(os.listdir('/hadoop/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_' + key))>0:
         continue
     if path.exists('/hadoop/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_' + key):

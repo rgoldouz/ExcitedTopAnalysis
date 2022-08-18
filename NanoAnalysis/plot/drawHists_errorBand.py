@@ -73,7 +73,7 @@ def draw(hists, sys, ch = "channel", reg = "region", year='2016', var="sample", 
     del canvas
     gc.collect()
 
-def compareError(histsup,histsdown, sys, ch = "channel", reg = "region", year='2016', var="sample", varname="v"):
+def compareError(histsup,histsdown, sys, ch = "channel", reg = "region", year='2016', var="sample", varname="v", prefix = 'Theory'):
     if not os.path.exists('sys/'+year):
        os.makedirs('sys/'+ year)
     if not os.path.exists('sys/'+year + '/' + ch):
@@ -85,30 +85,24 @@ def compareError(histsup,histsdown, sys, ch = "channel", reg = "region", year='2
     canvas.SetGrid();
     canvas.cd()
 
-    legend = ROOT.TLegend(0.1,0.3,1,0.8)
+    legend = ROOT.TLegend(0.35,0.7,0.9,0.88)
     legend.SetBorderSize(0)
     legend.SetTextFont(42)
-    legend.SetTextSize(0.22)
+    legend.SetTextSize(0.03)
+    legend.SetNColumns(3);
+    if len(histsup)>15:
+        legend.SetTextSize(0.02)
 
-    pad1=ROOT.TPad("pad1", "pad1", 0, 0., 0.1, 0.99 , 0)#used for the hist plot
-    pad2=ROOT.TPad("pad2", "pad2", 0.1, 0.0, 1, 1 , 0)#used for the ratio plot
-    pad1.Draw()
+    pad2=ROOT.TPad("pad2", "pad2", 0.0, 0.0, 1, 1 , 0)#used for the ratio plot
     pad2.Draw()
 #    pad2.SetGridy()
 #    pad2.SetGridx()
     pad2.SetTickx()
-    pad1.SetBottomMargin(0.1)
-    pad1.SetLeftMargin(0.01)
-    pad1.SetRightMargin(0.01)
     pad2.SetBottomMargin(0.1)
     pad2.SetLeftMargin(0.11)
     pad2.SetRightMargin(0.1)
     pad2.SetFillStyle(0)
-    pad1.SetFillStyle(0)
-    pad1.SetLogx(ROOT.kFALSE)
     pad2.SetLogx(ROOT.kFALSE)
-    pad1.SetLogy(ROOT.kFALSE)
-
     pad2.cd()
     maxi=0
     for n,G in enumerate(histsup):
@@ -124,33 +118,55 @@ def compareError(histsup,histsdown, sys, ch = "channel", reg = "region", year='2
         if n==4:
             histsup[n].SetLineColor(ROOT.kOrange)
             histsdown[n].SetLineColor(ROOT.kOrange)
+        if n==7:
+            histsup[n].SetLineColor(ROOT.kGreen-1)
+            histsdown[n].SetLineColor(ROOT.kGreen-1)
+        if n==8:
+            histsup[n].SetLineColor(28)
+            histsdown[n].SetLineColor(28)
+        if n==9:
+            histsup[n].SetLineColor(46)
+            histsdown[n].SetLineColor(46)
+        if n==10:
+            histsup[n].SetLineColor(30)
+            histsdown[n].SetLineColor(30)
+        if n==11:
+            histsup[n].SetLineColor(38)
+            histsdown[n].SetLineColor(38)
+        if n==12:
+            histsup[n].SetLineColor(17)
+            histsdown[n].SetLineColor(17)
+        if 'BDT' in varname:
+            histsup[n].GetXaxis().SetRangeUser(-0.6, 0.4)
+            histsdown[n].GetXaxis().SetRangeUser(-0.6, 0.4)
     histsup[0].SetTitle( '' )
     histsup[0].GetYaxis().SetTitle( 'Uncertainty (%)' )
     histsup[0].GetXaxis().SetTitle(varname)
     histsup[0].GetXaxis().SetLabelSize(0.04)
-    histsup[0].GetYaxis().SetLabelSize(0.04)
+    histsup[0].GetYaxis().SetLabelSize(0.03)
     histsup[0].GetXaxis().SetTitleSize(0.04)
     histsup[0].GetYaxis().SetTitleSize(0.04)
     histsup[0].GetXaxis().SetTitleOffset(0.95)
     histsup[0].GetYaxis().SetTitleOffset(1)
     histsup[0].GetYaxis().SetNdivisions(804)
-    histsup[0].GetXaxis().SetNdivisions(808)   
-    histsup[0].GetYaxis().SetRangeUser(-2.5*maxi,1.5*maxi)
+    histsup[0].GetXaxis().SetNdivisions(808)
+    histsup[0].GetYaxis().SetRangeUser(-20,30)
     histsup[0].Draw('hist')
     for n,G in enumerate(histsup):
         histsup[n].Draw('samehist')
         histsdown[n].Draw('samehist')
     histsup[0].Draw('samehist')
+    histsdown[0].Draw('samehist')
     histsup[0].Draw("AXISSAMEY+")
     histsup[0].Draw("AXISSAMEX+")
-    Lumi = '137.42'
+    Lumi = '137.19'
     if (year == '2016'):
         Lumi = '35.92'
     if (year == '2017'):
         Lumi = '41.53'
     if (year == '2018'):
-        Lumi = '59.97'
-    label_cms="CMS Preliminary"
+        Lumi = '59.74'
+    label_cms="CMS Simulation Preliminary"
     Label_cms = ROOT.TLatex(0.22,0.92,label_cms)
     Label_cms.SetTextSize(0.035)
     Label_cms.SetNDC()
@@ -161,16 +177,22 @@ def compareError(histsup,histsdown, sys, ch = "channel", reg = "region", year='2
     Label_lumi.SetNDC()
     Label_lumi.SetTextFont(42)
     Label_lumi.Draw("same")
-    Label_channel = ROOT.TLatex(0.2,0.85,year +" / "+ch+" ("+reg+")")
+    Label_channel = ROOT.TLatex(0.15,0.2,year)
     Label_channel.SetNDC()
-    Label_channel.SetTextSize(0.035)
     Label_channel.SetTextFont(42)
-    Label_channel.Draw("same") 
-    pad1.cd()
+    Label_channel.Draw("same")
+
+    Label_channel2 = ROOT.TLatex(0.15,0.15,ch+" ("+reg+")")
+    Label_channel2.SetNDC()
+    Label_channel2.SetTextFont(42)
+    Label_channel2.Draw("same")
+
     legend.Draw("same")
-    canvas.Print('sys/'+ year + '/' + ch +'/'+reg+'/sys'+var + ".png")
+    canvas.Print('sys/'+ year + '/' + ch +'/'+reg+'/sys'+ prefix +'_'+var + ".png")
+#    canvas.Print('sys/'+ year + '/' + ch +'/'+reg+'/sys'+ prefix +'_'+var + ".pdf")
     del canvas
     gc.collect()
+
 
 def stackPlotsError(hists, SignalHists,error, errorRatio, Fnames, ch = "channel", reg = "region", year='2016', var="sample", varname="v"):
     if not os.path.exists('sys/'+year):
@@ -326,287 +348,125 @@ def stackPlotsError(hists, SignalHists,error, errorRatio, Fnames, ch = "channel"
     gc.collect()
 
 
-year=['2016','2017','2018','All']
-#year=['2018','All']
-LumiErr = [0.025, 0.023, 0.025, 0.018]
-#year=['2016']
-regions=["ll","llOffZ","llB1", "llBg1"]
-#regions=["ll","llOffZ"]
-channels=["ee", "emu", "mumu"];
-#channels=["emu"];
-variables=["lep1Pt","lep1Eta","lep1Phi","lep2Pt","lep2Eta","lep2Phi","llM","llPt","llDr","llDphi","jet1Pt","jet1Eta","jet1Phi","njet","nbjet","Met","MetPhi","nVtx","llMZw",  "softdropMass", "tau21", "tau31", "nbjet08","TvsQCD"]
-#variables=["lep1Pt","lep1Eta","lep1Phi","lep2Pt","lep2Eta","lep2Phi","llM","llPt","llDr","llDphi","jet1Pt","jet1Eta","jet1Phi","njet","nbjet","Met"]
-#variables=["nbjet","Met","nVtx","llMZw"]
-variablesName=["p_{T}(leading lepton)","#eta(leading lepton)","#Phi(leading lepton)","p_{T}(sub-leading lepton)","#eta(sub-leading lepton)","#Phi(sub-leading lepton)","M(ll)","p_{T}(ll)","#Delta R(ll)","#Delta #Phi(ll)","p_{T}(leading jet)","#eta(leading jet)","#Phi(leading jet)","Number of jets","Number of b-tagged jets","MET","#Phi(MET)","Number of vertices", "M(ll) [z window]", "softdropMass", "tau21", "tau31", "nbjet08","TvsQCD"]
-sys = ["eleRecoSf", "eleIDSf", "muIdSf", "muIsoSf", "bcTagSF", "udsgTagSF","pu", "prefiring", "jes", "jer"]
+year=['2017']
+LumiErr = [0.025]
+channels=["aJets", "fakeAJetsIso", "fakeAJetsSiSi","fakeAJetsOthers"]
+channels=["aJets"]
+regions=["nAk8G0", "nAk81", "nAk81nTtag1", "nAk8G1nTtagG0", "nAk8G1TtagG0MTs2G300", "nAk8G1nTtag0","nAk8G1nTtag0MTs2G300"]
+variables=["GammaPt","GammaEta","GammaPhi","jet04Pt","jet04Eta","jet04Phi","njet04","nbjet04","jet08Pt","jet08Eta","jet08Phi","njet08","Met","nVtx", "nPh", "phoChargedIso", "dPhiGj08", "drGj08", "HT", "HoE", "softdropMass", "tau21", "tau31", "nbjet08","TvsQCD","njet08massG50","njet08massG120","TsMass1", "nTopTag","masstS2", "Sietaieta"]
+variablesName=["p_{T}(#gamma)","#eta(#gamma)","#Phi(#gamma)","p_{T}(leading jet (AK4))","#eta(leading jet (AK4))","#Phi(leading jet (AK4))","Number of jets (AK4)","Number of b-jets (AK4)","p_{T}(leading jet (AK8))","#eta(leading jet (AK8))","#Phi(leading jet (AK8))","Number of jets (AK8)","MET","Number of vertices","Number of photons","phoChargedIso","#DeltaPhi(#gamma,jet08)", "#DeltaR(#gamma,jet08)", "HT", "H/E", "softdropMass (leading jet (AK8))", "tau21 (leading jet (AK8))", "tau32 (leading jet (AK8))", "num of AK8 jet b-tagged","TvsQCD (leading jet (AK8))", "Number of Ak8 jets with mass > 50","Number of Ak8 jets with mass > 120", "M(#gamma, highest mass AK8)", "N top-tagged ","mass of the second t*","#sigma_{i#eta i#eta}"]
 
-HistAddress = '/user/rgoldouz/NewAnalysis2020/Analysis/hists/'
 
-Samples = ['data.root','WJetsToLNu.root','others.root', 'DY.root', 'TTTo2L2Nu.root', 'ST_tW.root', 'LFVVecC.root', 'LFVVecU.root']
-SamplesName = ['Data','Jets','Others', 'DY', 't#bar{t}', 'tW' , 'LFV-vec [c_{e#mutc}=5]', 'LFV-vec [c_{e#mutu}=2]']
-SamplesNameLatex = ['Data','Jets','Others', 'DY', 'tt', 'tW',  'LFV-vector(emutc)', 'LFV-vector(emutu)']
-NormalizationErr = [0, 0.5, 0.5, 0.3, 0.05, 0.1, 0,0]
+HistAddress = '/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/hists/'
 
-colors =  [ROOT.kBlack,ROOT.kYellow,ROOT.kGreen,ROOT.kBlue-3,ROOT.kRed-4,ROOT.kOrange-3, ROOT.kOrange-6, ROOT.kCyan-6]
+sys = ["phIDSf", "pu", "prefiring", "trigSF"]
+sysJec= ["Total", "AbsoluteMPFBias","AbsoluteScale","AbsoluteStat","FlavorQCD","Fragmentation","PileUpDataMC","PileUpPtBB","PileUpPtEC1","PileUpPtEC2","PileUpPtHF","PileUpPtRef","RelativeFSR","RelativePtBB","RelativePtEC1","RelativePtEC2","RelativePtHF","RelativeBal","RelativeSample","RelativeStatEC","RelativeStatFSR","RelativeStatHF","SinglePionECAL","SinglePionHCAL","TimePtEta"]
+
+Samples = ['data.root','Fake.root', 'Gjets.root','ttG.root','other.root', 'TTga_M0800.root', 'TTga_M1600.root']
+SamplesName = ['Data','Fake','#gamma+jets', 'ttG', 'other', 't*t* (M=0.8TeV) #times 0.5', 't*t* (M=1.6TeV) #times 10']
+SamplesNameLatex = ['Data','Fake','Gjets', 'ttG', 'other', 't*t* (M=0.8TeV)', 't*t* (M=1.6TeV)']
+colors =  [ROOT.kBlack,ROOT.kYellow,ROOT.kGreen,ROOT.kRed-4, ROOT.kBlue-3,ROOT.kOrange-3, ROOT.kBlack, ROOT.kGreen+3,ROOT.kViolet, ROOT.kBlue-9, ROOT.kYellow-2]
+NormalizationErr = [0, 0.1, 0.1, 0.15, 0.05, 0.1, 0,0]
+
 
 Hists = []
 HistsSysUp = []
 HistsSysDown = []
+HistsJecUp = []
+HistsJecDown = []
 Hists_copy =[]
 for numyear, nameyear in enumerate(year):
     l0=[]
     copyl0=[]
     SysUpl0=[]
     SysDownl0=[]
+    JecUpl0=[]
+    JecDownl0=[]
     Files = []
     for f in range(len(Samples)):
         l1=[]
         copyl1=[]
         SysUpl1=[]
         SysDownl1=[]
+        JecUpl1=[]
+        JecDownl1=[]
         Files.append(ROOT.TFile.Open(HistAddress + nameyear+ '_' + Samples[f]))
         for numch, namech in enumerate(channels):
             l2=[]
             copyl2=[]
             SysUpl2=[]
             SysDownl2=[]
+            JecUpl2=[]
+            JecDownl2=[]
             for numreg, namereg in enumerate(regions):
                 l3=[]
                 copyl3=[]
                 SysUpl3=[]
                 SysDownl3=[]
+                JecUpl3=[]
+                JecDownl3=[]
                 for numvar, namevar in enumerate(variables):
                     SysUpl4=[]
                     SysDownl4=[]
+                    JecUpl4=[]
+                    JecDownl4=[]
                     h= Files[f].Get(namech + '_' + namereg + '_' + namevar)
                     h.SetFillColor(colors[f])
                     h.SetLineColor(colors[f])
                     h.SetBinContent(h.GetXaxis().GetNbins(), h.GetBinContent(h.GetXaxis().GetNbins()) + h.GetBinContent(h.GetXaxis().GetNbins()+1))
                     l3.append(h)
                     copyl3.append(h.Clone())
-                    for numsys, namesys in enumerate(sys):
-                        h= Files[f].Get(namech + '_' + namereg + '_' + namevar+ '_' + namesys+ '_Up')
-                        h.SetFillColor(colors[f])
-                        h.SetLineColor(colors[f])
-                        h.SetBinContent(h.GetXaxis().GetNbins(), h.GetBinContent(h.GetXaxis().GetNbins()) + h.GetBinContent(h.GetXaxis().GetNbins()+1))
-                        SysUpl4.append(h)
-                        h= Files[f].Get(namech + '_' + namereg + '_' + namevar+ '_' + namesys+ '_Down')
-                        h.SetFillColor(colors[f])
-                        h.SetLineColor(colors[f])
-                        h.SetBinContent(h.GetXaxis().GetNbins(), h.GetBinContent(h.GetXaxis().GetNbins()) + h.GetBinContent(h.GetXaxis().GetNbins()+1))
-                        SysDownl4.append(h)
+                    if namech=='aJets':
+                        for numsys, namesys in enumerate(sys):
+                            h= Files[f].Get(namech + '_' + namereg + '_' + namevar+ '_' + namesys+ '_Up')
+                            h.SetFillColor(colors[f])
+                            h.SetLineColor(colors[f])
+                            h.SetBinContent(h.GetXaxis().GetNbins(), h.GetBinContent(h.GetXaxis().GetNbins()) + h.GetBinContent(h.GetXaxis().GetNbins()+1))
+                            SysUpl4.append(h)
+                            h= Files[f].Get(namech + '_' + namereg + '_' + namevar+ '_' + namesys+ '_Down')
+                            h.SetFillColor(colors[f])
+                            h.SetLineColor(colors[f])
+                            h.SetBinContent(h.GetXaxis().GetNbins(), h.GetBinContent(h.GetXaxis().GetNbins()) + h.GetBinContent(h.GetXaxis().GetNbins()+1))
+                            SysDownl4.append(h)
+                        for numsys, namesys in enumerate(sysJec):
+                            h= Files[f].Get("JECSys/"+ namereg + '/' + namech + '_' + namereg + '_' + namevar+ '_' + namesys+ '_Up')
+                            h.SetFillColor(colors[f])
+                            h.SetLineColor(colors[f])
+                            h.SetBinContent(h.GetXaxis().GetNbins(), h.GetBinContent(h.GetXaxis().GetNbins()) + h.GetBinContent(h.GetXaxis().GetNbins()+1))
+                            JecUpl4.append(h)
+                            h= Files[f].Get("JECSys/"+ namereg + '/' + namech + '_' + namereg + '_' + namevar+ '_' + namesys+ '_Down')
+                            h.SetFillColor(colors[f])
+                            h.SetLineColor(colors[f])
+                            h.SetBinContent(h.GetXaxis().GetNbins(), h.GetBinContent(h.GetXaxis().GetNbins()) + h.GetBinContent(h.GetXaxis().GetNbins()+1))
+                            JecDownl4.append(h)
                     SysUpl3.append(SysUpl4)
                     SysDownl3.append(SysDownl4)
+                    JecUpl3.append(JecUpl4)
+                    JecDownl3.append(JecDownl4)
                 l2.append(l3)
                 copyl2.append(copyl3)
                 SysUpl2.append(SysUpl3)
                 SysDownl2.append(SysDownl3)
+                JecUpl2.append(JecUpl3)
+                JecDownl2.append(JecDownl3)
             l1.append(l2)
             copyl1.append(copyl2)
             SysUpl1.append(SysUpl2)
             SysDownl1.append(SysDownl2)
+            JecUpl1.append(JecUpl2)
+            JecDownl1.append(JecDownl2)
         l0.append(l1)
         copyl0.append(copyl1)
         SysUpl0.append(SysUpl1)
         SysDownl0.append(SysDownl1)
+        JecUpl0.append(JecUpl1)
+        JecDownl0.append(JecDownl1)
     Hists.append(l0)
     Hists_copy.append(copyl0)
     HistsSysUp.append(SysUpl0)       
     HistsSysDown.append(SysDownl0)
-
-
-pdfGraph=[]
-qscaleGraph=[]
-ISRGraph=[]
-FSRGraph=[]
-CRGraph=[]
-TuneGraph=[]
-hdampGraph=[]
-
-for numyear, nameyear in enumerate(year):
-    t1Pdf=[]
-    t1Qscale=[]
-    t1ISR=[]
-    t1FSR=[]
-    t1CR=[]
-    t1Tune=[]
-    t1hdamp=[]
-    sysfile = ROOT.TFile.Open(HistAddress + nameyear+ '_TTTo2L2Nu.root')
-    CR1file = ROOT.TFile.Open(HistAddress + nameyear+ '_TTsys_CR1QCDbased.root')
-    erdfile = ROOT.TFile.Open(HistAddress + nameyear+ '_TTsys_CRerdON.root')
-    TuneCP5upfile = ROOT.TFile.Open(HistAddress + nameyear+ '_TTsys_TuneCP5up.root')
-    TuneCP5downfile = ROOT.TFile.Open(HistAddress + nameyear+ '_TTsys_TuneCP5down.root')
-    hdampupfile = ROOT.TFile.Open(HistAddress + nameyear+ '_TTsys_hdampUP.root')
-    hdampdownfile = ROOT.TFile.Open(HistAddress + nameyear+ '_TTsys_hdampDOWN.root')
-    for numreg, namereg in enumerate(regions):
-        if numreg<2:
-            continue
-        t2Pdf=[]
-        t2Qscale=[]
-        t2ISR=[]
-        t2FSR=[]
-        t2CR=[]
-        t2Tune=[]
-        t2hdamp=[]
-        for numvar, namevar in enumerate(variables):
-            pdfHists=[]
-            QscaleHists=[]
-            for numsys in range(9):
-                h=sysfile.Get('reweightingSys/emu' + '_' + namereg + '_' + namevar+ '_QscalePDF_'+str(numsys))
-                h.SetBinContent(h.GetXaxis().GetNbins(), h.GetBinContent(h.GetXaxis().GetNbins()) + h.GetBinContent(h.GetXaxis().GetNbins()+1))
-                QscaleHists.append(h)
-#                del h
-#                gc.collect()
-            for numsys in range(9,110):
-                h=sysfile.Get('reweightingSys/emu' +'_' + namereg + '_' + namevar+ '_QscalePDF_'+str(numsys))
-                h.SetBinContent(h.GetXaxis().GetNbins(), h.GetBinContent(h.GetXaxis().GetNbins()) + h.GetBinContent(h.GetXaxis().GetNbins()+1))
-                pdfHists.append(h)
-#                del h
-#                gc.collect()
-            hISRup = sysfile.Get('reweightingSys/emu' + '_' + namereg + '_' + namevar+ '_PS_8')
-            hISRdown = sysfile.Get('reweightingSys/emu' + '_' + namereg + '_' + namevar+ '_PS_6')
-            hFSRup = sysfile.Get('reweightingSys/emu' + '_' + namereg + '_' + namevar+ '_PS_9')
-            hFSRdown = sysfile.Get('reweightingSys/emu' + '_' + namereg + '_' + namevar+ '_PS_7')
-            hCR1 = CR1file.Get('emu' + '_' + namereg + '_' + namevar)
-            herd = erdfile.Get('emu' + '_' + namereg + '_' + namevar)
-            hTuneCP5up = TuneCP5upfile.Get('emu' + '_' + namereg + '_' + namevar)
-            hTuneCP5down = TuneCP5downfile.Get('emu' + '_' + namereg + '_' + namevar)
-            hhdampup = hdampupfile.Get('emu' + '_' + namereg + '_' + namevar)
-            hhdampdown = hdampdownfile.Get('emu' + '_' + namereg + '_' + namevar)
-            binwidth= array( 'd' )
-            bincenter= array( 'd' )
-            yvalue= array( 'd' )
-            yerrupQscale= array( 'd' )
-            yerrdownQscale= array( 'd' )
-            yerrupPDF= array( 'd' )
-            yerrdownPDF= array( 'd' )
-            yerrupISR = array( 'd' )
-            yerrdownISR = array( 'd' )
-            yerrupFSR = array( 'd' )
-            yerrdownFSR = array( 'd' )
-            yerrupCR = array( 'd' )
-            yerrdownCR = array( 'd' )
-            yerrupTune= array( 'd' )
-            yerrdownTune= array( 'd' )
-            yerruphdamp= array( 'd' )
-            yerrdownhdamp= array( 'd' )
-            for b in range(QscaleHists[0].GetNbinsX()):
-                QS=np.zeros(9)
-                PDF=0
-                binwidth.append(QscaleHists[0].GetBinWidth(b+1)/2)
-                bincenter.append(QscaleHists[0].GetBinCenter(b+1))
-                yvalue.append(0)
-                nomRatio = 1
-#                if QscaleHists[0].GetBinContent(b+1) > 0:
-#                    nomRatio = 100/QscaleHists[0].GetBinContent(b+1)
-                for numsys in range(9):
-                    if numsys==0 or numsys==5 or numsys==7: 
-                        continue
-                    QS[numsys] = QscaleHists[numsys].GetBinContent(b+1) - QscaleHists[0].GetBinContent(b+1)
-                yerrupQscale.append((abs(max(QS)))*nomRatio) 
-                yerrdownQscale.append((abs(min(QS)))*nomRatio)
-                for numsys in range(9,110):
-                    PDF = PDF + (pdfHists[numsys-9].GetBinContent(b+1) - QscaleHists[0].GetBinContent(b+1))**2
-                yerrupPDF.append((math.sqrt(PDF))*nomRatio)
-                yerrdownPDF.append((math.sqrt(PDF))*nomRatio)
-                yerrupISR.append((abs(max(hISRup.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1) , hISRdown.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1))))*nomRatio)
-                yerrdownISR.append((abs(min(hISRup.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1) , hISRdown.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1))))*nomRatio)
-                yerrupFSR.append((abs(max(hFSRup.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1) , hFSRdown.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1))))*nomRatio)
-                yerrdownFSR.append((abs(min(hFSRup.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1) , hFSRdown.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1))))*nomRatio)        
-                yerrupCR.append((abs(max(herd.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1) , hCR1.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1))))*nomRatio)
-                yerrdownCR.append((abs(min(herd.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1) , hCR1.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1))))*nomRatio)
-                yerrupTune.append((abs(max(hTuneCP5up.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1) , hTuneCP5down.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1))))*nomRatio)
-                yerrdownTune.append((abs(min(hTuneCP5up.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1) , hTuneCP5down.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1))))*nomRatio)
-                yerruphdamp.append((abs(max(hhdampup.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1) , hhdampdown.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1))))*nomRatio)
-                yerrdownhdamp.append((abs(min(hhdampup.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1) , hhdampdown.GetBinContent(b+1)- QscaleHists[0].GetBinContent(b+1))))*nomRatio)
-#                del QS
-#                del PDF
-#                del nomRatio
-#                gc.collect()
-            t2Qscale.append(ROOT.TGraphAsymmErrors(len(bincenter),bincenter,yvalue,binwidth,binwidth,yerrupQscale,yerrdownQscale))
-            t2Pdf.append(ROOT.TGraphAsymmErrors(len(bincenter),bincenter,yvalue,binwidth,binwidth,yerrupPDF,yerrdownPDF))
-            t2ISR.append(ROOT.TGraphAsymmErrors(len(bincenter),bincenter,yvalue,binwidth,binwidth,yerrupISR,yerrdownISR))
-            t2FSR.append(ROOT.TGraphAsymmErrors(len(bincenter),bincenter,yvalue,binwidth,binwidth,yerrupFSR,yerrdownFSR))
-            t2CR.append(ROOT.TGraphAsymmErrors(len(bincenter),bincenter,yvalue,binwidth,binwidth,yerrupCR,yerrdownCR))
-            t2Tune.append(ROOT.TGraphAsymmErrors(len(bincenter),bincenter,yvalue,binwidth,binwidth,yerrupTune,yerrdownTune))
-            t2hdamp.append(ROOT.TGraphAsymmErrors(len(bincenter),bincenter,yvalue,binwidth,binwidth,yerruphdamp,yerrdownhdamp))
-            del binwidth
-            del bincenter
-            del yvalue
-            del yerrupQscale
-            del yerrdownQscale
-            del yerrupPDF
-            del yerrdownPDF
-            del yerrupISR
-            del yerrdownISR
-            del yerrupFSR
-            del yerrdownFSR
-            del pdfHists
-            del QscaleHists
-            gc.collect()
-        t1Qscale.append(t2Qscale)
-        t1Pdf.append(t2Pdf)
-        t1ISR.append(t2ISR)
-        t1FSR.append(t2FSR)
-        t1CR.append(t2CR)
-        t1Tune.append(t2Tune) 
-        t1hdamp.append(t2hdamp)
-    pdfGraph.append(t1Pdf)
-    qscaleGraph.append(t1Qscale)
-    ISRGraph.append(t1ISR)
-    FSRGraph.append(t1FSR)
-    CRGraph.append(t1CR)
-    TuneGraph.append(t1Tune)
-    hdampGraph.append(t1hdamp)
-    sysfile.Close()
-    CR1file.Close()
-    erdfile.Close()
-    TuneCP5upfile.Close()
-    TuneCP5downfile.Close()
-    hdampupfile.Close()
-    hdampdownfile.Close()
-    del sysfile
-    del CR1file
-    del erdfile
-    del TuneCP5upfile
-    del TuneCP5downfile
-    del hdampupfile
-    del hdampdownfile
-    gc.collect()
-
-Gttsys = []
-Gttsys.append(pdfGraph)
-Gttsys.append(qscaleGraph)
-Gttsys.append(ISRGraph)
-Gttsys.append(FSRGraph)
-Gttsys.append(CRGraph)
-Gttsys.append(TuneGraph)
-Gttsys.append(hdampGraph)
-ttSys = ['pdf','QS','ISR','FSR','CR','Tune','hdamp']
-
-for numyear, nameyear in enumerate(year):
-    for numreg, namereg in enumerate(regions):
-        if numreg<2:
-            continue
-        for numvar, namevar in enumerate(variables):
-            glistup = []
-            glistdown = []
-            for g in range(len(Gttsys)):
-                hup = Hists[numyear][4][1][numreg][numvar].Clone()
-                hdown = Hists[numyear][4][1][numreg][numvar].Clone()
-                for b in range(hup.GetNbinsX()):
-                    rb = 0
-                    if hup.GetBinContent(b+1)>0:
-                        rb = 100/hup.GetBinContent(b+1)
-                    hup.SetBinContent(b+1, 0 + Gttsys[g][numyear][numreg-2][numvar].GetErrorYhigh(b)*rb)
-                    hdown.SetBinContent(b+1,0 - Gttsys[g][numyear][numreg-2][numvar].GetErrorYlow(b)*rb)
-                glistup.append(hup)
-                glistdown.append(hdown)
-            compareError(glistup,glistdown, ttSys, 'emu', namereg, nameyear,namevar,variablesName[numvar])        
-#            del glist
-#            gc.collect()
-
-
+    HistsJecUp.append(JecUpl0)
+    HistsJecDown.append(JecDownl0)
 
 tgraph_nominal = []
 tgraph_ratio = []
@@ -624,10 +484,15 @@ for numyear, nameyear in enumerate(year):
             for numvar, namevar in enumerate(variables):
                 for f in range(1,len(Samples)-3):
                     Hists_copy[numyear][f+1][numch][numreg][numvar].Add(Hists_copy[numyear][f][numch][numreg][numvar])
-                for numsys, namesys in enumerate(sys):
-                    for f in range(1,len(Samples)-3):
-                        HistsSysUp[numyear][f+1][numch][numreg][numvar][numsys].Add(HistsSysUp[numyear][f][numch][numreg][numvar][numsys]) 
-                        HistsSysDown[numyear][f+1][numch][numreg][numvar][numsys].Add(HistsSysDown[numyear][f][numch][numreg][numvar][numsys])
+                if namech=='aJets':
+                    for numsys, namesys in enumerate(sys):
+                        for f in range(1,len(Samples)-3):
+                            HistsSysUp[numyear][f+1][numch][numreg][numvar][numsys].Add(HistsSysUp[numyear][f][numch][numreg][numvar][numsys]) 
+                            HistsSysDown[numyear][f+1][numch][numreg][numvar][numsys].Add(HistsSysDown[numyear][f][numch][numreg][numvar][numsys])
+                    for numsys, namesys in enumerate(sysJec):
+                        for f in range(1,len(Samples)-3):
+                            HistsJecUp[numyear][f+1][numch][numreg][numvar][numsys].Add(HistsJecUp[numyear][f][numch][numreg][numvar][numsys])
+                            HistsJecDown[numyear][f+1][numch][numreg][numvar][numsys].Add(HistsJecDown[numyear][f][numch][numreg][numvar][numsys])
                 binwidth= array( 'd' )
                 bincenter= array( 'd' )
                 yvalue= array( 'd' )
@@ -648,43 +513,57 @@ for numyear, nameyear in enumerate(year):
                         content =0.0000001
                     yvalue.append(content)
                     yvalueRatio.append(content/content)
-                    for numsys2, namesys2 in enumerate(sys):
-                        if HistsSysUp[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].Integral()==0 or Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1)<=0:
-                            continue
-                        if HistsSysUp[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1)  > 0:
-                            errup = errup + (HistsSysUp[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1))**2
-                        else:
-                            errdown = errdown + (HistsSysUp[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1))**2
-                        if HistsSysDown[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1)  > 0:
-                            errup = errup + (HistsSysDown[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1))**2
-                        else:
-                            errdown = errdown + (HistsSysDown[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1))**2
+                    if namech=='aJets':
+                        for numsys2, namesys2 in enumerate(sys):
+                            if HistsSysUp[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].Integral()==0 or Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1)<=0:
+                                continue
+                            if HistsSysUp[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1)  > 0:
+                                errup = errup + (HistsSysUp[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1))**2
+                            else:
+                                errdown = errdown + (HistsSysUp[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1))**2
+                            if HistsSysDown[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1)  > 0:
+                                errup = errup + (HistsSysDown[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1))**2
+                            else:
+                                errdown = errdown + (HistsSysDown[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1))**2
+
+                        for numsys2, namesys2 in enumerate(sysJec):
+                            if HistsJecUp[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].Integral()==0 or Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1)<=0:
+                                continue
+                            if HistsJecUp[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1)  > 0:
+                                errup = errup + (HistsJecUp[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1))**2
+                            else:
+                                errdown = errdown + (HistsJecUp[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1))**2
+                            if HistsJecDown[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1)  > 0:
+                                errup = errup + (HistsJecDown[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1))**2
+                            else:
+                                errdown = errdown + (HistsJecDown[numyear][len(Samples)-3][numch][numreg][numvar][numsys2].GetBinContent(b+1) - Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1))**2
+
                     errup = errup + Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinError(b+1)**2
                     errdown = errdown + Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinError(b+1)**2
 #Add lumi error
                     errup = errup + (LumiErr[numyear]*Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1))**2
                     errdown = errdown + (LumiErr[numyear]*Hists_copy[numyear][len(Samples)-3][numch][numreg][numvar].GetBinContent(b+1))**2
 #add normalization error only for ttbar reegions 
-                    if (numch>1):
-                        for f in range(len(Samples)):
-                            errup = errup + (NormalizationErr[f]*Hists[numyear][f][numch][numreg][numvar].GetBinContent(b+1))**2                    
-                            errdown = errdown + (NormalizationErr[f]*Hists[numyear][f][numch][numreg][numvar].GetBinContent(b+1))**2
+                    
+                    for f in range(len(Samples)):
+                        errup = errup + (NormalizationErr[f]*Hists[numyear][f][numch][numreg][numvar].GetBinContent(b+1))**2                    
+                        errdown = errdown + (NormalizationErr[f]*Hists[numyear][f][numch][numreg][numvar].GetBinContent(b+1))**2
 #add ttbar theory errors
-                    if numch==1 and numreg>1:
-                        errup = errup + (pdfGraph[numyear][numreg-2][numvar].GetErrorYhigh(b))**2
-                        errup = errup + (qscaleGraph[numyear][numreg-2][numvar].GetErrorYhigh(b))**2
-                        errup = errup + (ISRGraph[numyear][numreg-2][numvar].GetErrorYhigh(b))**2
-                        errup = errup + (FSRGraph[numyear][numreg-2][numvar].GetErrorYhigh(b))**2
-                        errup = errup + (CRGraph[numyear][numreg-2][numvar].GetErrorYhigh(b))**2
-                        errup = errup + (TuneGraph[numyear][numreg-2][numvar].GetErrorYhigh(b))**2
-                        errup = errup + (hdampGraph[numyear][numreg-2][numvar].GetErrorYhigh(b))**2
-                        errdown = errdown + (pdfGraph[numyear][numreg-2][numvar].GetErrorYlow(b))**2
-                        errdown = errdown + (qscaleGraph[numyear][numreg-2][numvar].GetErrorYlow(b))**2
-                        errdown = errdown + (ISRGraph[numyear][numreg-2][numvar].GetErrorYlow(b))**2
-                        errdown = errdown + (FSRGraph[numyear][numreg-2][numvar].GetErrorYlow(b))**2
-                        errdown = errdown + (CRGraph[numyear][numreg-2][numvar].GetErrorYlow(b))**2
-                        errdown = errdown + (TuneGraph[numyear][numreg-2][numvar].GetErrorYlow(b))**2
-                        errdown = errdown + (hdampGraph[numyear][numreg-2][numvar].GetErrorYlow(b))**2
+#                    if numch==1 and numreg>1:
+#                        errup = errup + (pdfGraph[numyear][numreg-2][numvar].GetErrorYhigh(b))**2
+#                        errup = errup + (qscaleGraph[numyear][numreg-2][numvar].GetErrorYhigh(b))**2
+#                        errup = errup + (ISRGraph[numyear][numreg-2][numvar].GetErrorYhigh(b))**2
+#                        errup = errup + (FSRGraph[numyear][numreg-2][numvar].GetErrorYhigh(b))**2
+#                        errup = errup + (CRGraph[numyear][numreg-2][numvar].GetErrorYhigh(b))**2
+#                        errup = errup + (TuneGraph[numyear][numreg-2][numvar].GetErrorYhigh(b))**2
+#                        errup = errup + (hdampGraph[numyear][numreg-2][numvar].GetErrorYhigh(b))**2
+#                        errdown = errdown + (pdfGraph[numyear][numreg-2][numvar].GetErrorYlow(b))**2
+#                        errdown = errdown + (qscaleGraph[numyear][numreg-2][numvar].GetErrorYlow(b))**2
+#                        errdown = errdown + (ISRGraph[numyear][numreg-2][numvar].GetErrorYlow(b))**2
+#                        errdown = errdown + (FSRGraph[numyear][numreg-2][numvar].GetErrorYlow(b))**2
+#                        errdown = errdown + (CRGraph[numyear][numreg-2][numvar].GetErrorYlow(b))**2
+#                        errdown = errdown + (TuneGraph[numyear][numreg-2][numvar].GetErrorYlow(b))**2
+#                        errdown = errdown + (hdampGraph[numyear][numreg-2][numvar].GetErrorYlow(b))**2
 #                        print str(pdfGraph[numyear][numreg-1][numvar].GetErrorYlow(b)) + '    '+str(pdfGraph[numyear][numreg-1][numvar].GetErrorYlow(b))
                     yerrup.append(math.sqrt(errup))
                     yerrdown.append(math.sqrt(errdown))
@@ -707,23 +586,55 @@ for numyear, nameyear in enumerate(year):
                 HH=[]
                 HHsignal=[]
                 for f in range(len(Samples)):
-                    if 'LFV' in Samples[f]:
+                    if 'TTga' in Samples[f]:
                         HHsignal.append(Hists[numyear][f][numch][numreg][numvar])
                     else:
                         HH.append(Hists[numyear][f][numch][numreg][numvar])
 #                stackPlotsError(HH, HHsignal,tgraph_nominal[numyear][numch][numreg][numvar], tgraph_ratio[numyear][numch][numreg][numvar],SamplesName, namech, namereg, nameyear,namevar,variablesName[numvar])
 
-#                stackPlots(HH, HHsignal, SamplesName, namech, namereg, nameyear,namevar,variablesName[numvar])
+WS=5
+for numyear, nameyear in enumerate(year):
+    for numch, namech in enumerate(channels):
+        if namech!='aJets':
+            continue
+        for numreg, namereg in enumerate(regions):
+            for numvar, namevar in enumerate(variables):
+                glistup = []
+                glistdown = []
+                for numsys2, namesys2 in enumerate(sys):
+                    hup = HistsSysUp[numyear][WS][numch][numreg][numvar][numsys2].Clone()
+                    hdown = HistsSysDown[numyear][WS][numch][numreg][numvar][numsys2].Clone()
+                    if hup.Integral()>0 or hdown.Integral()>0:
+                        for b in range(hup.GetNbinsX()):
+                            cv = Hists_copy[numyear][WS][numch][numreg][numvar].GetBinContent(b+1)
+                            rb = 0
+                            if cv>0:
+                                rb = 100/cv
+                            hup.SetBinContent(b+1, 0 + abs(max((HistsSysUp[numyear][WS][numch][numreg][numvar][numsys2].GetBinContent(b+1)-cv)*rb, (HistsSysDown[numyear][WS][numch][numreg][numvar][numsys2].GetBinContent(b+1)-cv)*rb,0)))
+                            hdown.SetBinContent(b+1, 0 - abs(min((HistsSysUp[numyear][WS][numch][numreg][numvar][numsys2].GetBinContent(b+1)-cv)*rb, (HistsSysDown[numyear][WS][numch][numreg][numvar][numsys2].GetBinContent(b+1)-cv)*rb,0)))
+                    glistup.append(hup)
+                    glistdown.append(hdown)
+                compareError(glistup,glistdown, sys, namech, namereg, nameyear,namevar,variablesName[numvar], 'ExpWeight')
 
-#le = '\\documentclass{article}' + "\n"
-#le += '\\usepackage{rotating}' + "\n"
-#le += '\\usepackage{rotating}' + "\n"
-#le += '\\begin{document}' + "\n"
-#
-#print le
-#for numyear, nameyear in enumerate(year):
-#    for numch, namech in enumerate(channels):
-#        cutFlowTable(Hists, SamplesNameLatex, regions, numch, numyear, nameyear + ' ' + namech, 6 )
-#print '\\end{document}' + "\n"
-
-
+for numyear, nameyear in enumerate(year):
+    for numch, namech in enumerate(channels):
+        if namech!='aJets':
+            continue
+        for numreg, namereg in enumerate(regions):
+            for numvar, namevar in enumerate(variables):
+                glistup = []
+                glistdown = []
+                for numsys2, namesys2 in enumerate(sysJec):
+                    hup = HistsJecUp[numyear][WS][numch][numreg][numvar][numsys2].Clone()
+                    hdown = HistsJecDown[numyear][WS][numch][numreg][numvar][numsys2].Clone()
+                    if hup.Integral()>0 or hdown.Integral()>0:
+                        for b in range(hup.GetNbinsX()):
+                            cv = Hists_copy[numyear][WS][numch][numreg][numvar].GetBinContent(b+1)
+                            rb = 0
+                            if cv>0:
+                                rb = 100/cv
+                            hup.SetBinContent(b+1, 0 + abs(max((HistsJecUp[numyear][WS][numch][numreg][numvar][numsys2].GetBinContent(b+1)-cv)*rb, (HistsJecDown[numyear][WS][numch][numreg][numvar][numsys2].GetBinContent(b+1)-cv)*rb,0)))
+                            hdown.SetBinContent(b+1, 0 - abs(min((HistsJecUp[numyear][WS][numch][numreg][numvar][numsys2].GetBinContent(b+1)-cv)*rb, (HistsJecDown[numyear][WS][numch][numreg][numvar][numsys2].GetBinContent(b+1)-cv)*rb,0)))
+                    glistup.append(hup)
+                    glistdown.append(hdown)
+                compareError(glistup,glistdown, sysJec, namech, namereg, nameyear,namevar,variablesName[numvar], 'ExpJec')

@@ -364,16 +364,19 @@ def compare2Hist(A, B, textA="A", textB="B", label_name="sample", can_name="can"
 year=['2017']
 
 
-regions=["nAk8G1", "nAk8G1nTtagG0", "nAk8G1MLPG0p8", "nAk8G1MLPG0p8TtagG0", "nAk8G1MLPG0p8TtagG0MassTs2G300","nAk8G1MLPG0p8Ttag0","nAk8G1MLPL0p8TtagG0"]
+regions=[
+"nAk8G0", "nAk81", "nAk81nTtag1", "nAk8G1nTtagG0", "nAk8G1TtagG0MTs2G300"
+]
 scaleSig = [0.2,0.002,0.002,0.002, 0.002,0.002,0.002]
-channels=["aJets","MuJets","aMuJets", "fakeAJetsIso", "fakeAJetsSiSi","fakeAJetsOthers"];
-variables=["GammaPt","GammaEta","GammaPhi","jet04Pt","jet04Eta","jet04Phi","njet04","nbjet04","jet08Pt","jet08Eta","jet08Phi","njet08","Met","nVtx", "nPh", "phoChargedIso", "phoNeutralHadronIso", "phoPhotonIsolation", "drGj04", "dPhiGj08", "HT", "HoE", "softdropMass", "tau21", "tau31", "nbjet08","TvsQCD", "muPt","muEta","muPhi","nBsub", "mifBsub", "tTagifBsub","njet08massG50","njet08massG120","TsMass1", "nTopTag","masstS2", "MLP", "Sietaieta"]
-variablesName=["p_{T}(#gamma)","#eta(#gamma)","#Phi(#gamma)","p_{T}(leading jet (AK4))","#eta(leading jet (AK4))","#Phi(leading jet (AK4))","Number of jets (AK4)","Number of b-jets (AK4)","p_{T}(leading jet (AK8))","#eta(leading jet (AK8))","#Phi(leading jet (AK8))","Number of jets (AK8)","MET","Number of vertices","Number of photons","phoChargedIso","phoNeutralHadronIso", "phoPhotonIsolation","#DeltaR(#gamma,jet04)", "#DeltaR(#gamma,jet08)", "HT", "H/E", "softdropMass (leading jet (AK8))", "tau21 (leading jet (AK8))", "tau32 (leading jet (AK8))", "num of AK8 jet b-tagged","TvsQCD (leading jet (AK8))","p_{T}(#mu)","#eta(#mu)","#Phi(#mu)", "num of AK8 jet with b-sub", "soft drop mass if Ak8 has b-sub", "TvsQCD if Ak8 has b-sub", "Number of Ak8 jets with mass > 50","Number of Ak8 jets with mass > 120", "M(#gamma, highest mass AK8)", "N top-tagged ","mass of the second t*","MLP","#sigma_{i#eta i#eta}"]
+channels=["aJets", "fakeAJetsIso", "fakeAJetsSiSi","fakeAJetsOthers"];
+
+variables=["GammaPt","GammaEta","GammaPhi","jet04Pt","jet04Eta","jet04Phi","njet04","nbjet04","jet08Pt","jet08Eta","jet08Phi","njet08","Met","nVtx", "nPh", "phoChargedIso", "dPhiGj08", "drGj08", "HT", "HoE", "softdropMass", "tau21", "tau31", "nbjet08","TvsQCD","njet08massG50","njet08massG120","TsMass1", "nTopTag","masstS2", "Sietaieta"]
+variablesName=["p_{T}(#gamma)","#eta(#gamma)","#Phi(#gamma)","p_{T}(leading jet (AK4))","#eta(leading jet (AK4))","#Phi(leading jet (AK4))","Number of jets (AK4)","Number of b-jets (AK4)","p_{T}(leading jet (AK8))","#eta(leading jet (AK8))","#Phi(leading jet (AK8))","Number of jets (AK8)","MET","Number of vertices","Number of photons","phoChargedIso","#DeltaPhi(#gamma,jet08)", "#DeltaR(#gamma,jet08)", "HT", "H/E", "softdropMass (leading jet (AK8))", "tau21 (leading jet (AK8))", "tau32 (leading jet (AK8))", "num of AK8 jet b-tagged","TvsQCD (leading jet (AK8))", "Number of Ak8 jets with mass > 50","Number of Ak8 jets with mass > 120", "M(#gamma, highest mass AK8)", "N top-tagged ","mass of the second t*","#sigma_{i#eta i#eta}"]
 
 HistAddress = '/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/hists/'
 
 #Samples = ['data.root','QCD.root', 'GJets.root','WG.root','top.root','WJetsToLNu.root','DY.root', 'tptpM1000.root', 'tptpM2000.root']
-Samples = ['data.root','GJets.root','QCD.root']
+Samples = ['data.root','Gjets.root','Fake.root']
 SamplesName = ['Data','QCD','#gamma+jets', 'W#gamma', 'top','Wjets','DY', 't*t* (M=1TeV)', 't*t* (M=2TeV)']
 SamplesNameLatex = ['Data','QCD','Gjets', 'WG', 'tt', 't#bar{t}#gamma', 't*t* (M=1TeV)', 't*t* (M=2TeV)']
 
@@ -419,12 +422,12 @@ for numreg, namereg in enumerate(regions):
     C = h.Integral(h.FindFixBin(10.0), h.FindFixBin(20.0)) 
     D = h.Integral(h.FindFixBin(0.0), h.FindFixBin(1.14))   
     hQCD=Hists[0][2][channels.index("fakeAJetsSiSi")][numreg][variables.index("phoChargedIso")]
-    print 'B,C,D = '+str(B) +','+str(C) +','+str(D) 
-    print 'B from MC = '+str(Hists[0][2][channels.index("fakeAJetsIso")][numreg][variables.index("phoChargedIso")].Integral()) +','+str(hQCD.Integral(hQCD.FindFixBin(10.0), hQCD.FindFixBin(20.0))) +','+str(hQCD.Integral(hQCD.FindFixBin(0.0), hQCD.FindFixBin(1.14)))
+    print 'B,C,D rom data = '+str(B) +','+str(C) +','+str(D) 
+    print 'B,C,D from MC = '+str(round(Hists[0][2][channels.index("fakeAJetsIso")][numreg][variables.index("phoChargedIso")].Integral())) +','+str(round(hQCD.Integral(hQCD.FindFixBin(10.0), hQCD.FindFixBin(20.0)))) +','+str(round(hQCD.Integral(hQCD.FindFixBin(0.0), hQCD.FindFixBin(1.14))))
     A = (B*D)/C
     AllGamma = (Hists[0][0][channels.index("fakeAJetsIso")][numreg][variables.index("nPh")].Integral() + Hists[0][0][channels.index("fakeAJetsSiSi")][numreg][variables.index("nPh")].Integral() + Hists[0][0][channels.index("fakeAJetsOthers")][numreg][variables.index("nPh")].Integral() + A) - (Hists[0][1][channels.index("fakeAJetsIso")][numreg][variables.index("nPh")].Integral() + Hists[0][1][channels.index("fakeAJetsSiSi")][numreg][variables.index("nPh")].Integral() + Hists[0][1][channels.index("fakeAJetsOthers")][numreg][variables.index("nPh")].Integral())
-    print "A/AllGamma :" + str(A) +'/'+str(AllGamma)
-    print "A from MC:" + str(Hists[0][2][channels.index("aJets")][numreg][variables.index("nPh")].Integral())
+    print "A/All from data :" + str(A) +'/'+str(AllGamma)
+    print "A/All from MC:" + str(round(Hists[0][2][channels.index("aJets")][numreg][variables.index("nPh")].Integral()))+'/'+str(round(Hists[0][2][channels.index("aJets")][numreg][variables.index("nPh")].Integral()+Hists[0][2][channels.index("fakeAJetsIso")][numreg][variables.index("nPh")].Integral()+Hists[0][2][channels.index("fakeAJetsSiSi")][numreg][variables.index("nPh")].Integral()+Hists[0][2][channels.index("fakeAJetsOthers")][numreg][variables.index("nPh")].Integral()))
     FR = A/AllGamma
     print namereg + " FR:" + str(FR)
     MCFR = Hists[0][2][channels.index("aJets")][numreg][variables.index("nPh")].Integral() / (Hists[0][2][channels.index("fakeAJetsIso")][numreg][variables.index("nPh")].Integral() + Hists[0][2][channels.index("fakeAJetsSiSi")][numreg][variables.index("nPh")].Integral() + Hists[0][2][channels.index("fakeAJetsOthers")][numreg][variables.index("nPh")].Integral() + Hists[0][2][channels.index("aJets")][numreg][variables.index("nPh")].Integral())
@@ -444,3 +447,13 @@ Clo.Scale(1/Clo.Integral())
 Clo2 = Hists[0][2][channels.index("fakeAJetsSiSi")][0][variables.index("phoChargedIso")].Clone()
 Clo2.Scale(1/Clo2.Integral())
 compare2Hist(Clo,Clo2, "aJets", "fakeAJetsSiSi", "1","1","1")
+
+numreg=0
+MCFRptGA = Hists[0][2][channels.index("aJets")][numreg][variables.index("GammaPt")].Clone()
+MCFRptGOther = Hists[0][2][channels.index("fakeAJetsIso")][numreg][variables.index("GammaPt")].Clone()
+MCFRptGOther.Add(Hists[0][2][channels.index("fakeAJetsSiSi")][numreg][variables.index("GammaPt")])
+MCFRptGOther.Add(Hists[0][2][channels.index("fakeAJetsOthers")][numreg][variables.index("GammaPt")])
+MCFRptGA.Divide(MCFRptGOther)
+draw1dHist(  MCFRptGA, "FR_MC_PhPt", "FR_MC_PhPt", "FR_MC_PhPt" )
+
+

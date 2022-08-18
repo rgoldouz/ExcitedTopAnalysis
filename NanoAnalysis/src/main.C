@@ -11,7 +11,10 @@ int main(){
 //    ch ->Add("/hadoop/store/user/rgoldouz/Etop_nanoAODv9_MC/QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8/crab_2017_NewQCDHT700to1000/210922_100737/0000/tree_9.root");
 //    ch ->Add("/hadoop/store/user/rgoldouz/Etop_nanoAODv9_MC/GJets_DR-0p4_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8_v2/crab_2017_GJetsHT400To600/210922_100157/0000/tree_1.root");
 //    ch ->Add("/hadoop/store/user/rbucci/ExcitedTops/SlimNano/SlimNano_Feb2021/slim_TTga_M1000/slim_14.*");
-    ch ->Add("/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL17/v1/UL17_TTG/tree_137.root");
+//    ch ->Add("/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL17/v1/UL17_TTG/tree_137.root");
+//    ch ->Add("/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL17/v1/UL17_GJets_DR_0p4_HT_600ToInf/tree_444.root");
+//    ch ->Add("/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL17/v1/UL17_TTga_M1000/TstarTstarToTgluonTgamma_M-1000_TuneCP5_13TeV-madgraph-pythia8/crab_UL17_TTga_M1000/220802_214616/0000/tree_7.root");
+    ch ->Add("/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL17/v1/UL17_TTga_M1000/TstarTstarToTgluonTgamma_M-1000_TuneCP5_13TeV-madgraph-pythia8/crab_UL17_TTga_M1000/220802_214616/0000/*.root");
 //    ch ->Add("/hadoop/store/user/rbucci/ExcitedTops/SlimNano/SlimNano_Feb2021/slim_TTga_M1000/slim_402.root");
 //    ch ->Add("/hadoop/store/user/rbucci/ExcitedTops/Ntuples/2020_05_12/mc2017/tptp/tptp_tgta_M1000/ntuple_23.root");
 //    ch ->Add("/hadoop/store/user/rbucci/ExcitedTops/Ntuples/2020_05_12/mc2017/tptp/tptp_tgta_M1000/ntuple_24.root");

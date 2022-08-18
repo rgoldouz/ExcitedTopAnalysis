@@ -7,7 +7,8 @@ lepton_candidate::lepton_candidate(float pt_in, float eta_in, float phi_in, int 
   charge_ = charge_in;
   lep_ = lep_in;
   if(lep_in == 1)  p4_.SetPtEtaPhiM(pt_, eta_, phi_, 0.000511) ;
-  if(lep_in == 10)  p4_.SetPtEtaPhiM(pt_, eta_, phi_, 0.10566) ;
+  else if(lep_in == 10)  p4_.SetPtEtaPhiM(pt_, eta_, phi_, 0.10566) ;
+  else p4_.SetPtEtaPhiM(pt_, eta_, phi_, 0.0) ;
   indice_ = ind_in;
 }
 
