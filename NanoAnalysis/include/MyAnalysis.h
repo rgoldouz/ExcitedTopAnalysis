@@ -3416,12 +3416,12 @@ public :
    typedef vector<Dim3> Dim4;
    typedef vector< vector < vector < vector< TH1F* > > > > D4HistsContainer;
    typedef vector< vector < vector < TH1F* > > > D3HistsContainer;
-   D3HistsContainer Hists;
+   D4HistsContainer Hists;
    D4HistsContainer HistsSysUp;
    D4HistsContainer HistsSysDown;
    D4HistsContainer HistsJecUp;
    D4HistsContainer HistsJecDown;
-   void FillD3Hists(D3HistsContainer H3, int v1, std::vector<int> v2, int v3, float value, std::vector<float> weight);
+   void FillD3Hists(D4HistsContainer H3, int ca, int v1, std::vector<int> v2, int v3, float value, std::vector<float> weight);
    void FillD4Hists(D4HistsContainer H4, int v1, std::vector<int> v2, int v3, int v4, float value, std::vector<float> weight);
 };
 

@@ -156,3 +156,9 @@ float rate(TH1F* h, float X){
   else binx= (X<=x_min) ? 1 : NbinsX ;
   return  h->GetBinContent(binx);
 }
+
+double TransverseMass(TLorentzVector A, TLorentzVector B, double mA, double mB) {
+  double mt = sqrt(2 * A.Pt()*B.Pt()*(1 - cos(A.DeltaPhi(B))));
+  //cout << "mt: " << mt << endl;
+  return mt;
+}

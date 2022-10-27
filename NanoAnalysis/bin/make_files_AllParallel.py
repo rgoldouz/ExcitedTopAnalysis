@@ -82,8 +82,8 @@ if __name__ == '__main__':
     crossSection = {
     'tWNoFullyHadronic': '19.47',
     'antitWNoFullyHadronic': '19.47',
-    'ST_t-channel_top': '136.02',
-    'ST_t-channel_antitop': '80.95',
+    'ST_t_channel_top': '136.02',
+    'ST_t_channel_antitop': '80.95',
     'TTTo2L2Nu': '87.31',
     'TTToSemiLeptonic': '365.34',
     'TTToHadronic': '379.11',
@@ -118,6 +118,7 @@ if __name__ == '__main__':
     'QCD_HT2000toInf':'25.24',
     'WGJets_MonoPhoton_PtG_40to130':'17.018',
     'WGJets_MonoPhoton_PtG_130':'0.88',
+    'TTG':'3.70',
     'TTga_M700':str(bTyTg*4.92),
     'TTga_M800':str(bTyTg*1.68),
     'TTga_M900':str(bTyTg*0.636),
@@ -131,7 +132,7 @@ if __name__ == '__main__':
     }
     
 #    blackList = ['ST_antitop_tchannel','ST_top_tchannel', 'ST_top_schannel', 'TTJets','fcnc', 'tbarW_Inclusive', 'tW_Inclusive', 'FCNC', 'WZTo', 'WWTo', 'ZZTo', 'TTG','pythia']
-    blackList = ['TTJets','TTga_M1600','TTga_M1700','TTga_M1800','TTga_M1900','TTga_M2000']   
+    blackList = ['TTJets','TTga_M1700','TTga_M1800','TTga_M1900','TTga_M2000']   
     text = ''
     text += 'import sys \n'
     text += 'import os \n'
@@ -161,7 +162,7 @@ if __name__ == '__main__':
                     a,b,c,d = key.split("_")   
                     MCSAMPLES[key] = [    [],    "data",    d,    value[0],    c,    "1",    value[2],    "1",  "0", "1"]
                 else:
-                    MCSAMPLES[key] = [    [],    "mc",    "none",    value[0],    "none",    "1",    value[2],    "0",  "0", "1"]
+                    MCSAMPLES[key] = [    [],    "mc",    "none",    value[0],    "none",    "none",    value[2],    "0",  "0", "1"]
     
         for root, dirs, files in os.walk(value[1]):
             if len(files) > 0:

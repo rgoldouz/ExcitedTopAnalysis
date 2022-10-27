@@ -40,5 +40,5 @@ std::vector<bool> parsePhotonVIDCuts(int bitMap, int cutLevel);
 float scale_factor( TH2F* h, float X, float Y , TString uncert);
 float rate(TH1F*, float);
 float topPt(float pt);
-
+double TransverseMass(TLorentzVector A, TLorentzVector B, double mA, double mB);
 #endif

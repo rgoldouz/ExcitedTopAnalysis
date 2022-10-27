@@ -299,12 +299,11 @@ def stackPlots(hists, SignalHists, Fnames, ch = "channel", reg = "region", year=
 year=['2017']
 
 
-regions=[
-"nAk8G0", "nAk81", "nAk81nTtag1", "nAk8G1nTtagG0", "nAk8G1TtagG0MTs2G300", "nAk8G1nTtag0","nAk8G1nTtag0MTs2G300", "nAk8G1nTtag0XtopMissTagRate", "nAk8G1Ttag0MTs2G300XtopMissTagRate", "nAk81nTtag0XtopMissTagRate"]
+regions=["nAk8G0", "nAk81", "nAk81nTtag1", "nAk8G1nTtagG0",  "nAk8G1nTtag0", "nAk8G1nTtag0XtopMissTagRate",  "nAk81nTtag0XtopMissTagRate"]
 
 scaleSig = [1,1,1,1,1,0.5,40,1,1,1,1,1,1,1]
 scaleSigRegion = [500,1,1,1,1,1,1,1,1,1,1,1]
-channels=["aJets", "fakeAJetsIso", "fakeAJetsSiSi","fakeAJetsOthers", "zJets"];
+channels=["aJets", "fakeAJetsIso", "fakeAJetsSiSi","fakeAJetsOthers"];
 #channels=["aJets"]
 variables=["GammaPt","GammaEta","GammaPhi","jet04Pt","jet04Eta","jet04Phi","njet04","nbjet04","jet08Pt","jet08Eta","jet08Phi","njet08","Met","nVtx", "nPh", "phoChargedIso", "dPhiGj08", "drGj08", "HT", "HoE", "softdropMass", "tau21", "tau31", "nbjet08","TvsQCD","njet08massG50","njet08massG120","TsMass1", "nTopTag","masstS2", "Sietaieta","Mll"]
 
@@ -360,14 +359,6 @@ data1jet1tag.Divide(data1jet)
 draw1dHist(  data1jet1tag, 'topMistagRate','topMistagRate','topMistagRate' )
 data1jet1tag.SetName('topMistagRate')
 
-DYdata1jet = Hists[0][Samples.index("data.root")][channels.index("zJets")][regions.index("nAk81")][variables.index("jet08Pt")].Clone()
-DYdata1jet1tag = Hists[0][Samples.index("data.root")][channels.index("zJets")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")].Clone()
-DYTop1jet1tag = Hists[0][Samples.index("Fake.root")][channels.index("zJets")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")].Clone()
-DYdata1jet1tag.Add(DYTop1jet1tag,-1)
-DYdata1jet1tag.Divide(DYdata1jet)
-draw1dHist(  DYdata1jet1tag, 'topMistagRateDY','topMistagRateDY','topMistagRateDY' )
-DYdata1jet1tag.SetName('topMistagRateDY')
-
 Fakedata1jet = Hists[0][Samples.index("data.root")][channels.index("fakeAJetsIso")][regions.index("nAk81")][variables.index("jet08Pt")].Clone()
 Fakedata1jet.Add(Hists[0][Samples.index("data.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81")][variables.index("jet08Pt")])
 Fakedata1jet.Add(Hists[0][Samples.index("data.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81")][variables.index("jet08Pt")])
@@ -385,7 +376,6 @@ compareNeffHist([data1jet1tag, Fakedata1jet1tag], ['Gamma+1jet', 'FakeG+jet'], l
 
 hfile = ROOT.TFile( 'topMistagRate.root', 'RECREATE', 'mis top tag rate histogram' )
 data1jet1tag.Write()
-DYdata1jet1tag.Write()
 Fakedata1jet1tag.Write()
 hfile.Write()
 hfile.Close()

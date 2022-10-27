@@ -27,8 +27,6 @@ if __name__ == '__main__':
     dist = "/hadoop/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_" 
     
     for keyUL, value in SAMPLES.items():
-        if 'TTga' in keyUL:
-            continue
         key1 = keyUL.replace("UL", "20")
         key = key1.replace("slim","2017")
         hadd='hadd ' + key + '.root '

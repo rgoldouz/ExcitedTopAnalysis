@@ -14,7 +14,10 @@ int main(){
 //    ch ->Add("/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL17/v1/UL17_TTG/tree_137.root");
 //    ch ->Add("/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL17/v1/UL17_GJets_DR_0p4_HT_600ToInf/tree_444.root");
 //    ch ->Add("/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL17/v1/UL17_TTga_M1000/TstarTstarToTgluonTgamma_M-1000_TuneCP5_13TeV-madgraph-pythia8/crab_UL17_TTga_M1000/220802_214616/0000/tree_7.root");
-    ch ->Add("/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL17/v1/UL17_TTga_M1000/TstarTstarToTgluonTgamma_M-1000_TuneCP5_13TeV-madgraph-pythia8/crab_UL17_TTga_M1000/220802_214616/0000/*.root");
+//    ch ->Add("/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL17/v1/UL17_WJetsToLNu/*");    
+    ch ->Add("/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL17/v1/UL17_TTG/*");
+//    ch ->Add("/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL17/v1/UL17_tWNoFullyHadronic/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/crab_UL17_tWNoFullyHadronic/220803_083332/0000/tree_*");
+//    ch ->Add("/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL17/v1/UL17_TTga_M1000/TstarTstarToTgluonTgamma_M-1000_TuneCP5_13TeV-madgraph-pythia8/crab_UL17_TTga_M1000/220802_214616/0000/*.root");
 //    ch ->Add("/hadoop/store/user/rbucci/ExcitedTops/SlimNano/SlimNano_Feb2021/slim_TTga_M1000/slim_402.root");
 //    ch ->Add("/hadoop/store/user/rbucci/ExcitedTops/Ntuples/2020_05_12/mc2017/tptp/tptp_tgta_M1000/ntuple_23.root");
 //    ch ->Add("/hadoop/store/user/rbucci/ExcitedTops/Ntuples/2020_05_12/mc2017/tptp/tptp_tgta_M1000/ntuple_24.root");
@@ -28,5 +31,5 @@ int main(){
 //    rbucci/ExcitedTops/SlimNano/SlimNano_Feb2021/slim_TTga_M1000
     MyAnalysis t1(ch);
 //    t1.Loop("test.root", "data",   "SinglePhoton",    "2017",    "E",   1,1,1,0,1);
-    t1.Loop("lll.root", "mc" , "SinglePhoton" , "2017" , "" , 2.06 , 41.53 , 494000,0,1);
+    t1.Loop("TTG.root", "mc" , "SinglePhoton" , "2017" , "" , 2.06 , 41.53 , 494000,0,1);
 }
