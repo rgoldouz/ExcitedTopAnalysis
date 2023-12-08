@@ -28,6 +28,8 @@
 #include <string>
 #include <bitset>
 
+int parseLine(char* line);
+int getValue();
 double dR(double eta1, double phi1, double eta2, double phi2);
 void displayProgress(long current, long max);
 Double_t deltaPhi(Double_t phi1, Double_t phi2);
@@ -41,4 +43,5 @@ float scale_factor( TH2F* h, float X, float Y , TString uncert);
 float rate(TH1F*, float);
 float topPt(float pt);
 double TransverseMass(TLorentzVector A, TLorentzVector B, double mA, double mB);
+float rateErr(TH1F* h, float X, TString uncert);
 #endif

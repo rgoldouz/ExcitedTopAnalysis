@@ -79,6 +79,7 @@ if __name__ == '__main__':
 #    MCSAMPLES = {}
    
     bTyTg = 0.03*0.97*2 
+    kNloGjet = 1.4852
     crossSection = {
     'tWNoFullyHadronic': '19.47',
     'antitWNoFullyHadronic': '19.47',
@@ -118,21 +119,57 @@ if __name__ == '__main__':
     'QCD_HT2000toInf':'25.24',
     'WGJets_MonoPhoton_PtG_40to130':'17.018',
     'WGJets_MonoPhoton_PtG_130':'0.88',
-    'TTG':'3.70',
-    'TTga_M700':str(bTyTg*4.92),
-    'TTga_M800':str(bTyTg*1.68),
-    'TTga_M900':str(bTyTg*0.636),
-    'TTga_M1000':str(bTyTg*0.262),
-    'TTga_M1100':str(bTyTg*0.116),
-    'TTga_M1200':str(bTyTg*0.0537),
-    'TTga_M1300':str(bTyTg*0.0261),
-    'TTga_M1400':str(bTyTg*0.0131),
-    'TTga_M1500':str(bTyTg*0.00677),
-    'TTga_M1600':str(bTyTg*0.00359),
+    'TTGJets':'3.70',
+    "TTGamma_Dilep_pt0toinf":str(kNloGjet*1.495),          
+    "TTGamma_Dilep_ptGamma100To200":str(kNloGjet*0.03412),    
+    "TTGamma_Dilep_ptGamma200inf":str(kNloGjet*0.006797),      
+    "TTGamma_Hadronic_pt0toinf":str(kNloGjet*4.149),        
+    "TTGamma_Hadronic_ptGamma100To200":str(kNloGjet*0.1249), 
+    "TTGamma_Hadronic_ptGamma200inf":str(kNloGjet*0.02687),   
+    "TTGamma_SingleLep_pt0toinf":str(kNloGjet*5.056),       
+    "TTGamma_SingleLep_ptGamma100To200":str(kNloGjet*0.1309),
+    "TTGamma_SingleLep_ptGamma200inf":str(kNloGjet*0.02685),  
+    'TTga_M700':str(bTyTg*0.2659),
+    'TTga_M800':str(bTyTg*0.1147),
+    'TTga_M900':str(bTyTg*0.05318),
+    'TTga_M1000':str(bTyTg*0.0259),
+    'TTga_M1100':str(bTyTg*0.01322),
+    'TTga_M1200':str(bTyTg*0.006897),
+    'TTga_M1300':str(bTyTg*0.003732),
+    'TTga_M1400':str(bTyTg*0.002061),
+    'TTga_M1500':str(bTyTg*0.001165),
+    'TTga_M1600':str(bTyTg*0.000668),
+    'TTga_M1700':str(bTyTg*0.000391),
+    'TTga_M1800':str(bTyTg*0.000233),
+    'TTga_M1900':str(bTyTg*0.00014),
+    'TTga_M2000':str(bTyTg*0.000086),
+    'TTga_M2250':str(bTyTg*0.000027),
+    'TTga_M2500':str(bTyTg*0.00001),
+    'TTga_M2750':str(bTyTg*0.000004),
+    'TTga_M3000':str(bTyTg*0.000002),
+
+    'TTgaSpin32_M700':str(bTyTg*4.686),
+    'TTgaSpin32_M800':str(bTyTg*1.624),
+    'TTgaSpin32_M900':str(bTyTg*0.619),
+    'TTgaSpin32_M1000':str(bTyTg*0.257),
+    'TTgaSpin32_M1100':str(bTyTg*0.113),
+    'TTgaSpin32_M1200':str(bTyTg*0.05251),
+    'TTgaSpin32_M1300':str(bTyTg*0.02527),
+    'TTgaSpin32_M1400':str(bTyTg*0.01262),
+    'TTgaSpin32_M1500':str(bTyTg*0.006499),
+    'TTgaSpin32_M1600':str(bTyTg*0.003424),
+    'TTgaSpin32_M1700':str(bTyTg*0.001846),
+    'TTgaSpin32_M1800':str(bTyTg*0.001009),
+    'TTgaSpin32_M1900':str(bTyTg*0.000561),
+    'TTgaSpin32_M2000':str(bTyTg*0.000316),
+    'TTgaSpin32_M2250':str(bTyTg*0.000078),
+    'TTgaSpin32_M2500':str(bTyTg*0.000021),
+    'TTgaSpin32_M2750':str(bTyTg*0.000006),
+    'TTgaSpin32_M3000':str(bTyTg*0.000002),
     }
     
 #    blackList = ['ST_antitop_tchannel','ST_top_tchannel', 'ST_top_schannel', 'TTJets','fcnc', 'tbarW_Inclusive', 'tW_Inclusive', 'FCNC', 'WZTo', 'WWTo', 'ZZTo', 'TTG','pythia']
-    blackList = ['TTJets','TTga_M1700','TTga_M1800','TTga_M1900','TTga_M2000']   
+    blackList = ['TTJets','TTGJets']   
     text = ''
     text += 'import sys \n'
     text += 'import os \n'
@@ -142,11 +179,11 @@ if __name__ == '__main__':
     text += '\n'
     
     dirSamples = {
-#    'UL16preVFP': ['2016preVFP','/hadoop/store/user/rgoldouz/NanoAodPostProcessingUL/UL16preVFP/v2','19.52'],
-#    'UL16postVFP': ['2016postVFP','/hadoop/store/user/rgoldouz/NanoAodPostProcessingUL/UL16postVFP/v2','16.81'],
+    'UL16preVFP': ['2016preVFP','/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL16preVFP/v1','19.52'],
+    'UL16postVFP': ['2016postVFP','/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL16postVFP/v1','16.81'],
     '2017': ['2017' , '/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL17/v1',"41.48"],
 #    '2017S': ['2017' , '/hadoop/store/user/rbucci/ExcitedTops/SlimNano/SlimNano_Feb2021',"41.48"],
-#    '2018': ['2018' , '/hadoop/store/user/rgoldouz/NanoAodPostProcessingUL/UL18/v2',"59.83"],
+    '2018': ['2018' , '/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL18/v1',"59.83"],
     }
     
     Slist=[]
@@ -218,8 +255,10 @@ if __name__ == '__main__':
     text += 'UL17={'                
     #text += str(MCSAMPLES)
     text += '\n'
-    
+   
     for key, value in MCSAMPLES.items():
+        if 'UL16pre' not in key:
+            continue
         if 'data' in key:
             continue
         text += '"'
@@ -228,9 +267,48 @@ if __name__ == '__main__':
         text += str(value)
         text += ','
         text += '\n'
-    
+    text += '\n'
+    for key, value in MCSAMPLES.items():
+        if 'UL16post' not in key:
+            continue
+        if 'data' in key:
+            continue
+        text += '"'
+        text += key
+        text += '":'
+        text += str(value)
+        text += ','
+        text += '\n'
+    text += '\n'
+    for key, value in MCSAMPLES.items():
+        if 'UL17' not in key:
+            continue
+        if 'data' in key:
+            continue
+        text += '"'
+        text += key
+        text += '":'
+        text += str(value)
+        text += ','
+        text += '\n'
+    text += '\n'
+
+    for key, value in MCSAMPLES.items():
+        if 'UL18' not in key:
+            continue
+        if 'data' in key:
+            continue
+        text += '"'
+        text += key
+        text += '":'
+        text += str(value)
+        text += ','
+        text += '\n'
+
     text += '\n \n'
     for key, value in MCSAMPLES.items():
+        if 'UL16pre' not in key:
+            continue
         if 'data' not in key:
             continue
         text += '"'
@@ -239,8 +317,45 @@ if __name__ == '__main__':
         text += str(value)
         text += ','
         text += '\n'
-        print(key, ' : ', value)
+    text += '\n'
+    for key, value in MCSAMPLES.items():
+        if 'UL16post' not in key:
+            continue
+        if 'data' not in key:
+            continue
+        text += '"'
+        text += key
+        text += '":'
+        text += str(value)
+        text += ','
+        text += '\n'
+    text += '\n'
+
+    for key, value in MCSAMPLES.items():
+        if 'UL17' not in key:
+            continue
+        if 'data' not in key:
+            continue
+        text += '"'
+        text += key
+        text += '":'
+        text += str(value)
+        text += ','
+        text += '\n'
+    text += '\n'
+    for key, value in MCSAMPLES.items():
+        if 'UL18' not in key:
+            continue
+        if 'data' not in key:
+            continue
+        text += '"'
+        text += key
+        text += '":'
+        text += str(value)
+        text += ','
+        text += '\n'
     text += '}'
-    #
+
+ 
     print text
     open('Files_ULall_nano.py', 'wt').write(text)

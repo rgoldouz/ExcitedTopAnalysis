@@ -55,15 +55,34 @@ storage = StorageConfiguration(
 gs_resources = Category(
     name='gs',
     cores=1,
-    memory=4000,
-    disk=5000
+    memory=7900,
+    disk=7800,
 )
+
+gsLL_resources = Category(
+    name='gs',
+    cores=1,
+    memory=7900,
+    disk=7800,
+)
+
+#gsLL_resources = Category(
+#    name='gsLL',
+#    cores=2,
+#    memory=15900,
+#    disk=15900,
+#    runtime=9000,
+#    mode='fixed'
+#)
+
 #################################################################
 wf = []
 for key, value in SAMPLES.items():
     FPT=10
-    if 'data' in key or 'GJets' in key or 'TTga' in key:
+    cat=gs_resources
+    if 'data' in key or 'GJets' in key or 'TTga' in key or 'TTG' in key:
         FPT=1
+        cat=gsLL_resources
     if path.exists('/hadoop/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_' + key) and len(os.listdir('/hadoop/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_' + key))>0:
         continue
     if path.exists('/hadoop/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_' + key):
@@ -93,7 +112,7 @@ for key, value in SAMPLES.items():
         ),
 #        merge_command='hadd @outputfiles @inputfiles',
 #        merge_size='2G',
-        category=gs_resources
+        category=cat
     )
     wf.append(Analysis)
 

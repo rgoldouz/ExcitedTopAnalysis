@@ -172,6 +172,18 @@ public :
    Float_t         FatJet_msoftdrop[6];   //[nFatJet]
    Float_t         FatJet_n2b1[6];   //[nFatJet]
    Float_t         FatJet_n3b1[6];   //[nFatJet]
+   Float_t         FatJet_particleNetMD_QCD[7];   //[nFatJet]
+   Float_t         FatJet_particleNetMD_Xbb[7];   //[nFatJet]
+   Float_t         FatJet_particleNetMD_Xcc[7];   //[nFatJet]
+   Float_t         FatJet_particleNetMD_Xqq[7];   //[nFatJet]
+   Float_t         FatJet_particleNet_H4qvsQCD[7];   //[nFatJet]
+   Float_t         FatJet_particleNet_HbbvsQCD[7];   //[nFatJet]
+   Float_t         FatJet_particleNet_HccvsQCD[7];   //[nFatJet]
+   Float_t         FatJet_particleNet_QCD[7];   //[nFatJet]
+   Float_t         FatJet_particleNet_TvsQCD[7];   //[nFatJet]
+   Float_t         FatJet_particleNet_WvsQCD[7];   //[nFatJet]
+   Float_t         FatJet_particleNet_ZvsQCD[7];   //[nFatJet]
+   Float_t         FatJet_particleNet_mass[7];   //[nFatJet]
    Float_t         FatJet_phi[6];   //[nFatJet]
    Float_t         FatJet_pt[6];   //[nFatJet]
    Float_t         FatJet_rawFactor[6];   //[nFatJet]
@@ -236,7 +248,7 @@ public :
    Float_t         genWeight;
    Float_t         LHEWeight_originalXWGTUP;
    UInt_t          nLHEPdfWeight;
-   Float_t         LHEPdfWeight[33];   //[nLHEPdfWeight]
+   Float_t         LHEPdfWeight[133];   //[nLHEPdfWeight]
    UInt_t          nLHEReweightingWeight;
    Float_t         LHEReweightingWeight[1];   //[nLHEReweightingWeight]
    UInt_t          nLHEScaleWeight;
@@ -392,6 +404,10 @@ public :
    UChar_t         Muon_tkIsoId[9];   //[nMuon]
    Bool_t          Muon_triggerIdLoose[9];   //[nMuon]
    UInt_t          nPhoton;
+   Float_t         Photon_dEscaleDown[10];   //[nPhoton]
+   Float_t         Photon_dEscaleUp[10];   //[nPhoton]
+   Float_t         Photon_dEsigmaDown[10];   //[nPhoton]
+   Float_t         Photon_dEsigmaUp[10];   //[nPhoton]
    Float_t         Photon_eCorr[11];   //[nPhoton]
    Float_t         Photon_energyErr[11];   //[nPhoton]
    Float_t         Photon_eta[11];   //[nPhoton]
@@ -1849,6 +1865,18 @@ public :
    TBranch        *b_FatJet_msoftdrop;   //!
    TBranch        *b_FatJet_n2b1;   //!
    TBranch        *b_FatJet_n3b1;   //!
+   TBranch        *b_FatJet_particleNetMD_QCD;   //!
+   TBranch        *b_FatJet_particleNetMD_Xbb;   //!
+   TBranch        *b_FatJet_particleNetMD_Xcc;   //!
+   TBranch        *b_FatJet_particleNetMD_Xqq;   //!
+   TBranch        *b_FatJet_particleNet_H4qvsQCD;   //!
+   TBranch        *b_FatJet_particleNet_HbbvsQCD;   //!
+   TBranch        *b_FatJet_particleNet_HccvsQCD;   //!
+   TBranch        *b_FatJet_particleNet_QCD;   //!
+   TBranch        *b_FatJet_particleNet_TvsQCD;   //!
+   TBranch        *b_FatJet_particleNet_WvsQCD;   //!
+   TBranch        *b_FatJet_particleNet_ZvsQCD;   //!
+   TBranch        *b_FatJet_particleNet_mass;   //!
    TBranch        *b_FatJet_phi;   //!
    TBranch        *b_FatJet_pt;   //!
    TBranch        *b_FatJet_rawFactor;   //!
@@ -2069,6 +2097,10 @@ public :
    TBranch        *b_Muon_tkIsoId;   //!
    TBranch        *b_Muon_triggerIdLoose;   //!
    TBranch        *b_nPhoton;   //!
+   TBranch        *b_Photon_dEscaleDown;   //!
+   TBranch        *b_Photon_dEscaleUp;   //!
+   TBranch        *b_Photon_dEsigmaDown;   //!
+   TBranch        *b_Photon_dEsigmaUp;   //!
    TBranch        *b_Photon_eCorr;   //!
    TBranch        *b_Photon_energyErr;   //!
    TBranch        *b_Photon_eta;   //!
@@ -3419,8 +3451,13 @@ public :
    D4HistsContainer Hists;
    D4HistsContainer HistsSysUp;
    D4HistsContainer HistsSysDown;
+   D4HistsContainer HistsSysDataUp;
+   D4HistsContainer HistsSysDataDown;
    D4HistsContainer HistsJecUp;
    D4HistsContainer HistsJecDown;
+   D4HistsContainer HistsSysReweightsQscale;
+   D4HistsContainer HistsSysReweightsPDF;
+   D4HistsContainer HistsSysReweightsPS;
    void FillD3Hists(D4HistsContainer H3, int ca, int v1, std::vector<int> v2, int v3, float value, std::vector<float> weight);
    void FillD4Hists(D4HistsContainer H4, int v1, std::vector<int> v2, int v3, int v4, float value, std::vector<float> weight);
 };
@@ -3610,6 +3647,18 @@ void MyAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("FatJet_msoftdrop", FatJet_msoftdrop, &b_FatJet_msoftdrop);
    fChain->SetBranchAddress("FatJet_n2b1", FatJet_n2b1, &b_FatJet_n2b1);
    fChain->SetBranchAddress("FatJet_n3b1", FatJet_n3b1, &b_FatJet_n3b1);
+   fChain->SetBranchAddress("FatJet_particleNetMD_QCD", FatJet_particleNetMD_QCD, &b_FatJet_particleNetMD_QCD);
+   fChain->SetBranchAddress("FatJet_particleNetMD_Xbb", FatJet_particleNetMD_Xbb, &b_FatJet_particleNetMD_Xbb);
+   fChain->SetBranchAddress("FatJet_particleNetMD_Xcc", FatJet_particleNetMD_Xcc, &b_FatJet_particleNetMD_Xcc);
+   fChain->SetBranchAddress("FatJet_particleNetMD_Xqq", FatJet_particleNetMD_Xqq, &b_FatJet_particleNetMD_Xqq);
+   fChain->SetBranchAddress("FatJet_particleNet_H4qvsQCD", FatJet_particleNet_H4qvsQCD, &b_FatJet_particleNet_H4qvsQCD);
+   fChain->SetBranchAddress("FatJet_particleNet_HbbvsQCD", FatJet_particleNet_HbbvsQCD, &b_FatJet_particleNet_HbbvsQCD);
+   fChain->SetBranchAddress("FatJet_particleNet_HccvsQCD", FatJet_particleNet_HccvsQCD, &b_FatJet_particleNet_HccvsQCD);
+   fChain->SetBranchAddress("FatJet_particleNet_QCD", FatJet_particleNet_QCD, &b_FatJet_particleNet_QCD);
+   fChain->SetBranchAddress("FatJet_particleNet_TvsQCD", FatJet_particleNet_TvsQCD, &b_FatJet_particleNet_TvsQCD);
+   fChain->SetBranchAddress("FatJet_particleNet_WvsQCD", FatJet_particleNet_WvsQCD, &b_FatJet_particleNet_WvsQCD);
+   fChain->SetBranchAddress("FatJet_particleNet_ZvsQCD", FatJet_particleNet_ZvsQCD, &b_FatJet_particleNet_ZvsQCD);
+   fChain->SetBranchAddress("FatJet_particleNet_mass", FatJet_particleNet_mass, &b_FatJet_particleNet_mass);
    fChain->SetBranchAddress("FatJet_phi", FatJet_phi, &b_FatJet_phi);
    fChain->SetBranchAddress("FatJet_pt", FatJet_pt, &b_FatJet_pt);
    fChain->SetBranchAddress("FatJet_rawFactor", FatJet_rawFactor, &b_FatJet_rawFactor);
@@ -3830,6 +3879,10 @@ void MyAnalysis::Init(TTree *tree)
    fChain->SetBranchAddress("Muon_tkIsoId", Muon_tkIsoId, &b_Muon_tkIsoId);
    fChain->SetBranchAddress("Muon_triggerIdLoose", Muon_triggerIdLoose, &b_Muon_triggerIdLoose);
    fChain->SetBranchAddress("nPhoton", &nPhoton, &b_nPhoton);
+   fChain->SetBranchAddress("Photon_dEscaleDown", Photon_dEscaleDown, &b_Photon_dEscaleDown);
+   fChain->SetBranchAddress("Photon_dEscaleUp", Photon_dEscaleUp, &b_Photon_dEscaleUp);
+   fChain->SetBranchAddress("Photon_dEsigmaDown", Photon_dEsigmaDown, &b_Photon_dEsigmaDown);
+   fChain->SetBranchAddress("Photon_dEsigmaUp", Photon_dEsigmaUp, &b_Photon_dEsigmaUp);
    fChain->SetBranchAddress("Photon_eCorr", Photon_eCorr, &b_Photon_eCorr);
    fChain->SetBranchAddress("Photon_energyErr", Photon_energyErr, &b_Photon_energyErr);
    fChain->SetBranchAddress("Photon_eta", Photon_eta, &b_Photon_eta);

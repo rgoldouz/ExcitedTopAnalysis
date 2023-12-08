@@ -26,11 +26,13 @@ int jet_candidate::isb(float btag_in , TString year){
 }
  
 int jet_candidate::istop(float toptag_in , TString year, float mSD){
-  float topTagWP=0.889;
+  float topTagWP=0.97;
+  if(year == "2016preVFP") topTagWP=0.957; 
+  if(year == "2016preVFP") topTagWP=0.958; 
+  if(year == "2017") topTagWP=0.97;
+  if(year == "2018") topTagWP=0.97;
   int R = 0;
-  if (year == "2016" && toptag_in > topTagWP && mSD>120 && mSD<210) R=1;
-  if (year == "2017" && toptag_in > topTagWP && mSD>120 && mSD<210) R=1;
-  if (year == "2018" && toptag_in > topTagWP && mSD>120 && mSD<210) R=1;
+  if (toptag_in > topTagWP && mSD>120 && mSD<210) R=1;
   return R;
 }
  

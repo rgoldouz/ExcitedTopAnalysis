@@ -1,6 +1,0 @@
-[WARNING] Minimisation finished with status 1 (covariance forced positive definite), this could indicate a problem with the minimim!
-[WARNING] Minimisation finished with status 1 (covariance forced positive definite), this could indicate a problem with the minimim!
-Info in <Minuit2>: Minuit2Minimizer::Minimize : Minimization did NOT converge, Edm is above max
-Info in <Minuit2>: Minuit2Minimizer::Minimize : Minimization did NOT converge, Edm is above max
-Info in <Minuit2>: Minuit2Minimizer::Minimize : Minimization did NOT converge, Edm is above max
-Info in <TCanvas::Print>: pdf file ./impacts.pdf has been created

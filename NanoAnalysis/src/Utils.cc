@@ -1,4 +1,31 @@
 #include "Utils.h"
+#include "sys/types.h"
+#include "sys/sysinfo.h"
+
+int parseLine(char* line){
+    // This assumes that a digit will be found and the line ends in " Kb".
+    int i = strlen(line);
+    const char* p = line;
+    while (*p <'0' || *p > '9') p++;
+    line[i-3] = '\0';
+    i = atoi(p);
+    return i;
+}
+
+int getValue(){ //Note: this value is in KB!
+    FILE* file = fopen("/proc/self/status", "r");
+    int result = -1;
+    char line[128];
+
+    while (fgets(line, 128, file) != NULL){
+        if (strncmp(line, "VmRSS:", 6) == 0){
+            result = parseLine(line);
+            break;
+        }
+    }
+    fclose(file);
+    return result;
+}
 
 double dR(double eta1, double phi1, double eta2, double phi2){
     double dphi = phi2 - phi1;
@@ -94,7 +121,7 @@ float scale_factor( TH2F* h, float X, float Y , TString uncert){
 }
 */
 
-float scale_factor( TH2F* h, float X, float Y , TString uncert, bool eff=false, bool out=false){
+float scale_factor( TH2F* h, float X, float Y , TString uncert){
   int NbinsX=h->GetXaxis()->GetNbins();
   int NbinsY=h->GetYaxis()->GetNbins();
   float x_min=h->GetXaxis()->GetBinLowEdge(1);
@@ -112,6 +139,7 @@ float scale_factor( TH2F* h, float X, float Y , TString uncert, bool eff=false, 
   if(uncert=="up") return (h->GetBinContent(binx, biny)+h->GetBinError(binx, biny));
   if(uncert=="down") return (h->GetBinContent(binx, biny)-h->GetBinError(binx, biny));
   if(uncert=="central") return  h->GetBinContent(binx, biny);
+  return 1;
 }
 
 float topPt(float pt){
@@ -155,6 +183,21 @@ float rate(TH1F* h, float X){
   if(x_min < X && X < x_max) binx = Xaxis->FindBin(X);
   else binx= (X<=x_min) ? 1 : NbinsX ;
   return  h->GetBinContent(binx);
+}
+
+float rateErr(TH1F* h, float X, TString uncert){
+  int NbinsX=h->GetXaxis()->GetNbins();
+  float x_min=h->GetXaxis()->GetBinLowEdge(1);
+  float x_max=h->GetXaxis()->GetBinLowEdge(NbinsX)+h->GetXaxis()->GetBinWidth(NbinsX);
+  TAxis *Xaxis = h->GetXaxis();
+  Int_t binx=1;
+  if(x_min < X && X < x_max) binx = Xaxis->FindBin(X);
+  else binx= (X<=x_min) ? 1 : NbinsX ;
+
+  if(uncert=="up") return (h->GetBinContent(binx)+h->GetBinError(binx));
+  else if(uncert=="down") return (h->GetBinContent(binx)-h->GetBinError(binx));
+  else cout<<"error in input of the rateErr function"<<endl; 
+  return 0;
 }
 
 double TransverseMass(TLorentzVector A, TLorentzVector B, double mA, double mB) {

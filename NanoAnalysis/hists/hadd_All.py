@@ -43,32 +43,34 @@ if __name__ == '__main__':
             addedFilesData[year].append(key + '.root')
         elif 'GJets' in key:
             addedFilesMcGjets[year].append( key + '.root')
-        elif 'TTToHadronic' in key or 'QCD' in key:
-            addedFilesMcFake[year].append(key + '.root')
+#        elif 'TTToHadronic' in key or 'QCD' in key:
+#            addedFilesMcFake[year].append(key + '.root')
         elif 'TTG' in key:
             addedFilesMcttG[year].append( key + '.root')
         elif 'TTga' in key:
 #            os.system('mv ' + key + '.root ' + key.replace("UL", "20")+ '.root ')
             continue
 #            os.system('mv ' + key + '.root ' + key.replace("UL17", "2017")+ '.root ') 
-        elif 'WJetsToLNu' in key or 'TTToSemiLeptonic' in key or 'TTTo2L2Nu' in key or 'tWNo' in key or 'ST_t' in key:
+#        elif 'WJetsToLNu' in key or 'TTToSemiLeptonic' in key or 'TTTo2L2Nu' in key or 'tWNo' in key or 'ST_t' in key:
+        else: 
             addedFilesMcmisIDele[year].append(key + '.root')
     for key, value in addedFilesData.items():
-        if key != '2017':
-            continue
+#        if key != '2017':
+#            continue
         Fmerged=[]
         hadddata = 'hadd ' +key+'_data.root ' + ' '.join(addedFilesData[key])
         haddmcGjets ='hadd ' +key+'_Gjets.root ' + ' '.join(addedFilesMcGjets[key])
-        haddmcFake ='hadd ' +key+'_Fake.root ' + ' '.join(addedFilesMcFake[key])
+#        haddmcFake ='hadd ' +key+'_Fake.root ' + ' '.join(addedFilesMcFake[key])
         haddmcttG ='hadd ' +key+'_ttG.root ' + ' '.join(addedFilesMcttG[key])
-        haddmcmisIDele ='hadd ' +key+'_misIDele.root ' + ' '.join(addedFilesMcmisIDele[key])
+        haddmcmisIDele ='hadd ' +key+'_Other.root ' + ' '.join(addedFilesMcmisIDele[key])
         print haddmcmisIDele
         Fmerged.append(hadddata)
         Fmerged.append(haddmcGjets)
-        Fmerged.append(haddmcFake)
+#        Fmerged.append(haddmcFake)
         Fmerged.append(haddmcttG)
         Fmerged.append(haddmcmisIDele)
         Parallel(n_jobs=6)(delayed(f)(i) for i in Fmerged)
+        os.system('hadd '+key+'_TOP.root '+key+'_TTTo2L2Nu.root '+key+'_ST_t_channel_antitop.root '+key+'_TTToHadronic.root '+key+'_antitWNoFullyHadronic.root '+key+'_ST_t_channel_top.root '+key+'_TTToSemiLeptonic.root '+key+'_tWNoFullyHadronic.root')
 
 
 
