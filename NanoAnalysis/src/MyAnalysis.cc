@@ -120,13 +120,17 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
 // Get starting timepoint
   double memoryInit=getValue();
   cout<<"initiated mamory:"<<memoryInit/1000.0<<" MB"<<endl;
-  bool ifSys=true;
+  bool ifSys=false;
   auto start = high_resolution_clock::now();
+
+  TH1F  *trigEffNum = new TH1F("trigEffNum","trigEffNum",50,0,500);
+  TH1F  *trigEffDen = new TH1F("trigEffDen","trigEffDen",50,0,500);
 
   string particleNetTopTagSF="";
   string photonSF="";
   string photonES="";
   string MTR="";
+  string JAFr="";
 
   if(year == "2016preVFP"){
     particleNetTopTagSF="/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/data/POG/JME/2016preVFP_UL/jmar.json.gz";
@@ -134,24 +138,28 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
 //see https://twiki.cern.ch/twiki/bin/view/CMS/EgammaSFJSON
     photonES="/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/input/EGammaScaleFactorsJSON-master/2016preVFP_UL/EGM_ScaleUnc.json.gz";
     MTR="2016preVFP_2DMistagRatejetPtvsMass";
+    JAFr="2016preVFP_FakeRateVsEta";
   }
   if(year == "2016postVFP"){
     particleNetTopTagSF="/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/data/POG/JME/2016postVFP_UL/jmar.json.gz";
     photonSF="/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/data/POG/EGM/2016postVFP_UL/photon.json.gz";
     photonES="/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/input/EGammaScaleFactorsJSON-master/2016postVFP_UL/EGM_ScaleUnc.json.gz";
     MTR="2016postVFP_2DMistagRatejetPtvsMass";
+    JAFr="2016postVFP_FakeRateVsEta";
   }
   if(year == "2017"){
     particleNetTopTagSF="/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/data/POG/JME/2017_UL/jmar.json.gz";
     photonSF="/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/data/POG/EGM/2017_UL/photon.json.gz";
     photonES="/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/input/EGammaScaleFactorsJSON-master/2017_UL/EGM_ScaleUnc.json";
     MTR="2017_2DMistagRatejetPtvsMass";
+    JAFr="2017_FakeRateVsEta";
   }
   if(year == "2018"){
     particleNetTopTagSF="/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/data/POG/JME/2018_UL/jmar.json.gz";
     photonSF="/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/data/POG/EGM/2018_UL/photon.json.gz";
     photonES="/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/input/EGammaScaleFactorsJSON-master/2018_UL/EGM_ScaleUnc.json.gz";
     MTR="2018_2DMistagRatejetPtvsMass";
+    JAFr="2018_FakeRateVsEta";
   }
 
   auto csetFileParticleNetTopTagSF = CorrectionSet::from_file(particleNetTopTagSF);
@@ -168,11 +176,11 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
 
   TRandom3 Tr;
   TFile *f_topMistagRate = new TFile("/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/input/topMistagRate2D.root");
-//  TFile *f_topMistagRate = new TFile("/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/input/topMistagRate.root");
-//  TH1F h_topMistagRate = *(TH1F*)f_topMistagRate->Get("topMistagRate");
-//  TH1F h_topMistagRate = *(TH1F*)f_topMistagRate->Get("topMistagRateFake");
   TH2F h_topMistagRate = *(TH2F*)f_topMistagRate->Get(MTR.c_str());
   f_topMistagRate->Close();
+  TFile *f_fakeRate = new TFile("/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/input/JetFakeRate.root");
+  TH1F h_fakeRate = *(TH1F*)f_fakeRate->Get(JAFr.c_str());
+  f_fakeRate->Close();
   ULong64_t Event;
   int Lumi;
   int Run;
@@ -214,25 +222,31 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
     {"phoChargedIso",                  {13,     200,    0, 20 }},
     {"HT",                             {14,     35,    0, 7000}},
     {"HoE",                            {15,     20,    0, 0.05}},
-    {"softdropMass",                   {16,     40,    0, 800 }},
+    {"softdropMassLeadingJet08",       {16,     40,    0, 800 }},
     {"TvsQCD",                         {17,     20,    0, 1   }},
     {"TsMass1",                        {18,     40,    0, 4000}},
     {"nTopTag",                        {19,     4,     0, 4   }},
     {"masstS2",                        {20,     40,    0, 2000}},
     {"Sietaieta",                      {21,     40,    0, 0.02}},
     {"MtGMet",                         {22,     50,    0, 1000}},
-    {"subLeadingjet08Pt",              {23,      10,    0, 1000}},
+    {"subLeadingJet08Pt",              {23,      10,    0, 1000}},
+    {"nVtxApu",                        {24,     70,    0, 70 }},
+    {"nVtxBpu",                        {25,     70,    0, 70 }},
+    {"subLeadingJet08Eta",             {26,      20,   -3, 3   }},
+    {"subLeadingJet08Phi",             {27,     25,   -4, 4   }},
+    {"softdropMassSubLeadingJet08",    {28,     40,    0, 800 }},
   };
 
   std::vector<TString> categories{"promptG", "fakeGEle","fakeGJet"};
-  std::vector<TString> channels{"aJets", "fakeAJetsIso", "fakeAJetsSiSi","fakeAJetsOthers"};
-  std::vector<TString> regions{"nAk8G0", "nAk81", "nAk81nTtag1", "nAk8G1nTtagG0",  "nAk8G1nTtag0", "nAk8G1nTtag0XtopMissTagRate",  "nAk81nTtag0XtopMissTagRate", "nAk8G1nTtagG0LepG0"};
+  std::vector<TString> channels{"aJets"};
+  std::vector<TString> regions{"nAk8G0", "nAk81", "nAk81nTtag1", "nAk8G1nTtagG0",  "nAk8G1nTtag0", "nAk8G1nTtag0XtopMissTagRate",  "nAk81nTtag0XtopMissTagRate", "nAk8G1nTtagG0LepG0", "nAk81nTtagOffMt","nAk81nTtagOffMtXtopMissTagRate"};
+
   std::vector<TString> sys{"phIDSf", "pu", "prefiring","photonEScale","photonESmear", "topTagSF","JesTotal"};
   std::vector<TString> sysNotWeight{"photonEScale","photonESmear","JesTotal"};
   std::vector<TString> sysData{"missTagRate"};
-  std::vector<TString> sysJecNames{"AbsoluteMPFBias","AbsoluteScale","AbsoluteStat","FlavorQCD","Fragmentation","PileUpDataMC","PileUpPtBB","PileUpPtEC1","PileUpPtEC2","PileUpPtHF","PileUpPtRef","RelativeFSR","RelativePtBB","RelativePtEC1","RelativePtEC2","RelativePtHF","RelativeBal","RelativeSample","RelativeStatEC","RelativeStatFSR","RelativeStatHF","SinglePionECAL","SinglePionHCAL","TimePtEta", "Total"};
-  const int nsrc = 25;
-  const char* srcnames[nsrc] = {"AbsoluteMPFBias","AbsoluteScale","AbsoluteStat","FlavorQCD","Fragmentation","PileUpDataMC","PileUpPtBB","PileUpPtEC1","PileUpPtEC2","PileUpPtHF","PileUpPtRef","RelativeFSR","RelativePtBB","RelativePtEC1","RelativePtEC2","RelativePtHF","RelativeBal","RelativeSample","RelativeStatEC","RelativeStatFSR","RelativeStatHF","SinglePionECAL","SinglePionHCAL","TimePtEta", "Total"};
+  std::vector<TString> sysJecNames{"AbsoluteMPFBias","AbsoluteScale","AbsoluteStat","FlavorQCD","Fragmentation","PileUpDataMC","PileUpPtBB","PileUpPtEC1","PileUpPtEC2","PileUpPtRef","RelativeFSR","RelativePtBB","RelativePtEC1","RelativePtEC2","RelativeBal","RelativeSample","RelativeStatEC","RelativeStatFSR","SinglePionECAL","SinglePionHCAL","TimePtEta", "Total"};
+  const int nsrc = 22;
+  const char* srcnames[nsrc] = {"AbsoluteMPFBias","AbsoluteScale","AbsoluteStat","FlavorQCD","Fragmentation","PileUpDataMC","PileUpPtBB","PileUpPtEC1","PileUpPtEC2","PileUpPtRef","RelativeFSR","RelativePtBB","RelativePtEC1","RelativePtEC2","RelativeBal","RelativeSample","RelativeStatEC","RelativeStatFSR","SinglePionECAL","SinglePionHCAL","TimePtEta", "Total"};
     std::vector<JetCorrectionUncertainty*> vsrc08(nsrc);
     std::vector<int> JecRegions = {getVecPos(regions,"nAk8G1nTtagG0")};
   std::string JECFile08;
@@ -258,6 +272,43 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
       }
     }
   }
+
+  std::vector<TString> categoriesFA{"promptG", "fakeGEle","fakeGJet"};
+  std::vector<TString> channelsFA{"fakeAJetsIso", "fakeAJetsSiSi","fakeAJetsIsoSiSi","fakeAJetsOthers"};
+  std::vector<TString> regionsFA{"nAk8G0","nAk81nTtag1", "nAk8G1nTtagG0","nAk81nTtagOffMt"};
+  const std::map<TString, std::vector<float>> varsFA =
+  {
+    {"GammaPt",                        {0,      40,   0,  1000}},
+    {"GammaEta",                       {1,      20,   -3, 3   }},
+    {"GammaPhi",                       {2,      25,   -4, 4   }},
+    {"jet08Pt",                        {3,      10,    0, 1000}},
+    {"jet08Eta",                       {4,      20,   -3, 3   }},
+    {"nPh",                            {5,     3,     0, 3   }},
+    {"phoChargedIso",                  {6,     200,    0, 20 }},
+    {"HoE",                            {7,     20,    0, 0.05}},
+    {"Sietaieta",                      {8,     40,    0, 0.02}},
+    {"TsMass1",                        {9,     40,    0, 4000}},
+    {"HT",                             {10,     35,    0, 7000}},
+    {"Met",                            {11,     20,    0, 200 }},
+    {"njet08",                         {12,     7,     0, 7   }},
+    {"jet08Phi",                       {13,     25,   -4, 4   }},
+    {"softdropMassLeadingJet08",       {14,     40,    0, 800 }},
+    {"subLeadingJet08Eta",             {15,      20,   -3, 3   }},
+    {"subLeadingJet08Phi",             {16,     25,   -4, 4   }},
+    {"softdropMassSubLeadingJet08",    {17,     40,    0, 800 }},
+  };
+
+  HistsFA.resize(categoriesFA.size());
+  for (int l=0;l<categoriesFA.size();++l){
+    HistsFA[l].resize(channelsFA.size());
+    for (int i=0;i<channelsFA.size();++i){
+      HistsFA[l][i].resize(regionsFA.size());
+      for (int k=0;k<regionsFA.size();++k){
+        HistsFA[l][i][k].resize(varsFA.size());
+      }
+    }
+  }
+
 // [0] is renscfact=0.5d0 facscfact=0.5d0 ; [1] is renscfact=0.5d0 facscfact=1d0 ; [2] is renscfact=0.5d0 facscfact=2d0 ; [3] is renscfact=1d0 facscfact=0.5d0 ; [4] is renscfact=1d0 facscfact=1d0 ; [5] is renscfact=1d0 facscfact=2d0 ; [6] is renscfact=2d0 facscfact=0.5d0 ; [7] is renscfact=2d0 facscfact=1d0 ; [8] is renscfact=2d0 facscfact=2d0 *
   int nScale = 9;
 //  Dim3 Hists(channels.size(),Dim2(regions.size(),Dim1(vars.size())));
@@ -267,9 +318,9 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
   TH1F *h_test;
   for (int l=0;l<categories.size();++l){
     for (int i=0;i<channels.size();++i){
-      for (int k=0;k<regions.size();++k){
+      for (int k=0;k<regionsFR.size();++k){
         for( auto it = vars.cbegin() ; it != vars.cend() ; ++it ){
-          name<<categories[l]<<"_"<<channels[i]<<"_"<<regions[k]<<"_"<<it->first;
+          name<<categories[l]<<"_"<<channels[i]<<"_"<<regionsFR[k]<<"_"<<it->first;
           h_test = new TH1F((name.str()).c_str(),(name.str()).c_str(),it->second.at(1), it->second.at(2), it->second.at(3));
           h_test->StatOverflows(kTRUE);
           h_test->Sumw2(kTRUE);
@@ -279,6 +330,22 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
       }
     }
   }
+
+  for (int l=0;l<categoriesFA.size();++l){
+    for (int i=0;i<channelsFA.size();++i){
+      for (int k=0;k<regionsFA.size();++k){
+        for( auto it = varsFA.cbegin() ; it != varsFA.cend() ; ++it ){
+          name<<categoriesFA[l]<<"_"<<channelsFA[i]<<"_"<<regionsFA[k]<<"_"<<it->first;
+          h_test = new TH1F((name.str()).c_str(),(name.str()).c_str(),it->second.at(1), it->second.at(2), it->second.at(3));
+          h_test->StatOverflows(kTRUE);
+          h_test->Sumw2(kTRUE);
+          HistsFA[l][i][k][it->second.at(0)] = h_test;
+          name.str("");
+        }
+      }
+    }
+  }
+
   if(data == "data" && ifSys){
     HistsSysDataUp.resize(1);
     for (int i=0;i<1;++i){
@@ -410,7 +477,7 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
       }
     }
 
-    if (fname.Contains("TTga")){
+    if (fname.Contains("TTga") || fname.Contains("TTGamma")){
       HistsSysReweightsPDF.resize(1);
       for (int i=0;i<1;++i){
         HistsSysReweightsPDF[i].resize(1);
@@ -468,8 +535,8 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
 //  TH2FDim3 Hists2d(channels.size(),TH2FDim2(regions.size(),TH2FDim1(vars2d.size())));
   TH2FDim3 Hists2d(1,TH2FDim2(1,TH2FDim1(vars2d.size())));
 
- Double_t edgesPt[5] = {225.0, 350.0, 450.0, 550.0, 1000};
- Double_t edgesMass[5] = {120.0, 142.5, 165.0, 187.5,210.0 };
+ Double_t edgesPt[4] = {225.0, 350.0, 500.0, 800};
+ Double_t edgesMass[8] = {90,110,125,150,175,200,225,400};
  h_test2d = new TH2F("M1vsM2","M1vsM2",100,0,2000,100,0,2000);
         Hists2d[0][0][0] = h_test2d;
  h_test2d = new TH2F("M1vsDPhi","M1vsDPhi",100,0,2000,100,0,7);
@@ -478,14 +545,16 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
         Hists2d[0][0][2] = h_test2d;
  h_test2d = new TH2F("pt1vspt2","pt1vspt2",100,0,2000,100,0,2000);
         Hists2d[0][0][3] = h_test2d;
- h_test2d = new TH2F("jetPtvsTmass1jetFakePh","jetPtvsTmass1jetFakePh",4,edgesPt,4,edgesMass);
+ h_test2d = new TH2F("jetPtvsTmass1jetFakePh","jetPtvsTmass1jetFakePh",3,edgesPt,7,edgesMass);
         Hists2d[0][0][4] = h_test2d;
- h_test2d = new TH2F("jetPtvsTmass1jet1tagFakePh","jetPtvsTmass1jet1tagFakePh",4,edgesPt,4,edgesMass);
+ h_test2d = new TH2F("jetPtvsTmass1jet1tagFakePh","jetPtvsTmass1jet1tagFakePh",3,edgesPt,7,edgesMass);
         Hists2d[0][0][5] = h_test2d;
- h_test2d = new TH2F("jetPtvsTmass1jetPromptPh","jetPtvsTmass1jetPromptPh",4,edgesPt,4,edgesMass);
+ h_test2d = new TH2F("jetPtvsTmass1jetPromptPh","jetPtvsTmass1jetPromptPh",3,edgesPt,7,edgesMass);
         Hists2d[0][0][6] = h_test2d;
- h_test2d = new TH2F("jetPtvsTmass1jet1tagPromptPh","jetPtvsTmass1jet1tagPromptPh",4,edgesPt,4,edgesMass);
+ h_test2d = new TH2F("jetPtvsTmass1jet1tagPromptPh","jetPtvsTmass1jet1tagPromptPh",3,edgesPt,7,edgesMass);
         Hists2d[0][0][7] = h_test2d;
+
+  TH2F *h_2dSieieVsChiso=new TH2F("h_2dSieieVsChiso","h_2dSieieVsChiso",40,0,0.02,40,0,20);
 
 
   const std::map<TString, std::vector<float>> vars1dSignal =
@@ -529,9 +598,9 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
   std::vector<lepton_candidate*> *PhotonsMediumScaleDown;
   std::vector<lepton_candidate*> *PhotonsMediumSmearUp;
   std::vector<lepton_candidate*> *PhotonsMediumSmearDown;
-  std::vector<lepton_candidate*> *fakePhotons;
   std::vector<lepton_candidate*> *fakePhotonsIso;
   std::vector<lepton_candidate*> *fakePhotonsSiSi;
+  std::vector<lepton_candidate*> *fakePhotonsIsoSiSi;
   std::vector<lepton_candidate*> *fakePhotonsOther;
   std::vector<lepton_candidate*> *selectedPhotons;
   std::vector<jet_candidate*> *selectedJets08;
@@ -569,12 +638,18 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
   int nbq;
   int ntop;
   int ntopTag;
+  int ntopTagSB;
+  int ntopTagNM;
   int ntopTagRandom;
+  int ntopTagRandomSB;
   int nWTag;
   int nW;
+
+  float topMTRSB;
+  float topMTR;
+  float topMTRup;
+  float topMTRdown;
   float FR;
-  float FRup;
-  float FRdown;
   float drgj04;
   float drgj08;
   float drtA;
@@ -586,8 +661,12 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
   std::vector<int> reg;
   std::vector<int> regUp;
   std::vector<float> wgt;
+  std::vector<float> wgtFA;
   std::vector<float> wgtUp;
   std::vector<float> wgtDown;
+  std::vector<float> wgtnoPU;
+  int chFA;
+  std::vector<int> regFA;
   float topPt;
   float tStarMass;
   bool topEvent=false;
@@ -605,6 +684,7 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
   float mT1V2, mT2V2;
   int toptagIndex;
   float phESunc;  
+  float phEnergy;
 
   std::vector<float> nominalWeights;
   nominalWeights.assign(sys.size(), 1);
@@ -642,6 +722,7 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
 
   for (Long64_t jentry=0; jentry<nentries;jentry++) {
 //  for (Long64_t jentry=0; jentry<5000;jentry++) {
+cout<<jentry<<endl;
     Ph_pt.clear();
     Ph_eta.clear();
     Ph_phi.clear();
@@ -649,7 +730,10 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
     Ak8_eta.clear();
     Ak8_phi.clear();
     reg.clear();
+    regFA.clear();
     wgt.clear();
+    wgtFA.clear();
+    wgtnoPU.clear();
 
     Long64_t ientry = LoadTree(jentry);
     if (ientry < 0) break;
@@ -668,17 +752,23 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
     nbq=0;
     ntop = 0;
     ntopTag = 0;
+    ntopTagSB = 0;
+    ntopTagNM = 0;
     ntopTagRandom=0;
+    ntopTagRandomSB=0;
     nWTag = 0;
     nW = 0;
-    FR= 1;
-    FRup= 1;
-    FRdown= 1;
+    topMTRSB= 1;
+    topMTR= 1;
+    topMTRup= 1;
+    topMTRdown= 1;
+    FR=1;
     drgj04 = 10;
     drgj08 = 10;
     ht=0;
     jetlepfail = false;
     ch=999;
+    chFA=999;
     cat=0;
     NtopPartons=0;
     topPt=0;
@@ -816,6 +906,14 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
      }
    }
 
+
+   for (int l=0;l<nPhoton;l++){
+     if(abs(Photon_eta[l])>1.444 || Photon_pt[l]<150) continue;
+     if(Photon_pixelSeed[l]) continue;
+     if(Photon_cutBased[l]<2) continue;
+     trigEffDen->Fill(Photon_pt[l]);
+     if(triggerPassA) trigEffNum->Fill(Photon_pt[l]);
+   }
    if(!metFilterPass || !triggerPassA) continue;
    nAcceptPassTrigger++;
 //Photon Selection
@@ -824,36 +922,40 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
     PhotonsMediumScaleDown = new std::vector<lepton_candidate*>();
     PhotonsMediumSmearUp = new std::vector<lepton_candidate*>();
     PhotonsMediumSmearDown = new std::vector<lepton_candidate*>();
-    fakePhotons = new std::vector<lepton_candidate*>();
     fakePhotonsIso = new std::vector<lepton_candidate*>();
     fakePhotonsSiSi = new std::vector<lepton_candidate*>();
+    fakePhotonsIsoSiSi = new std::vector<lepton_candidate*>();
     fakePhotonsOther = new std::vector<lepton_candidate*>();
     for (int l=0;l<nPhoton;l++){
       if(abs(Photon_eta[l])>1.444) continue;
       if(Photon_pixelSeed[l]) continue;
 //      bitset<16> myBitSet(Photon_vidNestedWPBitmap[l]);
 //      cout << myBitSet.to_string() << " (" << myBitSet.to_ulong() << ") " << endl;
-      if(Photon_pt[l] >250.0){
+      if(Photon_pt[l] >240.0){
 //      if(!Photon_electronVeto[l]) continue;
         std::vector<bool> cuts_loose = parsePhotonVIDCuts(Photon_vidNestedWPBitmap[l],1);
-        if(!cuts_loose[1] ||  Photon_sieie[l] > 0.02 || Photon_pfRelIso03_chg[l]*Photon_pt[l] > 20.0) continue;
         std::vector<bool> cuts_medium = parsePhotonVIDCuts(Photon_vidNestedWPBitmap[l],2);
+        if( cuts_medium[1] &&  cuts_medium[4] && cuts_medium[5]) h_2dSieieVsChiso->Fill(Photon_sieie[l],Photon_pfRelIso03_chg[l]*Photon_pt[l]);
+        if(!cuts_loose[1] ||  Photon_sieie[l] > 0.02 || Photon_pfRelIso03_chg[l]*Photon_pt[l] > 20.0) continue;
         nominalWeights[getVecPos(sys,"phIDSf")] = nominalWeights[getVecPos(sys,"phIDSf")] * csetPhotonIdSF->evaluate({year, "sf", "Medium", Photon_eta[l], Photon_pt[l]}) * csetPhotonCsevSF->evaluate({year, "sf", "Medium", "EBInc"});
         sysUpWeights[getVecPos(sys,"phIDSf")] = sysUpWeights[getVecPos(sys,"phIDSf")] * csetPhotonIdSF->evaluate({year, "sfup", "Medium", Photon_eta[l], Photon_pt[l]}) * csetPhotonCsevSF->evaluate({year, "sfup", "Medium", "EBInc"});
         sysDownWeights[getVecPos(sys,"phIDSf")] = sysDownWeights[getVecPos(sys,"phIDSf")] * csetPhotonIdSF->evaluate({year, "sfdown", "Medium", Photon_eta[l], Photon_pt[l]}) * csetPhotonCsevSF->evaluate({year, "sfdown", "Medium", "EBInc"});
         if(Photon_cutBased[l]>=2) PhotonsMedium->push_back(new lepton_candidate(Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
-        else if(cuts_medium[1] && cuts_medium[2] &&  cuts_medium[4] && cuts_medium[5] && Photon_pfRelIso03_chg[l]*Photon_pt[l] > 10) fakePhotonsIso->push_back(new lepton_candidate(Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
-        else if(cuts_medium[1] && !cuts_medium[2] && cuts_medium[4] && cuts_medium[5] && Photon_sieie[l] > 0.011) fakePhotonsSiSi->push_back(new lepton_candidate(Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
+        else if(cuts_medium[1] && cuts_medium[2] && !cuts_medium[3] &&  cuts_medium[4] && cuts_medium[5] && Photon_pfRelIso03_chg[l]*Photon_pt[l] > 10 && Photon_pfRelIso03_chg[l]*Photon_pt[l] <20) fakePhotonsIso->push_back(new lepton_candidate(Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
+        else if(cuts_medium[1] && !cuts_medium[2] && cuts_medium[3] && cuts_medium[4] && cuts_medium[5] && Photon_sieie[l] > 0.011) fakePhotonsSiSi->push_back(new lepton_candidate(Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
+        else if(cuts_medium[1] && !cuts_medium[2] && !cuts_medium[3] && cuts_medium[4] && cuts_medium[5] && Photon_sieie[l] > 0.011 && Photon_pfRelIso03_chg[l]*Photon_pt[l] > 10 && Photon_pfRelIso03_chg[l]*Photon_pt[l] <20) fakePhotonsIsoSiSi->push_back(new lepton_candidate(Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
         else fakePhotonsOther->push_back(new lepton_candidate(Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
         Ph_pt.emplace_back(Photon_pt[l]);
         Ph_eta.emplace_back(Photon_eta[l]);
         Ph_phi.emplace_back(Photon_phi[l]);
       }
-      phESunc= csetPhotonES->evaluate({year, "scaleunc", Photon_eta[l], static_cast<int>(Photon_seedGain[l])});
-      if((1+phESunc)*Photon_pt[l] >250.0 && Photon_cutBased[l]>=2) PhotonsMediumScaleUp->push_back(new lepton_candidate((1+phESunc)*Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
-      if((1-phESunc)*Photon_pt[l] >250.0 && Photon_cutBased[l]>=2) PhotonsMediumScaleDown->push_back(new lepton_candidate((1-phESunc)*Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
-      if((1+Photon_dEsigmaUp[l])*Photon_pt[l] >250.0  && Photon_cutBased[l]>=2) PhotonsMediumSmearUp->push_back(new lepton_candidate((1+Photon_dEsigmaUp[l])*Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
-      if((1+Photon_dEsigmaDown[l])*Photon_pt[l] >250.0 && Photon_cutBased[l]>=2) PhotonsMediumSmearDown->push_back(new lepton_candidate((1+Photon_dEsigmaDown[l])*Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
+      phESunc= csetPhotonES->evaluate({year, "scaleup", Photon_eta[l], static_cast<int>(Photon_seedGain[l])});
+      if(phESunc*Photon_pt[l] >240.0 && Photon_cutBased[l]>=2) PhotonsMediumScaleUp->push_back(new lepton_candidate((1+phESunc)*Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
+      phESunc= csetPhotonES->evaluate({year, "scaledown", Photon_eta[l], static_cast<int>(Photon_seedGain[l])});
+      if(phESunc*Photon_pt[l] >240.0 && Photon_cutBased[l]>=2) PhotonsMediumScaleDown->push_back(new lepton_candidate((1-phESunc)*Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
+      phEnergy=Photon_pt[l]*cosh(Photon_eta[l]);
+      if((1-(Photon_dEsigmaUp[l]/phEnergy))*Photon_pt[l] >240.0  && Photon_cutBased[l]>=2) PhotonsMediumSmearUp->push_back(new lepton_candidate((1-(Photon_dEsigmaUp[l]/phEnergy))*Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
+      if((1-(Photon_dEsigmaDown[l]/phEnergy))*Photon_pt[l] >240.0 && Photon_cutBased[l]>=2) PhotonsMediumSmearDown->push_back(new lepton_candidate((1-(Photon_dEsigmaDown[l]/phEnergy))*Photon_pt[l],Photon_eta[l],Photon_phi[l],0,l,1));
     }
 
     sort(PhotonsMedium->begin(), PhotonsMedium->end(), ComparePtLep);
@@ -863,6 +965,7 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
     sort(PhotonsMediumSmearDown->begin(), PhotonsMediumSmearDown->end(), ComparePtLep);
     sort(fakePhotonsIso->begin(), fakePhotonsIso->end(), ComparePtLep);
     sort(fakePhotonsSiSi->begin(), fakePhotonsSiSi->end(), ComparePtLep);
+    sort(fakePhotonsIsoSiSi->begin(), fakePhotonsIsoSiSi->end(), ComparePtLep);
     sort(fakePhotonsOther->begin(), fakePhotonsOther->end(), ComparePtLep);
 //select Muon
     selectedLeptons = new std::vector<lepton_candidate*>();
@@ -928,9 +1031,9 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           if (deltaR((*PhotonsMedium)[j]->eta_, (*PhotonsMedium)[j]->phi_, FatJet_eta[l],FatJet_phi[l])< drgj08) drgj08 = deltaR((*PhotonsMedium)[j]->eta_, (*PhotonsMedium)[j]->phi_,FatJet_eta[l],FatJet_phi[l]);
         }
       }
-      vsrc08[24]->setJetPt(FatJet_pt[l]);
-      vsrc08[24]->setJetEta(FatJet_eta[l]);
-      sup =  vsrc08[24]->getUncertainty(true);
+      vsrc08[21]->setJetPt(FatJet_pt[l]);
+      vsrc08[21]->setJetEta(FatJet_eta[l]);
+      sup =  vsrc08[21]->getUncertainty(true);
       if ((1+sup)*FatJet_pt[l]>225) selectedJets08JesUp->push_back(new jet_candidate((1+sup)*FatJet_pt[l],FatJet_eta[l],FatJet_phi[l],FatJet_mass[l],FatJet_btagDeepB[l], year,0,l,NtopPartons,2,nsubB, FatJet_msoftdrop[l], FatJet_particleNet_TvsQCD[l],FatJet_deepTagMD_WvsQCD[l]));
       if ((1-sup)*FatJet_pt[l]>225) selectedJets08JesDown->push_back(new jet_candidate((1-sup)*FatJet_pt[l],FatJet_eta[l],FatJet_phi[l],FatJet_mass[l],FatJet_btagDeepB[l], year,0,l,NtopPartons,2,nsubB, FatJet_msoftdrop[l], FatJet_particleNet_TvsQCD[l],FatJet_deepTagMD_WvsQCD[l]));
     }
@@ -956,6 +1059,9 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
             }
             for (int i=0;i<fakePhotonsSiSi->size();i++){
               if(deltaR((*fakePhotonsSiSi)[i]->eta_,(*fakePhotonsSiSi)[i]->phi_,FatJet_eta[l],FatJet_phi[l]) < 0.8 ) jetlepfail=true;
+            }
+            for (int i=0;i<fakePhotonsIsoSiSi->size();i++){
+              if(deltaR((*fakePhotonsIsoSiSi)[i]->eta_,(*fakePhotonsIsoSiSi)[i]->phi_,FatJet_eta[l],FatJet_phi[l]) < 0.8 ) jetlepfail=true;
             }
             for (int i=0;i<fakePhotonsOther->size();i++){
               if(deltaR((*fakePhotonsOther)[i]->eta_,(*fakePhotonsOther)[i]->phi_,FatJet_eta[l],FatJet_phi[l]) < 0.8 ) jetlepfail=true;
@@ -1003,6 +1109,9 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
         for (int i=0;i<fakePhotonsSiSi->size();i++){
           if(deltaR((*fakePhotonsSiSi)[i]->eta_,(*fakePhotonsSiSi)[i]->phi_,Jet_eta[l],Jet_phi[l]) < 0.8 ) jetlepfail=true;
         }
+        for (int i=0;i<fakePhotonsIsoSiSi->size();i++){
+          if(deltaR((*fakePhotonsIsoSiSi)[i]->eta_,(*fakePhotonsIsoSiSi)[i]->phi_,Jet_eta[l],Jet_phi[l]) < 0.8 ) jetlepfail=true;
+        }
         for (int i=0;i<fakePhotonsOther->size();i++){
           if(deltaR((*fakePhotonsOther)[i]->eta_,(*fakePhotonsOther)[i]->phi_,Jet_eta[l],Jet_phi[l]) < 0.8 ) jetlepfail=true;
         }
@@ -1038,7 +1147,9 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
     for (int l=0;l<selectedJets08->size();l++){
       ht = ht + (*selectedJets08)[l]->pt_;
       if((*selectedJets08)[l]->btag_) nbjet08++;
-      if((*selectedJets08)[l]->toptag_) ntopTag++;
+      if((*selectedJets08)[l]->toptag_) ntopTagNM++;
+      if((*selectedJets08)[l]->toptag_ && (*selectedJets08)[l]->mass_>125 && (*selectedJets08)[l]->mass_<225) ntopTag++;
+      if((*selectedJets08)[l]->toptag_ && ((*selectedJets08)[l]->mass_<125 || (*selectedJets08)[l]->mass_>225)) ntopTagSB++;
       if((*selectedJets08)[l]->toptag_ && (*selectedJets08)[l]->pt_>300 && (*selectedJets08)[l]->pt_<1200){
         nominalWeights[getVecPos(sys,"topTagSF")] = nominalWeights[getVecPos(sys,"topTagSF")] * csetParticleNetTopTagSF->evaluate({(*selectedJets08)[l]->eta_, (*selectedJets08)[l]->pt_,"nom", "0p1"});
         sysUpWeights[getVecPos(sys,"topTagSF")] = sysUpWeights[getVecPos(sys,"topTagSF")] * csetParticleNetTopTagSF->evaluate({(*selectedJets08)[l]->eta_, (*selectedJets08)[l]->pt_,"up", "0p1"});
@@ -1047,11 +1158,13 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
 //      if((*selectedJets08)[l]->toptag_ && (*selectedJets08)[l]->pt_>300) topTagSF= topTagSF*fatjetscalefactors.ak8SF(false, 2017, 6, true, 4, (*selectedJets08)[l]->eta_, (*selectedJets08)[l]->pt_,  0);
     }
     if(selectedJets08->size()>0 && (PhotonsMedium->size()>0 || PhotonsMediumScaleUp->size()>0 || PhotonsMediumScaleDown->size()>0 ||  PhotonsMediumSmearUp->size()>0 || PhotonsMediumSmearDown->size()>0)) ch=0;
-    if(selectedJets08->size()>0 && PhotonsMedium->size()==0&& fakePhotonsIso->size()>0) ch=1;
-    if(selectedJets08->size()>0 && PhotonsMedium->size()==0&& fakePhotonsSiSi->size()>0) ch=2;
-    if(selectedJets08->size()>0 && PhotonsMedium->size()==0&& fakePhotonsOther->size()>0) ch=3;
+    if(selectedJets08->size()>0 && PhotonsMedium->size()==0 && fakePhotonsIso->size()>0) chFA=0;
+    if(selectedJets08->size()>0 && PhotonsMedium->size()==0 && fakePhotonsSiSi->size()>0) chFA=1;
+    if(selectedJets08->size()>0 && PhotonsMedium->size()==0 && fakePhotonsIsoSiSi->size()>0) chFA=2;
+    if(selectedJets08->size()>0 && PhotonsMedium->size()==0 && fakePhotonsOther->size()>0) chFA=3;
     if(ch==0) nAcceptPassPhoton++;
-    if(ch>10) {
+
+    if(ch>10 && chFA>10) {
       for (int l=0;l<selectedJets04->size();l++){
         delete (*selectedJets04)[l];
       }
@@ -1061,8 +1174,17 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
       for (int l=0;l<PhotonsMedium->size();l++){
         delete (*PhotonsMedium)[l];
       }
-      for (int l=0;l<fakePhotons->size();l++){
-        delete (*fakePhotons)[l];
+      for (int l=0;l<fakePhotonsIso->size();l++){
+        delete (*fakePhotonsIso)[l];
+      }
+      for (int l=0;l<fakePhotonsSiSi->size();l++){
+        delete (*fakePhotonsSiSi)[l];
+      }
+      for (int l=0;l<fakePhotonsIsoSiSi->size();l++){
+        delete (*fakePhotonsIsoSiSi)[l];
+      }
+      for (int l=0;l<fakePhotonsOther->size();l++){
+        delete (*fakePhotonsOther)[l];
       }
       if(data == "mc" && ifSys){
         for (int l=0;l<JEC08sysUp->size();l++){
@@ -1097,9 +1219,9 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
       cleanVec (PhotonsMediumSmearDown);
       cleanVec (selectedJets08JesUp);
       cleanVec (selectedJets08JesDown);
-      fakePhotons->clear();
-      fakePhotons->shrink_to_fit();
-      delete fakePhotons;
+      fakePhotonsIsoSiSi->clear();
+      fakePhotonsIsoSiSi->shrink_to_fit();
+      delete fakePhotonsIsoSiSi;
       fakePhotonsIso->clear();
       fakePhotonsIso->shrink_to_fit();
       delete fakePhotonsIso;
@@ -1158,27 +1280,34 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
     }
     //calculate the mistag rate
     for (int l=0;l<selectedJets08->size();l++){
-      if((*selectedJets08)[l]->mass_>120 && (*selectedJets08)[l]->mass_<210){
+      if((*selectedJets08)[l]->mass_>125 && (*selectedJets08)[l]->mass_<225){
         ntopTagRandom++;
-        FR = FR * (1-scale_factor(&h_topMistagRate,(*selectedJets08)[l]->pt_,FatJet_msoftdrop[(*selectedJets08)[l]->indice_],"central"));
-        FRup = FRup * (1-scale_factor(&h_topMistagRate,(*selectedJets08)[l]->pt_,FatJet_msoftdrop[(*selectedJets08)[l]->indice_],"up"));
-        FRdown = FRdown * (1-scale_factor(&h_topMistagRate,(*selectedJets08)[l]->pt_,FatJet_msoftdrop[(*selectedJets08)[l]->indice_],"down"));
+        topMTR = topMTR * (1-scale_factor(&h_topMistagRate,(*selectedJets08)[l]->pt_,FatJet_msoftdrop[(*selectedJets08)[l]->indice_],"central"));
+        topMTRup = topMTRup * (1-scale_factor(&h_topMistagRate,(*selectedJets08)[l]->pt_,FatJet_msoftdrop[(*selectedJets08)[l]->indice_],"up"));
+        topMTRdown = topMTRdown * (1-scale_factor(&h_topMistagRate,(*selectedJets08)[l]->pt_,FatJet_msoftdrop[(*selectedJets08)[l]->indice_],"down"));
+      }
+      if(((*selectedJets08)[l]->mass_<125 && (*selectedJets08)[l]->mass_>100) || (*selectedJets08)[l]->mass_>225){
+        ntopTagRandomSB++;
+        topMTRSB = topMTRSB * (1-scale_factor(&h_topMistagRate,(*selectedJets08)[l]->pt_,FatJet_msoftdrop[(*selectedJets08)[l]->indice_],"central"));
       }
     }
-      nominalWeightsData[getVecPos(sysData,"missTagRate")] = FR;
-      sysUpWeightsData[getVecPos(sysData,"missTagRate")] = FRup;
-      sysDownWeightsData[getVecPos(sysData,"missTagRate")] = FRdown;
+      nominalWeightsData[getVecPos(sysData,"missTagRate")] = topMTR;
+      sysUpWeightsData[getVecPos(sysData,"missTagRate")] = topMTRup;
+      sysDownWeightsData[getVecPos(sysData,"missTagRate")] = topMTRdown;
 //Fill the nominal histograms
-    if(PhotonsMedium->size()>0 || fakePhotonsIso->size()>0 || fakePhotonsSiSi->size()>0 || fakePhotonsOther->size()>0){
+    if(PhotonsMedium->size()>0 || fakePhotonsIso->size()>0 || fakePhotonsSiSi->size()>0 || fakePhotonsIsoSiSi->size()>0 || fakePhotonsOther->size()>0){
       if (ch==0) selectedPhotons = PhotonsMedium;
-      if (ch==1) selectedPhotons = fakePhotonsIso;
-      if (ch==2) selectedPhotons = fakePhotonsSiSi;
-      if (ch==3) selectedPhotons = fakePhotonsOther;
+      if (chFA==0) selectedPhotons = fakePhotonsIso;
+      if (chFA==1) selectedPhotons = fakePhotonsSiSi;
+      if (chFA==2) selectedPhotons = fakePhotonsIsoSiSi;
+      if (chFA==3) selectedPhotons = fakePhotonsOther;
       if(data == "mc"){
         if (Photon_genPartFlav[(*selectedPhotons)[0]->indice_]==1) cat=0;
         else if (Photon_genPartFlav[(*selectedPhotons)[0]->indice_]==11) cat=1;
         else cat=2;
       }
+      FR=rate(&h_fakeRate,(*selectedPhotons)[0]->eta_);
+      FR=FR/(1-FR);
       //Find the best T* mass
       mT1=0;
       mT2=0;
@@ -1213,18 +1342,26 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
 
       reg.push_back(getVecPos(regions,"nAk8G0"));
       wgt.push_back(finalWeight);
-      if(selectedJets08->size()==1 && (*selectedJets08)[0]->mass_>120 && (*selectedJets08)[0]->mass_<210){
-        if(ch==1 || ch==2 || ch==3) Hists2d[0][0][4]->Fill((*selectedJets08)[0]->pt_,FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeightSF);
-        if(ch==0) Hists2d[0][0][6]->Fill((*selectedJets08)[0]->pt_,FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeightSF);
+      regFA.push_back(getVecPos(regionsFA,"nAk8G0"));
+      wgtFA.push_back(finalWeight);
+      if(selectedJets08->size()==1 && (*selectedJets08)[0]->mass_>90){
+        if(chFA<10) {
+          Hists2d[0][0][4]->Fill((*selectedJets08)[0]->pt_,FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeightSF);
+          if(ntopTagNM>0) Hists2d[0][0][5]->Fill((*selectedJets08)[0]->pt_,FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeightSF);
+        }
+        if(ch==0) {
+          Hists2d[0][0][6]->Fill((*selectedJets08)[0]->pt_,FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeightSF);
+          if(ntopTagNM>0) Hists2d[0][0][7]->Fill((*selectedJets08)[0]->pt_,FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeightSF);
+        }
         reg.push_back(getVecPos(regions,"nAk81"));
         wgt.push_back(finalWeight);
       }
       if(selectedJets08->size()==1 && ntopTag==1){
-        if(ch==1 || ch==2 || ch==3) Hists2d[0][0][5]->Fill((*selectedJets08)[0]->pt_,FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeightSF);
-        if(ch==0) Hists2d[0][0][7]->Fill((*selectedJets08)[0]->pt_,FatJet_msoftdrop[(*selectedJets08)[0]->indice_],finalWeightSF);
         reg.push_back(getVecPos(regions,"nAk81nTtag1"));
         if(fname.Contains("TTG")) wgt.push_back(finalWeightSF);
         else  wgt.push_back(finalWeight);
+        regFA.push_back(getVecPos(regionsFA,"nAk81nTtag1"));
+        wgtFA.push_back(finalWeight*FR);
       }
       if(selectedJets08->size()>1 &&  ntopTag>0){
         reg.push_back(getVecPos(regions,"nAk8G1nTtagG0"));
@@ -1232,6 +1369,8 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
         else  wgt.push_back(finalWeight);
         if(ch==0) nAccept++;
         if(ch==0 && NlepLHE>0) nAcceptLeptonicTop++;
+        regFA.push_back(getVecPos(regionsFA,"nAk8G1nTtagG0"));
+        wgtFA.push_back(finalWeight*FR);
   //if(mT1<600){
   //   cout<<"################################################################################################"<<endl;
   //   cout<<"GluonCandidate:"<<GluonCandidate.Pt()<<","<<GluonCandidate.Eta()<<","<<GluonCandidate.Phi()<<endl; 
@@ -1272,6 +1411,14 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
 //}
       }
 
+      if(selectedJets08->size()==1 &&  ntopTagSB>0 && ntopTag==0){
+        reg.push_back(getVecPos(regions,"nAk81nTtagOffMt"));
+        if(fname.Contains("TTG")) wgt.push_back(finalWeightSF);
+        else  wgt.push_back(finalWeight);
+        regFA.push_back(getVecPos(regionsFA,"nAk81nTtagOffMt"));
+        wgtFA.push_back(finalWeight*FR);
+      }
+
       if(selectedJets08->size()>1 && ntopTag==0) {
         reg.push_back(getVecPos(regions,"nAk8G1nTtag0"));
         wgt.push_back(finalWeight);
@@ -1279,11 +1426,18 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
       }
       if(selectedJets08->size()>1 &&  ntopTag==0 && ntopTagRandom>0) {
         reg.push_back(getVecPos(regions,"nAk8G1nTtag0XtopMissTagRate"));
-        wgt.push_back(finalWeight*((1-FR)/FR));
+        wgt.push_back(finalWeight*((1-topMTR)/topMTR));
       }
       if(selectedJets08->size()==1 && ntopTag==0 && ntopTagRandom>0){
         reg.push_back(getVecPos(regions,"nAk81nTtag0XtopMissTagRate"));
-        wgt.push_back(finalWeight*((1-FR)/FR));
+        wgt.push_back(finalWeight*((1-topMTR)/topMTR));
+      }
+      if(selectedJets08->size()==1 && ntopTag==0 && ntopTagSB==0 && ntopTagRandomSB>0){
+        reg.push_back(getVecPos(regions,"nAk81nTtagOffMtXtopMissTagRate"));
+        wgt.push_back(finalWeight*((1-topMTRSB)/topMTRSB));
+      }
+      for(int n=0;n<wgt.size();++n){
+        wgtnoPU.push_back(wgt[n]/nominalWeights[getVecPos(sys,"pu")]);
       }
   //Fill histograms
       FillD3Hists(Hists, cat, ch, reg, vInd(vars,"GammaPt"),          (*selectedPhotons)[0]->pt_       ,wgt);
@@ -1304,15 +1458,24 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
       FillD3Hists(Hists, cat, ch, reg, vInd(vars,"phoChargedIso"),    Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],wgt); 
       FillD3Hists(Hists, cat, ch, reg, vInd(vars,"HT"),               ht                               ,wgt); 
       FillD3Hists(Hists, cat, ch, reg, vInd(vars,"HoE"),              Photon_hoe[(*selectedPhotons)[0]->indice_],wgt); 
-      FillD3Hists(Hists, cat, ch, reg, vInd(vars,"softdropMass"),     FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgt); 
+      FillD3Hists(Hists, cat, ch, reg, vInd(vars,"softdropMassLeadingJet08"),     FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgt); 
       FillD3Hists(Hists, cat, ch, reg, vInd(vars,"TvsQCD"),           FatJet_particleNet_TvsQCD[(*selectedJets08)[0]->indice_],wgt); 
       FillD3Hists(Hists, cat, ch, reg, vInd(vars,"TsMass1"),          ((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),wgt); 
       FillD3Hists(Hists, cat, ch, reg, vInd(vars,"nTopTag"),          ntopTag                          ,wgt); 
       FillD3Hists(Hists, cat, ch, reg, vInd(vars,"masstS2"),          Ts2Candidate.M()                 ,wgt); 
       FillD3Hists(Hists, cat, ch, reg, vInd(vars,"Sietaieta"),        Photon_sieie[(*selectedPhotons)[0]->indice_],wgt); 
       FillD3Hists(Hists, cat, ch, reg, vInd(vars ,"MtGMet"),TransverseMass(Wele,Wnu,0,0)        ,wgt);
-      if(selectedJets08->size()>1) FillD3Hists(Hists, cat, ch, reg, vInd(vars,"subLeadingjet08Pt"),          (*selectedJets08)[1]->pt_        ,wgt);
-  
+      FillD3Hists(Hists, cat, ch, reg, vInd(vars,"nVtxApu"), PV_npvs ,wgt);
+      FillD3Hists(Hists, cat, ch, reg, vInd(vars,"nVtxBpu"), PV_npvs ,wgtnoPU);
+      if(selectedJets08->size()>1) FillD3Hists(Hists, cat, ch, reg, vInd(vars,"subLeadingJet08Pt"),          (*selectedJets08)[1]->pt_        ,wgt);
+      FillD3Hists(HistsFA, cat, chFA, regFA, vInd(varsFA,"GammaPt"),          (*selectedPhotons)[0]->pt_       ,wgtFA);
+      FillD3Hists(HistsFA, cat, chFA, regFA, vInd(varsFA,"GammaEta"),         (*selectedPhotons)[0]->eta_      ,wgtFA);
+      FillD3Hists(HistsFA, cat, chFA, regFA, vInd(varsFA,"nPh"),              selectedPhotons->size()          ,wgtFA);
+      FillD3Hists(HistsFA, cat, chFA, regFA, vInd(varsFA,"phoChargedIso"),    Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],wgtFA);
+      FillD3Hists(HistsFA, cat, chFA, regFA, vInd(varsFA,"HoE"),              Photon_hoe[(*selectedPhotons)[0]->indice_],wgtFA);
+      FillD3Hists(HistsFA, cat, chFA, regFA, vInd(varsFA,"Sietaieta"),        Photon_sieie[(*selectedPhotons)[0]->indice_],wgtFA);
+      FillD3Hists(HistsFA, cat, chFA, regFA, vInd(varsFA,"TsMass1"),          ((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),wgtFA);
+
       if (data == "mc" && ifSys && Photon_genPartFlav[(*selectedPhotons)[0]->indice_]==1){
   //Wieght dependent sys
         for(int n=0;n<sys.size();++n){
@@ -1342,7 +1505,7 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"phoChargedIso"),   n, Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],wgtUp);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"HT"),              n, ht                               ,wgtUp);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"HoE"),             n, Photon_hoe[(*selectedPhotons)[0]->indice_],wgtUp);
-          FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"softdropMass"),    n, FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgtUp);
+          FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"softdropMassLeadingJet08"),    n, FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgtUp);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"TvsQCD"),          n, FatJet_particleNet_TvsQCD[(*selectedJets08)[0]->indice_],wgtUp);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"TsMass1"),         n, ((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),wgtUp);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"nTopTag"),         n, ntopTag                          ,wgtUp);
@@ -1366,7 +1529,7 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"phoChargedIso"),   n, Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],wgtDown);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"HT"),              n, ht                               ,wgtDown);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"HoE"),             n, Photon_hoe[(*selectedPhotons)[0]->indice_],wgtDown);
-          FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"softdropMass"),    n, FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgtDown);
+          FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"softdropMassLeadingJet08"),    n, FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgtDown);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"TvsQCD"),          n, FatJet_particleNet_TvsQCD[(*selectedJets08)[0]->indice_],wgtDown);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"TsMass1"),         n, ((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),wgtDown);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"nTopTag"),         n, ntopTag                          ,wgtDown);
@@ -1374,7 +1537,7 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"Sietaieta"),       n, Photon_sieie[(*selectedPhotons)[0]->indice_],wgtDown);
         }
   //PDF, QS, PS
-        if (fname.Contains("TTga") && ch==0){
+        if ((fname.Contains("TTga")  || fname.Contains("TTGamma")) && ch==0){
           for (int k=0;k<reg.size();++k){
             if(reg[k]!=getVecPos(regions,"nAk8G1nTtagG0")) continue;
             regUp.clear();
@@ -1402,14 +1565,14 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           ntopTag=0;
           ntopTagRandom=0;
           ht=0;
-          FR=1;
+          topMTR=1;
           Ts2Candidate.SetPxPyPzE(0,0,0,0);
   
           for (int l=0;l<selectedJets08JesUp->size();l++){
             if((*selectedJets08JesUp)[l]->toptag_) ntopTag++;
             if((*selectedJets08JesUp)[l]->mass_>120 && (*selectedJets08JesUp)[l]->mass_<210){
               ntopTagRandom++;
-              FR = FR * (1-scale_factor(&h_topMistagRate,(*selectedJets08JesUp)[l]->pt_,FatJet_msoftdrop[(*selectedJets08JesUp)[l]->indice_],"central"));
+              topMTR = topMTR * (1-scale_factor(&h_topMistagRate,(*selectedJets08JesUp)[l]->pt_,FatJet_msoftdrop[(*selectedJets08JesUp)[l]->indice_],"central"));
             }
           }
           reg.clear();
@@ -1437,11 +1600,11 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           }
           if(selectedJets08JesUp->size()>1 && ntopTag==0 && ntopTagRandom>0) {
             reg.push_back(getVecPos(regions,"nAk8G1nTtag0XtopMissTagRate"));
-            wgt.push_back(finalWeight*((1-FR)/FR));
+            wgt.push_back(finalWeight*((1-topMTR)/topMTR));
           }
           if(selectedJets08JesUp->size()==1 && ntopTag==0 && ntopTagRandom>0){
             reg.push_back(getVecPos(regions,"nAk81nTtag0XtopMissTagRate"));
-            wgt.push_back(finalWeight*((1-FR)/FR));
+            wgt.push_back(finalWeight*((1-topMTR)/topMTR));
           }
 
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"GammaPt"),          getVecPos(sys,"JesTotal"), (*selectedPhotons)[0]->pt_       ,wgt);
@@ -1457,7 +1620,7 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"phoChargedIso"),    getVecPos(sys,"JesTotal"), Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],wgt);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"HT"),               getVecPos(sys,"JesTotal"), ht                               ,wgt);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"HoE"),              getVecPos(sys,"JesTotal"), Photon_hoe[(*selectedPhotons)[0]->indice_],wgt);
-          FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"softdropMass"),     getVecPos(sys,"JesTotal"), FatJet_msoftdrop[(*selectedJets08JesUp)[0]->indice_],wgt);
+          FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"softdropMassLeadingJet08"),     getVecPos(sys,"JesTotal"), FatJet_msoftdrop[(*selectedJets08JesUp)[0]->indice_],wgt);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"TvsQCD"),           getVecPos(sys,"JesTotal"), FatJet_particleNet_TvsQCD[(*selectedJets08JesUp)[0]->indice_],wgt);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"TsMass1"),          getVecPos(sys,"JesTotal"), ((*selectedPhotons)[0]->p4_+(*selectedJets08JesUp)[0]->p4_).M(),wgt);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"nTopTag"),          getVecPos(sys,"JesTotal"), ntopTag                          ,wgt);
@@ -1472,14 +1635,14 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           ntopTag=0;
           ntopTagRandom=0;
           ht=0;
-          FR=1;
+          topMTR=1;
           Ts2Candidate.SetPxPyPzE(0,0,0,0);
 
           for (int l=0;l<selectedJets08JesDown->size();l++){
             if((*selectedJets08JesDown)[l]->toptag_) ntopTag++;
             if((*selectedJets08JesDown)[l]->mass_>120 && (*selectedJets08JesDown)[l]->mass_<210){
               ntopTagRandom++;
-              FR = FR * (1-scale_factor(&h_topMistagRate,(*selectedJets08JesDown)[l]->pt_,FatJet_msoftdrop[(*selectedJets08JesDown)[l]->indice_],"central"));
+              topMTR = topMTR * (1-scale_factor(&h_topMistagRate,(*selectedJets08JesDown)[l]->pt_,FatJet_msoftdrop[(*selectedJets08JesDown)[l]->indice_],"central"));
             }
           }
           reg.clear();
@@ -1507,11 +1670,11 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           }
           if(selectedJets08JesDown->size()>1 && ntopTag==0 && ntopTagRandom>0) {
             reg.push_back(getVecPos(regions,"nAk8G1nTtag0XtopMissTagRate"));
-            wgt.push_back(finalWeight*((1-FR)/FR));
+            wgt.push_back(finalWeight*((1-topMTR)/topMTR));
           }
           if(selectedJets08JesDown->size()==1 && ntopTag==0 && ntopTagRandom>0){
             reg.push_back(getVecPos(regions,"nAk81nTtag0XtopMissTagRate"));
-            wgt.push_back(finalWeight*((1-FR)/FR));
+            wgt.push_back(finalWeight*((1-topMTR)/topMTR));
           }
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"GammaPt"),          getVecPos(sys,"JesTotal"), (*selectedPhotons)[0]->pt_       ,wgt);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"GammaEta"),         getVecPos(sys,"JesTotal"), (*selectedPhotons)[0]->eta_      ,wgt);
@@ -1526,7 +1689,7 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"phoChargedIso"),    getVecPos(sys,"JesTotal"), Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],wgt);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"HT"),               getVecPos(sys,"JesTotal"), ht                               ,wgt);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"HoE"),              getVecPos(sys,"JesTotal"), Photon_hoe[(*selectedPhotons)[0]->indice_],wgt);
-          FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"softdropMass"),     getVecPos(sys,"JesTotal"), FatJet_msoftdrop[(*selectedJets08JesDown)[0]->indice_],wgt);
+          FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"softdropMassLeadingJet08"),     getVecPos(sys,"JesTotal"), FatJet_msoftdrop[(*selectedJets08JesDown)[0]->indice_],wgt);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"TvsQCD"),           getVecPos(sys,"JesTotal"), FatJet_particleNet_TvsQCD[(*selectedJets08JesDown)[0]->indice_],wgt);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"TsMass1"),          getVecPos(sys,"JesTotal"), ((*selectedPhotons)[0]->p4_+(*selectedJets08JesDown)[0]->p4_).M(),wgt);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"nTopTag"),          getVecPos(sys,"JesTotal"), ntopTag                          ,wgt);
@@ -1542,14 +1705,14 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           ntopTag=0;
           ntopTagRandom=0;
           ht=0;
-          FR=1;
+          topMTR=1;
           Ts2Candidate.SetPxPyPzE(0,0,0,0);
   
           for (int l=0;l<(*JEC08sysUp)[n].size();l++){
             if((*JEC08sysUp)[n][l]->toptag_) ntopTag++;
             if((*JEC08sysUp)[n][l]->mass_>120 && (*JEC08sysUp)[n][l]->mass_<210){
               ntopTagRandom++;
-              FR = FR * (1-scale_factor(&h_topMistagRate,(*JEC08sysUp)[n][l]->pt_,FatJet_msoftdrop[(*JEC08sysUp)[n][l]->indice_],"central"));
+              topMTR = topMTR * (1-scale_factor(&h_topMistagRate,(*JEC08sysUp)[n][l]->pt_,FatJet_msoftdrop[(*JEC08sysUp)[n][l]->indice_],"central"));
             }
           }
     
@@ -1570,13 +1733,13 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           ntopTag=0;
           ntopTagRandom=0;
           ht=0;
-          FR=1;
+          topMTR=1;
           Ts2Candidate.SetPxPyPzE(0,0,0,0);
           for (int l=0;l<(*JEC08sysDown)[n].size();l++){
             if((*JEC08sysDown)[n][l]->toptag_) ntopTag++;
             if((*JEC08sysDown)[n][l]->mass_>120 && (*JEC08sysDown)[n][l]->mass_<210){
               ntopTagRandom++;
-              FR = FR * (1-scale_factor(&h_topMistagRate,(*JEC08sysDown)[n][l]->pt_,FatJet_msoftdrop[(*JEC08sysDown)[n][l]->indice_],"central"));
+              topMTR = topMTR * (1-scale_factor(&h_topMistagRate,(*JEC08sysDown)[n][l]->pt_,FatJet_msoftdrop[(*JEC08sysDown)[n][l]->indice_],"central"));
             }
           }
     
@@ -1619,7 +1782,7 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           FillD4Hists(HistsSysDataUp, ch, reg, vInd(vars,"phoChargedIso"),   n, Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],wgtUp);
           FillD4Hists(HistsSysDataUp, ch, reg, vInd(vars,"HT"),              n, ht                               ,wgtUp);
           FillD4Hists(HistsSysDataUp, ch, reg, vInd(vars,"HoE"),             n, Photon_hoe[(*selectedPhotons)[0]->indice_],wgtUp);
-          FillD4Hists(HistsSysDataUp, ch, reg, vInd(vars,"softdropMass"),    n, FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgtUp);
+          FillD4Hists(HistsSysDataUp, ch, reg, vInd(vars,"softdropMassLeadingJet08"),    n, FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgtUp);
           FillD4Hists(HistsSysDataUp, ch, reg, vInd(vars,"TvsQCD"),          n, FatJet_particleNet_TvsQCD[(*selectedJets08)[0]->indice_],wgtUp);
           FillD4Hists(HistsSysDataUp, ch, reg, vInd(vars,"TsMass1"),         n, ((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),wgtUp);
           FillD4Hists(HistsSysDataUp, ch, reg, vInd(vars,"nTopTag"),         n, ntopTag                          ,wgtUp);
@@ -1643,7 +1806,7 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           FillD4Hists(HistsSysDataDown, ch, reg, vInd(vars,"phoChargedIso"),   n, Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],wgtDown);
           FillD4Hists(HistsSysDataDown, ch, reg, vInd(vars,"HT"),              n, ht                               ,wgtDown);
           FillD4Hists(HistsSysDataDown, ch, reg, vInd(vars,"HoE"),             n, Photon_hoe[(*selectedPhotons)[0]->indice_],wgtDown);
-          FillD4Hists(HistsSysDataDown, ch, reg, vInd(vars,"softdropMass"),    n, FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgtDown);
+          FillD4Hists(HistsSysDataDown, ch, reg, vInd(vars,"softdropMassLeadingJet08"),    n, FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgtDown);
           FillD4Hists(HistsSysDataDown, ch, reg, vInd(vars,"TvsQCD"),          n, FatJet_particleNet_TvsQCD[(*selectedJets08)[0]->indice_],wgtDown);
           FillD4Hists(HistsSysDataDown, ch, reg, vInd(vars,"TsMass1"),         n, ((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),wgtDown);
           FillD4Hists(HistsSysDataDown, ch, reg, vInd(vars,"nTopTag"),         n, ntopTag                          ,wgtDown);
@@ -1657,13 +1820,13 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
       ntopTag=0;
       ntopTagRandom=0;
       ht=0;
-      FR=1;
+      topMTR=1;
       Ts2Candidate.SetPxPyPzE(0,0,0,0);
       for (int l=0;l<selectedJets08->size();l++){
         if((*selectedJets08)[l]->toptag_) ntopTag++;
         if((*selectedJets08)[l]->mass_>120 && (*selectedJets08)[l]->mass_<210){
           ntopTagRandom++;
-          FR = FR * (1-scale_factor(&h_topMistagRate,(*selectedJets08)[l]->pt_,FatJet_msoftdrop[(*selectedJets08)[l]->indice_],"central"));
+          topMTR = topMTR * (1-scale_factor(&h_topMistagRate,(*selectedJets08)[l]->pt_,FatJet_msoftdrop[(*selectedJets08)[l]->indice_],"central"));
         }
       }
       reg.clear();
@@ -1693,11 +1856,11 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
       }
       if(selectedJets08->size()>1 && ntopTag==0 && ntopTagRandom>0) {
         reg.push_back(getVecPos(regions,"nAk8G1nTtag0XtopMissTagRate"));
-        wgt.push_back(finalWeight*((1-FR)/FR));
+        wgt.push_back(finalWeight*((1-topMTR)/topMTR));
       }
       if(selectedJets08->size()==1 && ntopTag==0 && ntopTagRandom>0){
         reg.push_back(getVecPos(regions,"nAk81nTtag0XtopMissTagRate"));
-        wgt.push_back(finalWeight*((1-FR)/FR));
+        wgt.push_back(finalWeight*((1-topMTR)/topMTR));
       }
 
 //Photon scale UP
@@ -1718,7 +1881,7 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"phoChargedIso"),    getVecPos(sys,"photonEScale"), Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],wgt);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"HT"),               getVecPos(sys,"photonEScale"), ht                               ,wgt);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"HoE"),              getVecPos(sys,"photonEScale"), Photon_hoe[(*selectedPhotons)[0]->indice_],wgt);
-          FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"softdropMass"),     getVecPos(sys,"photonEScale"), FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgt);
+          FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"softdropMassLeadingJet08"),     getVecPos(sys,"photonEScale"), FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgt);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"TvsQCD"),           getVecPos(sys,"photonEScale"), FatJet_particleNet_TvsQCD[(*selectedJets08)[0]->indice_],wgt);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"TsMass1"),          getVecPos(sys,"photonEScale"), ((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),wgt);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"nTopTag"),          getVecPos(sys,"photonEScale"), ntopTag                          ,wgt);
@@ -1744,7 +1907,7 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"phoChargedIso"),    getVecPos(sys,"photonEScale"), Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],wgt);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"HT"),               getVecPos(sys,"photonEScale"), ht                               ,wgt);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"HoE"),              getVecPos(sys,"photonEScale"), Photon_hoe[(*selectedPhotons)[0]->indice_],wgt);
-          FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"softdropMass"),     getVecPos(sys,"photonEScale"), FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgt);
+          FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"softdropMassLeadingJet08"),     getVecPos(sys,"photonEScale"), FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgt);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"TvsQCD"),           getVecPos(sys,"photonEScale"), FatJet_particleNet_TvsQCD[(*selectedJets08)[0]->indice_],wgt);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"TsMass1"),          getVecPos(sys,"photonEScale"), ((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),wgt);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"nTopTag"),          getVecPos(sys,"photonEScale"), ntopTag                          ,wgt);
@@ -1770,7 +1933,7 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"phoChargedIso"),    getVecPos(sys,"photonESmear"), Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],wgt);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"HT"),               getVecPos(sys,"photonESmear"), ht                               ,wgt);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"HoE"),              getVecPos(sys,"photonESmear"), Photon_hoe[(*selectedPhotons)[0]->indice_],wgt);
-          FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"softdropMass"),     getVecPos(sys,"photonESmear"), FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgt);
+          FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"softdropMassLeadingJet08"),     getVecPos(sys,"photonESmear"), FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgt);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"TvsQCD"),           getVecPos(sys,"photonESmear"), FatJet_particleNet_TvsQCD[(*selectedJets08)[0]->indice_],wgt);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"TsMass1"),          getVecPos(sys,"photonESmear"), ((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),wgt);
           FillD4Hists(HistsSysUp, ch, reg, vInd(vars,"nTopTag"),          getVecPos(sys,"photonESmear"), ntopTag                          ,wgt);
@@ -1796,7 +1959,7 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"phoChargedIso"),    getVecPos(sys,"photonESmear"), Photon_pfRelIso03_chg[(*selectedPhotons)[0]->indice_]*Photon_pt[(*selectedPhotons)[0]->indice_],wgt);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"HT"),               getVecPos(sys,"photonESmear"), ht                               ,wgt);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"HoE"),              getVecPos(sys,"photonESmear"), Photon_hoe[(*selectedPhotons)[0]->indice_],wgt);
-          FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"softdropMass"),     getVecPos(sys,"photonESmear"), FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgt);
+          FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"softdropMassLeadingJet08"),     getVecPos(sys,"photonESmear"), FatJet_msoftdrop[(*selectedJets08)[0]->indice_],wgt);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"TvsQCD"),           getVecPos(sys,"photonESmear"), FatJet_particleNet_TvsQCD[(*selectedJets08)[0]->indice_],wgt);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"TsMass1"),          getVecPos(sys,"photonESmear"), ((*selectedPhotons)[0]->p4_+(*selectedJets08)[0]->p4_).M(),wgt);
           FillD4Hists(HistsSysDown, ch, reg, vInd(vars,"nTopTag"),          getVecPos(sys,"photonESmear"), ntopTag                          ,wgt);
@@ -1820,8 +1983,17 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
     for (int l=0;l<PhotonsMedium->size();l++){
       delete (*PhotonsMedium)[l];
     }
-    for (int l=0;l<fakePhotons->size();l++){
-      delete (*fakePhotons)[l];
+    for (int l=0;l<fakePhotonsIso->size();l++){
+      delete (*fakePhotonsIso)[l];
+    }
+    for (int l=0;l<fakePhotonsSiSi->size();l++){
+      delete (*fakePhotonsSiSi)[l];
+    }
+    for (int l=0;l<fakePhotonsIsoSiSi->size();l++){
+      delete (*fakePhotonsIsoSiSi)[l];
+    }
+    for (int l=0;l<fakePhotonsOther->size();l++){
+      delete (*fakePhotonsOther)[l];
     }
     selectedJets04->clear();
     selectedJets04->shrink_to_fit();
@@ -1832,9 +2004,9 @@ void MyAnalysis::Loop(TString fname, TString data, TString dataset ,string year,
     PhotonsMedium->clear();
     PhotonsMedium->shrink_to_fit();
     delete PhotonsMedium;
-    fakePhotons->clear();
-    fakePhotons->shrink_to_fit();
-    delete fakePhotons;
+    fakePhotonsIsoSiSi->clear();
+    fakePhotonsIsoSiSi->shrink_to_fit();
+    delete fakePhotonsIsoSiSi;
     fakePhotonsIso->clear();
     fakePhotonsIso->shrink_to_fit();
     delete fakePhotonsIso;
@@ -1912,6 +2084,17 @@ cout<<"Total Virtual Memory: "<<(getValue()-memoryInit)/1000.0<<" MB"<<endl;
     }
   }
 
+  for (int j=0;j<categories.size();++j){
+    for (int i=0;i<channelsFA.size();++i){
+      for (int k=0;k<regionsFA.size();++k){
+        for (int l=0;l<varsFA.size();++l){
+          HistsFA[j][i][k][l]  ->Write("",TObject::kOverwrite);
+          delete HistsFA[j][i][k][l];
+        }
+      }
+    }
+  }
+
   for (int i=0;i<1;++i){
     for (int k=0;k<1;++k){
       for (int l=0;l<vars2d.size();++l){
@@ -1945,7 +2128,7 @@ cout<<"Total Virtual Memory: "<<(getValue()-memoryInit)/1000.0<<" MB"<<endl;
       }
     }
 
-    if (fname.Contains("TTga")){
+    if (fname.Contains("TTga") || fname.Contains("TTGamma")){
       file_out.mkdir("reweightingSys");
       file_out.cd("reweightingSys/");
       for (int i=0;i<1;++i){
@@ -1997,6 +2180,10 @@ cout<<"Total Virtual Memory: "<<(getValue()-memoryInit)/1000.0<<" MB"<<endl;
       }
     }
   }
+
+  trigEffDen->Write("",TObject::kOverwrite);
+  trigEffNum->Write("",TObject::kOverwrite);
+  h_2dSieieVsChiso->Write("",TObject::kOverwrite);
 
   tree_out.Write() ;
   file_out.Close() ;
@@ -2125,8 +2312,10 @@ bool MyAnalysis::overlapRemoval(double Et_cut, double Eta_cut, double dR_cut, bo
 
 
 void MyAnalysis::FillD3Hists(D4HistsContainer H3, int ca, int v1, std::vector<int> v2, int v3, float value, std::vector<float> weight){
-  for (int i = 0; i < v2.size(); ++i) {
-    H3[ca][v1][v2[i]][v3]->Fill(value, weight[i]);
+  if (v1<10){
+    for (int i = 0; i < v2.size(); ++i) {
+      H3[ca][v1][v2[i]][v3]->Fill(value, weight[i]);
+    }
   }
 }
 

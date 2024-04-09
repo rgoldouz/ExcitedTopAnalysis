@@ -398,6 +398,7 @@ sys = ["phIDSf", "pu", "prefiring","photonEScale","photonESmear", "topTagSF","Je
 sysJec= ["Total", "AbsoluteMPFBias","AbsoluteScale","AbsoluteStat","FlavorQCD","Fragmentation","PileUpDataMC","PileUpPtBB","PileUpPtEC1","PileUpPtEC2","PileUpPtHF","PileUpPtRef","RelativeFSR","RelativePtBB","RelativePtEC1","RelativePtEC2","RelativePtHF","RelativeBal","RelativeSample","RelativeStatEC","RelativeStatFSR","RelativeStatHF","SinglePionECAL","SinglePionHCAL","TimePtEta"]
 
 Samples = ['TTga_M1000.root',  'TTga_M1200.root',  'TTga_M1300.root',  'TTga_M1400.root',  'TTga_M1500.root',  'TTga_M1600.root',  'TTga_M700.root',   'TTga_M800.root']
+Samples = ['TTga_M1000.root','TTgaSpin32_M1000.root']
 SamplesName = ['t*t* (M=1TeV)', 't*t* (M=1.2TeV)', 't*t* (M=1.3TeV)', 't*t* (M=1.4TeV)','t*t* (M=1.5TeV)', 't*t* (M=1.6TeV)','t*t* (M=0.7TeV)', 't*t* (M=0.8TeV)']
 SamplesNameLatex = ['t*t* (M=1TeV)', 't*t* (M=1.2TeV)', 't*t* (M=1.3TeV)', 't*t* (M=1.4TeV)','t*t* (M=1.5TeV)', 't*t* (M=1.6TeV)','t*t* (M=0.7TeV)', 't*t* (M=0.8TeV)']
 colors =  [ROOT.kBlack,ROOT.kYellow,ROOT.kGreen,ROOT.kRed-4, ROOT.kBlue-3,ROOT.kOrange-3, ROOT.kBlack, ROOT.kGreen+3,ROOT.kViolet, ROOT.kBlue-9, ROOT.kYellow-2]

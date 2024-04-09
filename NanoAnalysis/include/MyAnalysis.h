@@ -3449,6 +3449,7 @@ public :
    typedef vector< vector < vector < vector< TH1F* > > > > D4HistsContainer;
    typedef vector< vector < vector < TH1F* > > > D3HistsContainer;
    D4HistsContainer Hists;
+   D4HistsContainer HistsFA;
    D4HistsContainer HistsSysUp;
    D4HistsContainer HistsSysDown;
    D4HistsContainer HistsSysDataUp;

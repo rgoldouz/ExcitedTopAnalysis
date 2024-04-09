@@ -187,12 +187,17 @@ def stackPlots(hists, SignalHists, Fnames, ch = "channel", reg = "region", year=
     pad2.SetRightMargin(0.05)
     pad2.SetFillStyle(0)
     pad1.SetFillStyle(0)
-    pad1.cd()
     pad1.SetLogx(ROOT.kFALSE)
     pad2.SetLogx(ROOT.kFALSE)
     pad1.SetLogy(ROOT.kFALSE)
-
     y_min=0
+    y_max=1.6*dummy.GetMaximum()
+    if 'Pt' in var:
+        pad1.SetLogy(ROOT.kTRUE)
+        y_min=0.1
+        y_max=10*dummy.GetMaximum()
+    pad1.cd()
+    y_min=0.01
     y_max=1.6*dummy.GetMaximum()
     dummy.SetMarkerStyle(20)
     dummy.SetMarkerSize(1.2)
@@ -305,29 +310,28 @@ def stackPlots(hists, SignalHists, Fnames, ch = "channel", reg = "region", year=
 
 
 #year=['2016','2017','2018','All']
-#year=['2017']
+year=['2017']
 year=['2016preVFP', '2016postVFP', '2017','2018']
-year=['2016preVFP','2016postVFP']
+#year=['2018']
 categories=["promptG", "fakeGEle","fakeGJet"]
-regions=["nAk8G0", "nAk81", "nAk81nTtag1", "nAk8G1nTtagG0",  "nAk8G1nTtag0", "nAk8G1nTtag0XtopMissTagRate",  "nAk81nTtag0XtopMissTagRate","nAk8G1nTtagG0LepG0"]
+regions=["nAk8G0", "nAk81", "nAk81nTtag1", "nAk8G1nTtagG0",  "nAk8G1nTtag0", "nAk8G1nTtag0XtopMissTagRate",  "nAk81nTtag0XtopMissTagRate","nAk8G1nTtagG0LepG0", "nAk81nTtagOffMt","nAk81nTtagOffMtXtopMissTagRate"]
 scaleSig = [1,1,1,1,0.1,40,1,1,1,1,1,1,1,1]
 scaleSigRegion = [500,1,1,1,1,1,1,1,1,1,1,1]
-channels=["aJets", "fakeAJetsIso", "fakeAJetsSiSi","fakeAJetsOthers"];
-#channels=["aJets"]
-variables=["GammaPt","GammaEta","GammaPhi","jet04Pt","jet04Eta","njet04","nbjet04","jet08Pt","jet08Eta","jet08Phi","njet08","Met", "nPh", "phoChargedIso",  "HT", "HoE", "softdropMass", "TvsQCD","TsMass1", "nTopTag","masstS2", "Sietaieta","MtGMet","subLeadingjet08Pt"]
-variablesName=["p_{T}(#gamma)","#eta(#gamma)","#Phi(#gamma)","p_{T}(leading jet (AK4))","#eta(leading jet (AK4))","Number of jets (AK4)","Number of b-jets (AK4)","p_{T}(leading jet (AK8))","#eta(leading jet (AK8))","#Phi(leading jet (AK8))","Number of jets (AK8)","MET","Number of photons","phoChargedIso", "HT", "H/E", "softdropMass (leading jet (AK8))","TvsQCD (leading jet (AK8))",  "M(#gamma, highest mass AK8)", "N top-tagged ","mass of the second t*","#sigma_{i#eta i#eta}", "M_{T}(#gamma,MET)", "p_{T}(sub-leading jet (AK8))"]
+channels=["aJets", "fakeAJetsIso", "fakeAJetsSiSi","fakeAJetsOthers"]
+channels=["aJets"]
+variables=["GammaPt","GammaEta","GammaPhi","jet04Pt","jet04Eta","njet04","nbjet04","jet08Pt","jet08Eta","jet08Phi","njet08","Met", "nPh", "phoChargedIso",  "HT", "HoE", "softdropMass", "TvsQCD","TsMass1", "nTopTag","masstS2", "Sietaieta","MtGMet","subLeadingjet08Pt","nVtxApu","nVtxBpu"]
+#variables=["GammaPt"]
+variablesName=["p_{T}(#gamma)","#eta(#gamma)","#Phi(#gamma)","p_{T}(leading jet (AK4))","#eta(leading jet (AK4))","Number of jets (AK4)","Number of b-jets (AK4)","p_{T}(leading jet (AK8))","#eta(leading jet (AK8))","#Phi(leading jet (AK8))","Number of jets (AK8)","MET","Number of photons","phoChargedIso", "HT", "H/E", "softdropMass (leading jet (AK8))","TvsQCD (leading jet (AK8))",  "M(#gamma, highest mass AK8)", "N top-tagged ","mass of the second t*","#sigma_{i#eta i#eta}", "M_{T}(#gamma,MET)", "p_{T}(sub-leading jet (AK8))","nVtxApu","nVtxBpu"]
 
 HistAddress = '/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/hists/'
-
-#Samples = ['data.root','Fake.root', 'Gjets.root','ttG.root','other.root', 'TTga_M0800.root', 'TTga_M1600.root']
-Samples = ['data.root','Gjets.root','ttG.root','Other.root', 'TTga_M800.root', 'TTga_M1600.root']
-Samples = ['data.root','Gjets.root','ttG.root','Other.root']
+Samples = ['data.root','Gjets.root','ttG.root','Other.root','TTgaSpin32_M800.root', 'TTgaSpin32_M1600.root']
 SamplesName = ['Data','#gamma+jets', 'tt#gamma', 'Other prompt #gamma', 'Fake #gamma (ele)', 'Fake #gamma (jet)', 't*t* (M=0.8TeV) #times 0.1', 't*t* (M=1.6TeV) #times 40']
-SamplesName = ['Data','#gamma+jets', 'tt#gamma', 'Other prompt #gamma', 'Fake #gamma (ele)', 'Fake #gamma (jet)']
 SamplesNameLatex = ['Data','Non-prompt #gamma','Gjets', 'ttG', 't*t* (M=0.8TeV)', 't*t* (M=1.6TeV)']
-
 bins = array( 'd',[0.0,100.0,200.0,300.0,400.0,500.0,700.0, 1000.0] )
 
+channelsFR=["fakeAJetsIso", "fakeAJetsSiSi","fakeAJetsIsoSiSi","fakeAJetsOthers"]
+regionsFR=["nAk8G0","nAk81nTtag1", "nAk8G1nTtagG0", "nAk81nTtagOffMt"]
+variablesFR=["GammaPt","GammaEta","TsMass1"]
 
 Hists = []
 for numyear, nameyear in enumerate(year):
@@ -343,10 +347,7 @@ for numyear, nameyear in enumerate(year):
                 for numreg, namereg in enumerate(regions):
                     l3=[]
                     for numvar, namevar in enumerate(variables):
-                        print Samples[f] + '_' +namecat+ '_' +namech + '_' + namereg + '_' + namevar
                         h= Files[f].Get(namecat+ '_' +namech + '_' + namereg + '_' + namevar)
-#                        h.SetFillColor(colors[f])
-#                        h.SetLineColor(colors[f])
                         if 'jet08Pt' in namevar:
                             h=h.Rebin(len(bins)-1,"",bins)
                         if 'TTga' in Samples[f]:
@@ -361,48 +362,59 @@ for numyear, nameyear in enumerate(year):
         l0.append(c0)
     Hists.append(l0)       
 
-#Draw the top missTag rate
-data1jet = Hists[0][0][Samples.index("data.root")][channels.index("aJets")][regions.index("nAk81")][variables.index("jet08Pt")].Clone()
-data1jet1tag = Hists[0][0][Samples.index("data.root")][channels.index("aJets")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")].Clone()
-Top1jet1tag = Hists[0][0][Samples.index("ttG.root")][channels.index("aJets")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")].Clone()
-Top1jet1tag.Add(Hists[0][1][Samples.index("Other.root")][channels.index("aJets")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")].Clone())
-data1jet1tag.Add(Top1jet1tag,-1)
-data1jet1tag.Divide(data1jet)
-draw1dHist(  data1jet1tag, 'topMistagRatePN','topMistagRatePN','topMistagRatePN' )
-data1jet1tag.SetName('topMistagRate')
+HistsFR = []
+for numyear, nameyear in enumerate(year):
+    l0=[]
+    Files = []
+    for numcat,namecat in enumerate(categories):
+        c0=[]
+        for f in range(len(Samples)):
+            l1=[]
+            Files.append(ROOT.TFile.Open(HistAddress + nameyear+ '_' + Samples[f]))
+            for numch, namech in enumerate(channelsFR):
+                l2=[]
+                for numreg, namereg in enumerate(regionsFR):
+                    l3=[]
+                    for numvar, namevar in enumerate(variablesFR):
+                        h= Files[f].Get(namecat+ '_' +namech + '_' + namereg + '_' + namevar)
+                        if 'jet08Pt' in namevar:
+                            h=h.Rebin(len(bins)-1,"",bins)
+                        if 'TTga' in Samples[f]:
+                           h.Scale(scaleSig[f])
+                           h.Scale(scaleSigRegion[numreg])
+#                        if 'Gjets' in Samples[f]:
+#                           h.Scale(1.84)
+                        l3.append(h)
+                    l2.append(l3)
+                l1.append(l2)
+            c0.append(l1)
+        l0.append(c0)
+    HistsFR.append(l0)
 
-data1mass = Hists[0][0][Samples.index("data.root")][channels.index("aJets")][regions.index("nAk81")][variables.index("softdropMass")].Clone()
-data1mass1tag = Hists[0][0][Samples.index("data.root")][channels.index("aJets")][regions.index("nAk81nTtag1")][variables.index("softdropMass")].Clone()
-Top1mass1tag = Hists[0][0][Samples.index("ttG.root")][channels.index("aJets")][regions.index("nAk81nTtag1")][variables.index("softdropMass")].Clone()
-Top1mass1tag.Add(Hists[0][1][Samples.index("Other.root")][channels.index("aJets")][regions.index("nAk81nTtag1")][variables.index("softdropMass")].Clone())
-data1mass1tag.Add(Top1mass1tag,-1)
-data1mass1tag.Divide(data1mass)
-draw1dHist(  data1mass1tag, 'topMistagRatePNMass','topMistagRatePNMass','topMistagRatePNMass' )
-data1mass1tag.SetName('topMistagRate_Mass')
-
-Fakedata1jet = Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsIso")][regions.index("nAk81")][variables.index("jet08Pt")].Clone()
-Fakedata1jet.Add(Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81")][variables.index("jet08Pt")])
-Fakedata1jet.Add(Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81")][variables.index("jet08Pt")])
-Fakedata1jet1tag = Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsIso")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")].Clone()
-Fakedata1jet1tag.Add(Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
-Fakedata1jet1tag.Add(Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
-Top1jet1tag =Hists[0][1][Samples.index("Other.root")][channels.index("fakeAJetsIso")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")].Clone()
-Top1jet1tag.Add(Hists[0][1][Samples.index("Other.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
-Top1jet1tag.Add(Hists[0][1][Samples.index("Other.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
-Top1jet1tag.Add(Hists[0][0][Samples.index("ttG.root")][channels.index("fakeAJetsIso")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
-Top1jet1tag.Add(Hists[0][0][Samples.index("ttG.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
-Top1jet1tag.Add(Hists[0][0][Samples.index("ttG.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
-Fakedata1jet1tag.Add(Top1jet1tag,-1)
-Fakedata1jet1tag.Divide(Fakedata1jet)
-draw1dHist(  Fakedata1jet1tag, 'topMistagRatePNFake','topMistagRatePNFake','topMistagRatePNFake' )
-Fakedata1jet1tag.SetName('topMistagRateFake')
-compareNeffHist([data1jet1tag, Fakedata1jet1tag], ['Gamma+1jet', 'FakeG+jet'], label_name="jet08Pt", can_name="MTRatePN")
-
-hfile = ROOT.TFile( 'topMistagRate.root', 'RECREATE', 'mis top tag rate histogram' )
-data1jet1tag.Write()
-Fakedata1jet1tag.Write()
-hfile.Write()
-hfile.Close()
+##
+##Fakedata1jet = Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsIso")][regions.index("nAk81")][variables.index("jet08Pt")].Clone()
+##Fakedata1jet.Add(Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81")][variables.index("jet08Pt")])
+##Fakedata1jet.Add(Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81")][variables.index("jet08Pt")])
+##Fakedata1jet1tag = Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsIso")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")].Clone()
+##Fakedata1jet1tag.Add(Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
+##Fakedata1jet1tag.Add(Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
+##Top1jet1tag =Hists[0][1][Samples.index("Other.root")][channels.index("fakeAJetsIso")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")].Clone()
+##Top1jet1tag.Add(Hists[0][1][Samples.index("Other.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
+##Top1jet1tag.Add(Hists[0][1][Samples.index("Other.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
+##Top1jet1tag.Add(Hists[0][0][Samples.index("ttG.root")][channels.index("fakeAJetsIso")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
+##Top1jet1tag.Add(Hists[0][0][Samples.index("ttG.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
+##Top1jet1tag.Add(Hists[0][0][Samples.index("ttG.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
+##Fakedata1jet1tag.Add(Top1jet1tag,-1)
+##Fakedata1jet1tag.Divide(Fakedata1jet)
+##draw1dHist(  Fakedata1jet1tag, 'topMistagRatePNFake','topMistagRatePNFake','topMistagRatePNFake' )
+##Fakedata1jet1tag.SetName('topMistagRateFake')
+##compareNeffHist([data1jet1tag, Fakedata1jet1tag], ['Gamma+1jet', 'FakeG+jet'], label_name="jet08Pt", can_name="MTRatePN")
+##
+##hfile = ROOT.TFile( 'topMistagRate.root', 'RECREATE', 'mis top tag rate histogram' )
+##data1jet1tag.Write()
+##Fakedata1jet1tag.Write()
+##hfile.Write()
+##hfile.Close()
 
 #draw MC predicted 
 for numyear, nameyear in enumerate(year):
@@ -423,6 +435,31 @@ for numyear, nameyear in enumerate(year):
 
                 stackPlots(HH, HHsignal, SamplesName, namech, namereg, nameyear,namevar,variablesName[numvar],"MC"+nameyear)
     os.system('tar -cvf MC'+nameyear+'.tar ' + "MC"+nameyear)
+
+for numch, namech in enumerate(channels):
+    for numreg, namereg in enumerate(regions):
+        for numvar, namevar in enumerate(variables):
+            HH=[]
+            HHsignal=[]
+            for f in range(len(Samples)):
+                h0=Hists[0][0][f][numch][numreg][numvar].Clone()
+                h1=Hists[0][1][f][numch][numreg][numvar].Clone()
+                h2=Hists[0][2][f][numch][numreg][numvar].Clone()
+                for y in range(1,len(year)):
+                    h0.Add(Hists[y][0][f][numch][numreg][numvar])
+                    h1.Add(Hists[y][1][f][numch][numreg][numvar])
+                    h2.Add(Hists[y][2][f][numch][numreg][numvar])
+                if 'TTga' in Samples[f]:
+                    HHsignal.append(h0)
+                elif 'Other' in Samples[f]:
+                    HH.append(h0)
+                    HH.append(h1)
+                    HH.append(h2)
+                else:
+                    HH.append(h0)
+
+            stackPlots(HH, HHsignal, SamplesName, namech, namereg, "All",namevar,variablesName[numvar],"MCAll")
+os.system('tar -cvf MCAll.tar ' + "MCAll")
 #for numvar, namevar in enumerate(variables):
 #    data1nAK4jet = Hists[0][Samples.index("data.root")][channels.index("aJets")][regions.index("nAk81")][variables.index(namevar)].Clone()
 #    data1nAK4jet1tag = Hists[0][Samples.index("data.root")][channels.index("aJets")][regions.index("nAk81nTtag1")][variables.index(namevar)].Clone()
@@ -437,29 +474,38 @@ for numyear, nameyear in enumerate(year):
     for numvar, namevar in enumerate(variables):
         Hists[numyear][0][Samples.index("Gjets.root")][channels.index("aJets")][regions.index("nAk8G1nTtagG0")][numvar] = Hists[numyear][0][Samples.index("data.root")][channels.index("aJets")][regions.index("nAk8G1nTtag0XtopMissTagRate")][numvar]
         Hists[numyear][0][Samples.index("Gjets.root")][channels.index("aJets")][regions.index("nAk81nTtag1")][numvar] = Hists[numyear][0][Samples.index("data.root")][channels.index("aJets")][regions.index("nAk81nTtag0XtopMissTagRate")][numvar]
-    
+        Hists[numyear][0][Samples.index("Gjets.root")][channels.index("aJets")][regions.index("nAk81nTtagOffMt")][numvar] = Hists[numyear][0][Samples.index("data.root")][channels.index("aJets")][regions.index("nAk81nTtagOffMtXtopMissTagRate")][numvar]    
     ####Data Driven Fake photon
-        hDataCR1 = Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsIso")][regions.index("nAk8G1nTtagG0")][numvar].Clone()
-        hDataCR1.Add(Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk8G1nTtagG0")][numvar])
-        hDataCR1.Add(Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsOthers")][regions.index("nAk8G1nTtagG0")][numvar])
-        hDataCR1.Scale(0.022/(1-0.022))
-        hGjetsCR1 = Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsIso")][regions.index("nAk8G1nTtagG0")][numvar].Clone()
-        hGjetsCR1.Add(Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk8G1nTtagG0")][numvar])
-        hGjetsCR1.Add(Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsOthers")][regions.index("nAk8G1nTtagG0")][numvar])
-        hGjetsCR1.Scale(0.022/(1-0.022))
-        hDataCR1.Add(hGjetsCR1,-1)
-        Hists[numyear][2][Samples.index("Other.root")][channels.index("aJets")][regions.index("nAk8G1nTtagG0")][numvar] = hDataCR1
-    
-        hDataCR3 = Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsIso")][regions.index("nAk81nTtag1")][numvar].Clone()
-        hDataCR3.Add(Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81nTtag1")][numvar])
-        hDataCR3.Add(Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81nTtag1")][numvar])
-        hDataCR3.Scale(0.022/(1-0.022))
-        hGjetsCR3 = Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsIso")][regions.index("nAk81nTtag1")][numvar].Clone()
-        hGjetsCR3.Add(Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81nTtag1")][numvar])
-        hGjetsCR3.Add(Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81nTtag1")][numvar])
-        hGjetsCR3.Scale(0.022/(1-0.022))
-        hDataCR3.Add(hGjetsCR3,-1)
-        Hists[numyear][2][Samples.index("Other.root")][channels.index("aJets")][regions.index("nAk81nTtag1")][numvar] = hDataCR3
+        if namevar in variablesFR:
+            for numreg, namereg in enumerate(regionsFR):
+                HistsFR[numyear][0][0][0][numreg][variablesFR.index(namevar)].Add(HistsFR[numyear][0][0][1][numreg][variablesFR.index(namevar)])
+                HistsFR[numyear][0][0][0][numreg][variablesFR.index(namevar)].Add(HistsFR[numyear][0][0][2][numreg][variablesFR.index(namevar)])
+                HistsFR[numyear][0][0][0][numreg][variablesFR.index(namevar)].Add(HistsFR[numyear][0][0][3][numreg][variablesFR.index(namevar)])
+                HistsFR[numyear][0][Samples.index("Gjets.root")][0][numreg][variablesFR.index(namevar)].Add(HistsFR[numyear][0][Samples.index("Gjets.root")][1][numreg][variablesFR.index(namevar)])
+                HistsFR[numyear][0][Samples.index("Gjets.root")][0][numreg][variablesFR.index(namevar)].Add(HistsFR[numyear][0][Samples.index("Gjets.root")][2][numreg][variablesFR.index(namevar)])
+                HistsFR[numyear][0][Samples.index("Gjets.root")][0][numreg][variablesFR.index(namevar)].Add(HistsFR[numyear][0][Samples.index("Gjets.root")][3][numreg][variablesFR.index(namevar)])
+                HistsFR[numyear][0][0][0][numreg][variablesFR.index(namevar)].Add(HistsFR[numyear][0][Samples.index("Gjets.root")][0][numreg][variablesFR.index(namevar)],-1)
+#        hDataCR1 = Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsIso")][regions.index("nAk8G1nTtagG0")][numvar].Clone()
+#        hDataCR1.Add(Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk8G1nTtagG0")][numvar])
+#        hDataCR1.Add(Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsOthers")][regions.index("nAk8G1nTtagG0")][numvar])
+#        hDataCR1.Scale(0.022/(1-0.022))
+#        hGjetsCR1 = Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsIso")][regions.index("nAk8G1nTtagG0")][numvar].Clone()
+#        hGjetsCR1.Add(Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk8G1nTtagG0")][numvar])
+#        hGjetsCR1.Add(Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsOthers")][regions.index("nAk8G1nTtagG0")][numvar])
+#        hGjetsCR1.Scale(0.022/(1-0.022))
+#        hDataCR1.Add(hGjetsCR1,-1)
+#        Hists[numyear][2][Samples.index("Other.root")][channels.index("aJets")][regions.index("nAk8G1nTtagG0")][numvar] = hDataCR1
+#    
+#        hDataCR3 = Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsIso")][regions.index("nAk81nTtag1")][numvar].Clone()
+#        hDataCR3.Add(Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81nTtag1")][numvar])
+#        hDataCR3.Add(Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81nTtag1")][numvar])
+#        hDataCR3.Scale(0.022/(1-0.022))
+#        hGjetsCR3 = Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsIso")][regions.index("nAk81nTtag1")][numvar].Clone()
+#        hGjetsCR3.Add(Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81nTtag1")][numvar])
+#        hGjetsCR3.Add(Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81nTtag1")][numvar])
+#        hGjetsCR3.Scale(0.022/(1-0.022))
+#        hDataCR3.Add(hGjetsCR3,-1)
+#        Hists[numyear][2][Samples.index("Other.root")][channels.index("aJets")][regions.index("nAk81nTtag1")][numvar] = hDataCR3
 
 for numyear, nameyear in enumerate(year):
     for numch, namech in enumerate(channels):
@@ -473,12 +519,44 @@ for numyear, nameyear in enumerate(year):
                     elif 'Other' in Samples[f]:
                         HH.append(Hists[numyear][0][f][numch][numreg][numvar])
                         HH.append(Hists[numyear][1][f][numch][numreg][numvar])
-                        HH.append(Hists[numyear][2][f][numch][numreg][numvar])
+                        if namevar in variablesFR and namereg in regionsFR:
+                            HH.append(HistsFR[numyear][0][0][numch][regionsFR.index(namereg)][variablesFR.index(namevar)])
+                        else:
+                            HH.append(Hists[numyear][2][f][numch][numreg][numvar])
                     else:
                         HH.append(Hists[numyear][0][f][numch][numreg][numvar])
 
                 stackPlots(HH, HHsignal, SamplesName, namech, namereg, nameyear,namevar,variablesName[numvar],"DD"+nameyear)
     os.system('tar -cvf DD'+nameyear+'.tar ' + "DD"+nameyear)
+
+for numch, namech in enumerate(channels):
+    for numreg, namereg in enumerate(regions):
+        for numvar, namevar in enumerate(variables):
+            HH=[]
+            HHsignal=[]
+            for f in range(len(Samples)):
+                for y in range(1,len(year)):
+                    Hists[0][0][f][numch][numreg][numvar].Add(Hists[y][0][f][numch][numreg][numvar])
+                    Hists[0][1][f][numch][numreg][numvar].Add(Hists[y][1][f][numch][numreg][numvar])
+                    Hists[0][2][f][numch][numreg][numvar].Add(Hists[y][2][f][numch][numreg][numvar])
+                    if namevar in variablesFR and namereg in regionsFR:
+                        print namereg + namevar
+                        HistsFR[0][0][0][numch][regionsFR.index(namereg)][variablesFR.index(namevar)].Add(HistsFR[y][0][0][numch][regionsFR.index(namereg)][variablesFR.index(namevar)])
+                if 'TTga' in Samples[f]:
+                    HHsignal.append(Hists[0][0][f][numch][numreg][numvar])
+                elif 'Other' in Samples[f]:
+                    HH.append(Hists[0][0][f][numch][numreg][numvar])
+                    HH.append(Hists[0][1][f][numch][numreg][numvar])
+                    if namevar in variablesFR and namereg in regionsFR:
+                        HH.append(HistsFR[0][0][0][numch][regionsFR.index(namereg)][variablesFR.index(namevar)])
+                    else:
+                        HH.append(Hists[0][2][f][numch][numreg][numvar])
+                else:
+                    HH.append(Hists[0][0][f][numch][numreg][numvar])
+
+            stackPlots(HH, HHsignal, SamplesName, namech, namereg, "All",namevar,variablesName[numvar],"DDAll")
+os.system('tar -cvf DDAll.tar ' + "DDAll")
+
 le = '\\documentclass{article}' + "\n"
 le += '\\usepackage{rotating}' + "\n"
 le += '\\usepackage{rotating}' + "\n"

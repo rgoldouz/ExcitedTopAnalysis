@@ -399,8 +399,8 @@ for numyear, nameyear in enumerate(year):
                     h.SetLineColor(colors[f])
                     if 'tptp' in Samples[f]:
                        h.Scale(scaleSig[numreg])
-                    if 'GJets' in Samples[f]:
-                       h.Scale(0.83)
+            #        if 'GJets' in Samples[f]:
+            #           h.Scale(0.83)
                     l3.append(h)
                 l2.append(l3)
             l1.append(l2)

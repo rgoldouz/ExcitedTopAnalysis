@@ -41,33 +41,24 @@ for numyear, nameyear in enumerate(year):
     upperBoundExpM1 = {}
     upperBoundExpM2 = {}
     theoryBound = {}
+    os.system('mkdir impacts12')
     for fname in os.listdir('/hadoop/store/user/rgoldouz/FullProduction/LimitsExcitedTop'):
-        os.system('cp /hadoop/store/user/rgoldouz/FullProduction/LimitsExcitedTop/' + fname + '/* ' + './impacts')
+        if 'Spin32' in fname:
+            os.system('cp /hadoop/store/user/rgoldouz/FullProduction/LimitsExcitedTop/' + fname + '/* ' + './impacts12')
     for fname in os.listdir('impacts'):
         if 'impacts' not in fname:
             continue
         os.system('mv impacts/' + fname +' impacts/' + '_'.join(fname.split('_')[:-1]) + '.pdf')
-    os.system('combineTool.py -M CollectLimits  impacts/*Limits.* -o limits.json')
+    os.system('combineTool.py -M CollectLimits  impacts12/*Limits.* -o limits12.json')
    # Style and pads
     ModTDRStyle()
     canv = ROOT.TCanvas('limit', 'limit')
     pads = OnePad()
     
     # Get limit TGraphs as a dictionary
-    graphs = StandardLimitsFromJSONFile('limits.json', draw=['exp0', 'exp1', 'exp2'])
+    graphs = StandardLimitsFromJSONFile('limits12.json', draw=['exp0', 'exp1', 'exp2'])
     yval=1
-    spline = ROOT.TSpline3("spline3", graphs['exp0'])
-    func = ROOT.TF1(
-        "splinefn",
-        partial(Eval, spline),
-        graphs.GetX()[0],
-        graphs.GetX()[graphs['exp0'].GetN() - 1],
-        1,
-    )
-    for i in range(graphs['exp0'].GetN() - 1):
-        if (graphs['exp0'].GetY()[i] - yval) * (graphs['exp0'].GetY()[i + 1] - yval) < 0.0:
-            cross = func.GetX(yval, graphs['exp0'].GetX()[i], graphs['exp0'].GetX()[i + 1]) 
-            print "excluded mass is:"+str(cross) 
+
     # Create an empty TH1 from the first TGraph to serve as the pad axis and frame
     axis = CreateAxisHist(graphs.values()[0])
     axis.GetXaxis().SetTitle('m_{T*} (GeV)')
