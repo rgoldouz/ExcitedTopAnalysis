@@ -1,10 +1,17 @@
 import math
 import gc
 import sys
-import ROOT
-import numpy as np
+# ROOT imports 
+import os, ROOT
+import cmsstyle as CMS
+# python imports 
+import matplotlib.pyplot as plt  # matplotlib library
+import mplhep as hep  # HEP (CMS) extensions/styling on top of mpl
+# For constructing examples
+import hist  # histogramming library
+import numpy as np 
+import uproot
 import copy
-import os
 ROOT.gROOT.SetBatch(ROOT.kTRUE)
 ROOT.gROOT.ProcessLine("gErrorIgnoreLevel = 1;")
 ROOT.TH1.AddDirectory(ROOT.kFALSE)
@@ -15,7 +22,7 @@ from ROOT import TGaxis
 from ROOT import THStack
 import gc
 TGaxis.SetMaxDigits(2)
-
+from math import sqrt
 
 def compareNeffHist(A, textA, label_name="sample", can_name="can"):
     canvas = ROOT.TCanvas(can_name,can_name,10,10,1100,628)
@@ -132,10 +139,37 @@ def cutFlowTable(hists, samples, regions, ch, year,caption='2016', nsig=6):
     table += '\\end{tabular}}' + "\n"
     table += '\\end{table*}' + "\n"
 #    table += '\\end{sidewaystable*}' + "\n"
-    print table
+#    print table
+
+def cutFlowTableReg(histsBG, histsSig, samples,reg):
+    table = '\\hline' + "\n"
+#    table += ' & ' + ' & '.join(samples) + ' & Pred. & Data$/$Pred.'+'\\\\' + "\n"
+#    table += '\\hline' + "\n"
+    table += reg + ' & '
+    if len(histsBG)>0: 
+        AllData= histsBG[0].Clone()
+        AllMC= histsBG[1].Clone()
+        for ids, s in enumerate(histsBG):
+            if ids>0:
+                table += str(round(s.Integral(),2)) + ' $\pm$ ' + str(round(sqrt(s.GetSumw2().GetSum()))) + ' & '
+            if ids>1:
+                AllMC.Add(s)
+        table += str(round(AllMC.Integral(),2)) + ' $\pm$ ' + str(round(sqrt(AllMC.GetSumw2().GetSum()))) + ' & '
+        table += str(round(AllData.Integral(),2)) + ' $\pm$ ' + str(round(sqrt(AllData.GetSumw2().GetSum()))) + ' & '        
+        table += str(round(AllData.Integral()/AllMC.Integral(),2)) + '\\hline' + "\n"
+    if len(histsSig)>0:
+        for ids, s in enumerate(histsSig):
+            table += str(round(s.Integral(),2)) + ' & '
+    table += '\\\\' + "\n"
+    return table
+
 
 colors =  [ROOT.kBlack,ROOT.kGreen,ROOT.kRed-4, ROOT.kBlue+8,ROOT.kOrange-3, ROOT.kYellow, ROOT.kBlack, ROOT.kBlue]
+colors =  [ROOT.kBlack,ROOT.TColor.GetColor("#5790fc"),ROOT.TColor.GetColor("#e42536"), ROOT.TColor.GetColor("#964a8b"),ROOT.TColor.GetColor("#9c9ca1"), ROOT.TColor.GetColor("#f89c20"), ROOT.TColor.GetColor("#a96b59"), ROOT.TColor.GetColor("#e76300")]
 def stackPlots(hists, SignalHists, Fnames, ch = "channel", reg = "region", year='2016', var="sample", varname="v", dirName='Hists'):
+    totalMC=hists[1].Clone()
+    for f in range(2,len(hists)):
+        totalMC.Add(hists[f])
     for f in range(0,len(hists)):
         hists[f].SetFillColor(colors[f])
         hists[f].SetLineColor(colors[f])
@@ -143,7 +177,7 @@ def stackPlots(hists, SignalHists, Fnames, ch = "channel", reg = "region", year=
         SignalHists[f].SetFillColor(colors[len(hists)+f])
         SignalHists[f].SetLineColor(colors[len(hists)+f])
     Blinded=False
-    if reg=='nAk8G1nTtagG0':
+    if reg=='nAk8G1nTtagG0' or reg=='nAk8G1nTtagG0LepG0':
         Blinded=True
     if not os.path.exists(dirName):
        os.makedirs(dirName)
@@ -161,13 +195,12 @@ def stackPlots(hists, SignalHists, Fnames, ch = "channel", reg = "region", year=
 
     dummy = hists[0].Clone()
 
-    
     canvas = ROOT.TCanvas(year+ch+reg+var,year+ch+reg+var,50,50,865,780)
     canvas.SetGrid();
     canvas.SetBottomMargin(0.17)
     canvas.cd()
 
-    legend = ROOT.TLegend(0.7,0.55,0.9,0.88)
+    legend = ROOT.TLegend(0.64,0.55,0.9,0.88)
     legend.SetBorderSize(0)
     legend.SetTextFont(42)
     legend.SetTextSize(0.04)
@@ -193,12 +226,13 @@ def stackPlots(hists, SignalHists, Fnames, ch = "channel", reg = "region", year=
     y_min=0
     y_max=1.6*dummy.GetMaximum()
     if 'Pt' in var:
+        y_min=0.1;
         pad1.SetLogy(ROOT.kTRUE)
         y_min=0.1
-        y_max=10*dummy.GetMaximum()
+        y_max=100*dummy.GetMaximum()
     pad1.cd()
     y_min=0.01
-    y_max=1.6*dummy.GetMaximum()
+    y_max=max(1.6*dummy.GetMaximum(),1)
     dummy.SetMarkerStyle(20)
     dummy.SetMarkerSize(1.2)
     dummy.SetTitle("")
@@ -272,6 +306,7 @@ def stackPlots(hists, SignalHists, Fnames, ch = "channel", reg = "region", year=
 
     pad2.cd()
     SumofMC = hs.GetStack().Last()
+    totalMC.Divide(totalMC)
     dummy_ratio = hists[0].Clone()
     dummy_ratio.SetTitle("")
     dummy_ratio.SetMarkerStyle(20)
@@ -301,7 +336,11 @@ def stackPlots(hists, SignalHists, Fnames, ch = "channel", reg = "region", year=
             dummy_ratio.SetBinContent(b+1,100)
     dummy_ratio.SetStats(ROOT.kFALSE)
     dummy_ratio.GetYaxis().SetTitle('Data/Pred.')
-    dummy_ratio.Draw()
+    dummy_ratio.Draw('')
+    totalMC.SetFillColor(2)
+    totalMC.SetLineColor(1)
+    totalMC.SetFillStyle(3004)
+    totalMC.Draw("e2same")
     dummy_ratio.Draw("AXISSAMEY+")
     dummy_ratio.Draw("AXISSAMEX+")
     canvas.Print(dirName + '/' + ch +'/'+reg+'/'+var + ".png")
@@ -309,29 +348,29 @@ def stackPlots(hists, SignalHists, Fnames, ch = "channel", reg = "region", year=
     gc.collect()
 
 
-#year=['2016','2017','2018','All']
-year=['2017']
 year=['2016preVFP', '2016postVFP', '2017','2018']
 #year=['2018']
 categories=["promptG", "fakeGEle","fakeGJet"]
 regions=["nAk8G0", "nAk81", "nAk81nTtag1", "nAk8G1nTtagG0",  "nAk8G1nTtag0", "nAk8G1nTtag0XtopMissTagRate",  "nAk81nTtag0XtopMissTagRate","nAk8G1nTtagG0LepG0", "nAk81nTtagOffMt","nAk81nTtagOffMtXtopMissTagRate"]
-scaleSig = [1,1,1,1,0.1,40,1,1,1,1,1,1,1,1]
-scaleSigRegion = [500,1,1,1,1,1,1,1,1,1,1,1]
-channels=["aJets", "fakeAJetsIso", "fakeAJetsSiSi","fakeAJetsOthers"]
+scaleSig = [1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+scaleSigRegion = [400,1,1,1,1,1,1,1,1,1,1,1]
+#channels=["aJets", "fakeAJetsIso", "fakeAJetsSiSi","fakeAJetsOthers"]
 channels=["aJets"]
-variables=["GammaPt","GammaEta","GammaPhi","jet04Pt","jet04Eta","njet04","nbjet04","jet08Pt","jet08Eta","jet08Phi","njet08","Met", "nPh", "phoChargedIso",  "HT", "HoE", "softdropMass", "TvsQCD","TsMass1", "nTopTag","masstS2", "Sietaieta","MtGMet","subLeadingjet08Pt","nVtxApu","nVtxBpu"]
-#variables=["GammaPt"]
-variablesName=["p_{T}(#gamma)","#eta(#gamma)","#Phi(#gamma)","p_{T}(leading jet (AK4))","#eta(leading jet (AK4))","Number of jets (AK4)","Number of b-jets (AK4)","p_{T}(leading jet (AK8))","#eta(leading jet (AK8))","#Phi(leading jet (AK8))","Number of jets (AK8)","MET","Number of photons","phoChargedIso", "HT", "H/E", "softdropMass (leading jet (AK8))","TvsQCD (leading jet (AK8))",  "M(#gamma, highest mass AK8)", "N top-tagged ","mass of the second t*","#sigma_{i#eta i#eta}", "M_{T}(#gamma,MET)", "p_{T}(sub-leading jet (AK8))","nVtxApu","nVtxBpu"]
+variables=["GammaPt","GammaEta","GammaPhi","jet04Pt","jet04Eta","njet04","nbjet04","jet08Pt","jet08Eta","jet08Phi","njet08","Met", "nPh", "phoChargedIso",  "HT", "HoE", "softdropMassLeadingJet08", "TvsQCD","TsMass1", "nTopTag","masstS2", "Sietaieta","MtGMet","nVtxApu","nVtxBpu","subLeadingJet08Pt","subLeadingJet08Eta", "subLeadingJet08Phi","softdropMassSubLeadingJet08"]
+#variables=["TsMass1"]
+variablesName=["p_{T}(#gamma)","#eta(#gamma)","#Phi(#gamma)","p_{T}(leading jet (AK4))","#eta(leading jet (AK4))","Number of jets (AK4)","Number of b-jets (AK4)","p_{T}(leading jet (AK8))","#eta(leading jet (AK8))","#Phi(leading jet (AK8))","Number of jets (AK8)","MET","Number of photons","phoChargedIso", "HT", "H/E", "SD Mass (leading jet (AK8))","TvsQCD (leading jet (AK8))",  "M(#gamma, highest mass AK8)", "N top-tagged ","mass of the second t*","#sigma_{i#eta i#eta}", "M_{T}(#gamma,MET)","nVtxApu","nVtxBpu","p_{T}(subleading jet (AK8))","#eta(subleading jet (AK8))","#Phi(subleading jet (AK8))", "SD Mass (sub-leading jet (AK8))"]
 
 HistAddress = '/afs/crc.nd.edu/user/r/rgoldouz/ExcitedTopAnalysis/NanoAnalysis/hists/'
 Samples = ['data.root','Gjets.root','ttG.root','Other.root','TTgaSpin32_M800.root', 'TTgaSpin32_M1600.root']
-SamplesName = ['Data','#gamma+jets', 'tt#gamma', 'Other prompt #gamma', 'Fake #gamma (ele)', 'Fake #gamma (jet)', 't*t* (M=0.8TeV) #times 0.1', 't*t* (M=1.6TeV) #times 40']
+SamplesName = ['Data','#gamma+jets', 'tt#gamma', 'Other prompt #gamma', 'Fake #gamma (ele)', 'Fake #gamma (jet)', 't*t* (0.8TeV) [10fb]', 't*t* (1.6TeV) [10fb]']
 SamplesNameLatex = ['Data','Non-prompt #gamma','Gjets', 'ttG', 't*t* (M=0.8TeV)', 't*t* (M=1.6TeV)']
 bins = array( 'd',[0.0,100.0,200.0,300.0,400.0,500.0,700.0, 1000.0] )
+binsTS = array( 'd',[300,500,700,900,1100,1300,1500,1700,2000,3000] )
 
 channelsFR=["fakeAJetsIso", "fakeAJetsSiSi","fakeAJetsIsoSiSi","fakeAJetsOthers"]
 regionsFR=["nAk8G0","nAk81nTtag1", "nAk8G1nTtagG0", "nAk81nTtagOffMt"]
-variablesFR=["GammaPt","GammaEta","TsMass1"]
+variablesFR=["GammaPt","GammaEta","GammaPhi","jet08Pt","jet08Eta","jet08Phi","Met","njet08","softdropMassLeadingJet08","subLeadingJet08Pt","subLeadingJet08Eta","subLeadingJet08Phi","softdropMassSubLeadingJet08","TsMass1","Sietaieta","phoChargedIso"]
+variablesFRName=["p_{T}(#gamma)","#eta(#gamma)","#Phi(#gamma)","p_{T}(leading jet (AK8))","#eta(leading jet (AK8))","#Phi(leading jet (AK8))","MET","Number of jets (AK8)","SD Mass (leading jet (AK8))","subLeadingJet08Pt","subLeadingJet08Eta", "subLeadingJet08Phi","softdropMassSubLeadingJet08","M(#gamma, highest mass AK8)","#sigma_{i#eta i#eta}","phoChargedIso"]
 
 Hists = []
 for numyear, nameyear in enumerate(year):
@@ -348,13 +387,12 @@ for numyear, nameyear in enumerate(year):
                     l3=[]
                     for numvar, namevar in enumerate(variables):
                         h= Files[f].Get(namecat+ '_' +namech + '_' + namereg + '_' + namevar)
+    #                    print Samples[f]+'_' +namecat+ '_' +namech + '_' + namereg + '_' + namevar
                         if 'jet08Pt' in namevar:
                             h=h.Rebin(len(bins)-1,"",bins)
                         if 'TTga' in Samples[f]:
                            h.Scale(scaleSig[f])
                            h.Scale(scaleSigRegion[numreg])
-#                        if 'Gjets' in Samples[f]:
-#                           h.Scale(1.84)
                         l3.append(h)
                     l2.append(l3)
                 l1.append(l2)
@@ -377,13 +415,11 @@ for numyear, nameyear in enumerate(year):
                     l3=[]
                     for numvar, namevar in enumerate(variablesFR):
                         h= Files[f].Get(namecat+ '_' +namech + '_' + namereg + '_' + namevar)
-                        if 'jet08Pt' in namevar:
-                            h=h.Rebin(len(bins)-1,"",bins)
                         if 'TTga' in Samples[f]:
                            h.Scale(scaleSig[f])
                            h.Scale(scaleSigRegion[numreg])
-#                        if 'Gjets' in Samples[f]:
-#                           h.Scale(1.84)
+                        if 'jet08Pt' in namevar:
+                            h=h.Rebin(len(bins)-1,"",bins)
                         l3.append(h)
                     l2.append(l3)
                 l1.append(l2)
@@ -391,30 +427,66 @@ for numyear, nameyear in enumerate(year):
         l0.append(c0)
     HistsFR.append(l0)
 
-##
-##Fakedata1jet = Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsIso")][regions.index("nAk81")][variables.index("jet08Pt")].Clone()
-##Fakedata1jet.Add(Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81")][variables.index("jet08Pt")])
-##Fakedata1jet.Add(Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81")][variables.index("jet08Pt")])
-##Fakedata1jet1tag = Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsIso")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")].Clone()
-##Fakedata1jet1tag.Add(Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
-##Fakedata1jet1tag.Add(Hists[0][0][Samples.index("data.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
-##Top1jet1tag =Hists[0][1][Samples.index("Other.root")][channels.index("fakeAJetsIso")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")].Clone()
-##Top1jet1tag.Add(Hists[0][1][Samples.index("Other.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
-##Top1jet1tag.Add(Hists[0][1][Samples.index("Other.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
-##Top1jet1tag.Add(Hists[0][0][Samples.index("ttG.root")][channels.index("fakeAJetsIso")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
-##Top1jet1tag.Add(Hists[0][0][Samples.index("ttG.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
-##Top1jet1tag.Add(Hists[0][0][Samples.index("ttG.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81nTtag1")][variables.index("jet08Pt")])
-##Fakedata1jet1tag.Add(Top1jet1tag,-1)
-##Fakedata1jet1tag.Divide(Fakedata1jet)
-##draw1dHist(  Fakedata1jet1tag, 'topMistagRatePNFake','topMistagRatePNFake','topMistagRatePNFake' )
-##Fakedata1jet1tag.SetName('topMistagRateFake')
-##compareNeffHist([data1jet1tag, Fakedata1jet1tag], ['Gamma+1jet', 'FakeG+jet'], label_name="jet08Pt", can_name="MTRatePN")
-##
-##hfile = ROOT.TFile( 'topMistagRate.root', 'RECREATE', 'mis top tag rate histogram' )
-##data1jet1tag.Write()
-##Fakedata1jet1tag.Write()
-##hfile.Write()
-##hfile.Close()
+## Fake rate plots
+SamplesNameFR = ['Data','#gamma+jets', 'tt#gamma', 'Other prompt #gamma', 'Fake #gamma (ele)', 'Fake #gamma (jet)', 't*t* (M=0.8TeV) #times 0.1', 't*t* (M=1.6TeV) #times 40']
+for numyear, nameyear in enumerate(year):
+    for numch, namech in enumerate(channelsFR):
+        for numreg, namereg in enumerate(regionsFR):
+            for numvar, namevar in enumerate(variablesFR):
+                HH=[]
+                HHsignal=[]
+                HName=[]
+                for f in range(len(Samples)):
+                    if 'TTga' in Samples[f]:
+                        HHsignal.append(HistsFR[numyear][0][f][numch][numreg][numvar])                            
+                    elif 'Other' in Samples[f]:
+                        HH.append(HistsFR[numyear][0][f][numch][numreg][numvar])
+                        HH.append(HistsFR[numyear][1][f][numch][numreg][numvar])
+                        HH.append(HistsFR[numyear][2][f][numch][numreg][numvar])
+                    else:
+                        HH.append(HistsFR[numyear][0][f][numch][numreg][numvar])
+
+                stackPlots(HH, HHsignal, SamplesName, namech, namereg, nameyear,namevar,variablesFRName[numvar],"FR"+nameyear)
+    os.system('tar -cvf FR'+nameyear+'.tar ' + "FR"+nameyear)
+
+for numyear, nameyear in enumerate(year):
+    for numreg, namereg in enumerate(regionsFR):
+        for numvar, namevar in enumerate(variablesFR):
+            HH=[]
+            HHsignal=[]
+            HName=[]
+            for f in range(len(Samples)):
+                if 'TTga' in Samples[f]:
+                    h=HistsFR[numyear][0][f][0][numreg][numvar].Clone()
+                    for numch, namech in enumerate(channelsFR):
+                        if numch>0:
+                            h.Add(HistsFR[numyear][0][f][numch][numreg][numvar])
+                    h.Scale(100)
+                    HHsignal.append(h)
+                elif 'Other' in Samples[f]:
+                    h1=HistsFR[numyear][0][f][0][numreg][numvar].Clone()
+                    h2=HistsFR[numyear][1][f][0][numreg][numvar].Clone()
+                    h3=HistsFR[numyear][2][f][0][numreg][numvar].Clone()
+                    for numch, namech in enumerate(channelsFR):
+                        if numch>0:
+                            h1.Add(HistsFR[numyear][0][f][numch][numreg][numvar])
+                            h2.Add(HistsFR[numyear][1][f][numch][numreg][numvar])
+                            h3.Add(HistsFR[numyear][2][f][numch][numreg][numvar])
+                    h1.Scale(100)
+                    h2.Scale(100)
+                    h3.Scale(100)
+                    HH.append(h1)
+                    HH.append(h2)
+                    HH.append(h3)
+                else:
+                    h4=HistsFR[numyear][0][f][0][numreg][numvar].Clone()
+                    for numch, namech in enumerate(channelsFR):
+                        if numch>0:
+                            h4.Add(HistsFR[numyear][0][f][numch][numreg][numvar])
+                    h4.Scale(100)
+                    HH.append(h4)
+            stackPlots(HH, HHsignal, SamplesName, 'non-promptPhoton', namereg, nameyear,namevar,variablesFRName[numvar],"FRAllReg"+nameyear)
+    os.system('tar -cvf FRAllReg'+nameyear+'.tar ' + "FRAllReg"+nameyear)
 
 #draw MC predicted 
 for numyear, nameyear in enumerate(year):
@@ -457,16 +529,8 @@ for numch, namech in enumerate(channels):
                     HH.append(h2)
                 else:
                     HH.append(h0)
-
-            stackPlots(HH, HHsignal, SamplesName, namech, namereg, "All",namevar,variablesName[numvar],"MCAll")
+#            stackPlots(HH, HHsignal, SamplesName, namech, namereg, "All",namevar,variablesName[numvar],"MCAll")
 os.system('tar -cvf MCAll.tar ' + "MCAll")
-#for numvar, namevar in enumerate(variables):
-#    data1nAK4jet = Hists[0][Samples.index("data.root")][channels.index("aJets")][regions.index("nAk81")][variables.index(namevar)].Clone()
-#    data1nAK4jet1tag = Hists[0][Samples.index("data.root")][channels.index("aJets")][regions.index("nAk81nTtag1")][variables.index(namevar)].Clone()
-#    Top1nAK4jet1tag = Hists[0][Samples.index("ttG.root")][channels.index("aJets")][regions.index("nAk81nTtag1")][variables.index(namevar)].Clone()
-#    data1nAK4jet1tag.Add(Top1nAK4jet1tag,-1)
-#    data1nAK4jet1tag.Divide(data1nAK4jet)
-#    draw1dHist(  data1nAK4jet1tag, 'topMistagRate' + namevar,'topMistagRatenAK4'+ namevar,'topMistagRatenAK4'+ namevar )
 
 #Data Driven Gamma Jet
 ###for numvar, namevar in enumerate(variables):
@@ -485,27 +549,6 @@ for numyear, nameyear in enumerate(year):
                 HistsFR[numyear][0][Samples.index("Gjets.root")][0][numreg][variablesFR.index(namevar)].Add(HistsFR[numyear][0][Samples.index("Gjets.root")][2][numreg][variablesFR.index(namevar)])
                 HistsFR[numyear][0][Samples.index("Gjets.root")][0][numreg][variablesFR.index(namevar)].Add(HistsFR[numyear][0][Samples.index("Gjets.root")][3][numreg][variablesFR.index(namevar)])
                 HistsFR[numyear][0][0][0][numreg][variablesFR.index(namevar)].Add(HistsFR[numyear][0][Samples.index("Gjets.root")][0][numreg][variablesFR.index(namevar)],-1)
-#        hDataCR1 = Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsIso")][regions.index("nAk8G1nTtagG0")][numvar].Clone()
-#        hDataCR1.Add(Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk8G1nTtagG0")][numvar])
-#        hDataCR1.Add(Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsOthers")][regions.index("nAk8G1nTtagG0")][numvar])
-#        hDataCR1.Scale(0.022/(1-0.022))
-#        hGjetsCR1 = Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsIso")][regions.index("nAk8G1nTtagG0")][numvar].Clone()
-#        hGjetsCR1.Add(Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk8G1nTtagG0")][numvar])
-#        hGjetsCR1.Add(Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsOthers")][regions.index("nAk8G1nTtagG0")][numvar])
-#        hGjetsCR1.Scale(0.022/(1-0.022))
-#        hDataCR1.Add(hGjetsCR1,-1)
-#        Hists[numyear][2][Samples.index("Other.root")][channels.index("aJets")][regions.index("nAk8G1nTtagG0")][numvar] = hDataCR1
-#    
-#        hDataCR3 = Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsIso")][regions.index("nAk81nTtag1")][numvar].Clone()
-#        hDataCR3.Add(Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81nTtag1")][numvar])
-#        hDataCR3.Add(Hists[numyear][0][Samples.index("data.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81nTtag1")][numvar])
-#        hDataCR3.Scale(0.022/(1-0.022))
-#        hGjetsCR3 = Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsIso")][regions.index("nAk81nTtag1")][numvar].Clone()
-#        hGjetsCR3.Add(Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsSiSi")][regions.index("nAk81nTtag1")][numvar])
-#        hGjetsCR3.Add(Hists[numyear][0][Samples.index("Gjets.root")][channels.index("fakeAJetsOthers")][regions.index("nAk81nTtag1")][numvar])
-#        hGjetsCR3.Scale(0.022/(1-0.022))
-#        hDataCR3.Add(hGjetsCR3,-1)
-#        Hists[numyear][2][Samples.index("Other.root")][channels.index("aJets")][regions.index("nAk81nTtag1")][numvar] = hDataCR3
 
 for numyear, nameyear in enumerate(year):
     for numch, namech in enumerate(channels):
@@ -529,19 +572,22 @@ for numyear, nameyear in enumerate(year):
                 stackPlots(HH, HHsignal, SamplesName, namech, namereg, nameyear,namevar,variablesName[numvar],"DD"+nameyear)
     os.system('tar -cvf DD'+nameyear+'.tar ' + "DD"+nameyear)
 
+table=''
+table += ' & ' + ' & '.join(SamplesName) + ' & Pred. & Data$/$Pred.'+'\\\\' + "\n"
+table += '\\hline' + "\n"
 for numch, namech in enumerate(channels):
     for numreg, namereg in enumerate(regions):
         for numvar, namevar in enumerate(variables):
             HH=[]
             HHsignal=[]
+            for y in range(1,len(year)):
+                if namevar in variablesFR and namereg in regionsFR:
+                    HistsFR[0][0][0][numch][regionsFR.index(namereg)][variablesFR.index(namevar)].Add(HistsFR[y][0][0][numch][regionsFR.index(namereg)][variablesFR.index(namevar)])
             for f in range(len(Samples)):
                 for y in range(1,len(year)):
                     Hists[0][0][f][numch][numreg][numvar].Add(Hists[y][0][f][numch][numreg][numvar])
                     Hists[0][1][f][numch][numreg][numvar].Add(Hists[y][1][f][numch][numreg][numvar])
                     Hists[0][2][f][numch][numreg][numvar].Add(Hists[y][2][f][numch][numreg][numvar])
-                    if namevar in variablesFR and namereg in regionsFR:
-                        print namereg + namevar
-                        HistsFR[0][0][0][numch][regionsFR.index(namereg)][variablesFR.index(namevar)].Add(HistsFR[y][0][0][numch][regionsFR.index(namereg)][variablesFR.index(namevar)])
                 if 'TTga' in Samples[f]:
                     HHsignal.append(Hists[0][0][f][numch][numreg][numvar])
                 elif 'Other' in Samples[f]:
@@ -553,8 +599,16 @@ for numch, namech in enumerate(channels):
                         HH.append(Hists[0][2][f][numch][numreg][numvar])
                 else:
                     HH.append(Hists[0][0][f][numch][numreg][numvar])
-
-            stackPlots(HH, HHsignal, SamplesName, namech, namereg, "All",namevar,variablesName[numvar],"DDAll")
+#            stackPlots(HH, HHsignal, SamplesName, namech, namereg, "All",namevar,variablesName[numvar],"DDAll")
+            if namevar=='TsMass1':
+                for i in range(len(HH)):
+                    HH[i]=HH[i].Rebin(len(binsTS)-1,"",binsTS)
+                for i in range(len(HHsignal)):
+                    HHsignal[i]=HHsignal[i].Rebin(len(binsTS)-1,"",binsTS)
+                stackPlots(HH, HHsignal, SamplesName, namech, namereg, "All",namevar+'Rebin',variablesName[numvar]+'(Rebin)',"DDAll")
+            if namevar=='nPh':
+                table += cutFlowTableReg(HH, [], SamplesName,namereg)
+#            stackPlots(HH, HHsignal, SamplesName, namech, namereg, "All",namevar,variablesName[numvar],"DDAll")
 os.system('tar -cvf DDAll.tar ' + "DDAll")
 
 le = '\\documentclass{article}' + "\n"
@@ -562,10 +616,11 @@ le += '\\usepackage{rotating}' + "\n"
 le += '\\usepackage{rotating}' + "\n"
 le += '\\begin{document}' + "\n"
 
-print le
+#print le
+#print table
 #for numyear, nameyear in enumerate(year):
 #    for numch, namech in enumerate(channels):
 #        cutFlowTable(Hists, SamplesNameLatex, regions, numch, numyear, nameyear + ' ' + namech, 6 )
-print '\\end{document}' + "\n"
+#print '\\end{document}' + "\n"
 
 
