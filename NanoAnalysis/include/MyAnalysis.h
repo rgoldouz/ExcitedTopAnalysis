@@ -34,6 +34,7 @@
 #include <bitset>
 #include <TH1F.h>
 #include <chrono>
+#include "TString.h"
 
 // Header file for the classes stored in the TTree if any.
 using namespace std;
@@ -254,7 +255,7 @@ public :
    UInt_t          nLHEScaleWeight;
    Float_t         LHEScaleWeight[9];   //[nLHEScaleWeight]
    UInt_t          nPSWeight;
-   Float_t         PSWeight[1];   //[nPSWeight]
+   Float_t         PSWeight[4];   //[nPSWeight]
    UInt_t          nIsoTrack;
    Float_t         IsoTrack_dxy[7];   //[nIsoTrack]
    Float_t         IsoTrack_dz[7];   //[nIsoTrack]
@@ -3437,7 +3438,7 @@ public :
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
    virtual void     Init(TTree *tree);
-   virtual void     Loop(TString fname, TString data, TString dataset ,string year, TString run, float xs, float lumi, float Nevent, int iseft, int nRuns);
+   virtual void     Loop(TString fname, TString data, TString dataset ,string year, TString RunName, float xs, float lumi, float Nevent, int iseft, int nRuns);
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
    bool overlapRemoval(double Et_cut, double Eta_cut, double dR_cut, bool verbose);
@@ -3450,6 +3451,8 @@ public :
    typedef vector< vector < vector < TH1F* > > > D3HistsContainer;
    D4HistsContainer Hists;
    D4HistsContainer HistsFA;
+   D4HistsContainer HistsMTUp;
+   D4HistsContainer HistsMTDown;
    D4HistsContainer HistsSysUp;
    D4HistsContainer HistsSysDown;
    D4HistsContainer HistsSysDataUp;

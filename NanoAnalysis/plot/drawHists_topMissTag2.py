@@ -3,7 +3,7 @@ import gc
 import sys
 # ROOT imports 
 import os, ROOT
-import cmsstyle as CMS
+#import cmsstyle as CMS
 # python imports 
 import matplotlib.pyplot as plt  # matplotlib library
 import mplhep as hep  # HEP (CMS) extensions/styling on top of mpl
@@ -177,8 +177,8 @@ def stackPlots(hists, SignalHists, Fnames, ch = "channel", reg = "region", year=
         SignalHists[f].SetFillColor(colors[len(hists)+f])
         SignalHists[f].SetLineColor(colors[len(hists)+f])
     Blinded=False
-    if reg=='nAk8G1nTtagG0' or reg=='nAk8G1nTtagG0LepG0':
-        Blinded=True
+#    if reg=='nAk8G1nTtagG0' or reg=='nAk8G1nTtagG0LepG0':
+#        Blinded=True
     if not os.path.exists(dirName):
        os.makedirs(dirName)
     if not os.path.exists(dirName + '/' + ch):
@@ -349,7 +349,7 @@ def stackPlots(hists, SignalHists, Fnames, ch = "channel", reg = "region", year=
 
 
 year=['2016preVFP', '2016postVFP', '2017','2018']
-#year=['2018']
+year=['2018']
 categories=["promptG", "fakeGEle","fakeGJet"]
 regions=["nAk8G0", "nAk81", "nAk81nTtag1", "nAk8G1nTtagG0",  "nAk8G1nTtag0", "nAk8G1nTtag0XtopMissTagRate",  "nAk81nTtag0XtopMissTagRate","nAk8G1nTtagG0LepG0", "nAk81nTtagOffMt","nAk81nTtagOffMtXtopMissTagRate"]
 scaleSig = [1,1,1,1,1,1,1,1,1,1,1,1,1,1]

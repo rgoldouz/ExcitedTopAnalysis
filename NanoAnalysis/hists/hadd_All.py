@@ -24,7 +24,7 @@ if __name__ == '__main__':
     addedFilesMcmisIDele = {"2016preVFP": [],"2016postVFP": [], "2017": [], "2018": []}
     
     os.system('rm *.root')
-    dist = "/hadoop/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_" 
+    dist = "/cms/cephfs/data/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_" 
     
     for keyUL, value in SAMPLES.items():
         key1 = keyUL.replace("UL", "20")
@@ -70,7 +70,8 @@ if __name__ == '__main__':
         Fmerged.append(haddmcttG)
         Fmerged.append(haddmcmisIDele)
         Parallel(n_jobs=6)(delayed(f)(i) for i in Fmerged)
-        os.system('hadd '+key+'_TOP.root '+key+'_TTTo2L2Nu.root '+key+'_ST_t_channel_antitop.root '+key+'_TTToHadronic.root '+key+'_antitWNoFullyHadronic.root '+key+'_ST_t_channel_top.root '+key+'_TTToSemiLeptonic.root '+key+'_tWNoFullyHadronic.root')
-
+        os.system('hadd '+key+'_TOP.root '+key+'_TTTo2L2Nu.root '+key+'_ST_t_channel_antitop.root '+key+'_TTToHadronic.root '+key+'_tW_inclusiveDecays.root '+key+'_ST_t_channel_top.root '+key+'_TTToSemiLeptonic.root '+key+'_antitW_inclusiveDecays.root')
+    os.system('hadd All_TTgaSpin32_M800.root 2016preVFP_TTgaSpin32_M800.root 2016postVFP_TTgaSpin32_M800.root 2017_TTgaSpin32_M800.root 2018_TTgaSpin32_M800.root')
+    os.system('hadd All_TTgaSpin32_M1600.root 2016preVFP_TTgaSpin32_M1600.root 2016postVFP_TTgaSpin32_M1600.root 2017_TTgaSpin32_M1600.root 2018_TTgaSpin32_M1600.root')
 
 

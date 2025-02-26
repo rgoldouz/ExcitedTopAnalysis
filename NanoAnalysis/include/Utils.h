@@ -40,6 +40,7 @@ bool ComparePtJet(jet_candidate *a, jet_candidate *b);
 bool CompareMassJet(jet_candidate *a, jet_candidate *b);
 std::vector<bool> parsePhotonVIDCuts(int bitMap, int cutLevel);
 float scale_factor( TH2F* h, float X, float Y , TString uncert);
+float scale_factorIJ( TH2F* h, float X, float Y , TString uncert, int i, int j);
 float rate(TH1F*, float);
 float topPt(float pt);
 double TransverseMass(TLorentzVector A, TLorentzVector B, double mA, double mB);

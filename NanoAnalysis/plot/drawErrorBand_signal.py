@@ -398,7 +398,7 @@ def stackPlotsError(hists, SignalHists,error, errorRatio, Fnames, ch = "channel"
 
 year=['2017']
 year=['2016preVFP', '2016postVFP', '2017','2018']
-#year=['2017']
+#year=['2018']
 LumiErr = [0.025]
 categories=["promptG", "fakeGEle","fakeGJet"]
 channels=["aJets"]
@@ -416,6 +416,7 @@ sysJet=["JesTotal", "topTagSF","SDmassSF", "JerTotal"]
 sysJec= ["Total","AbsoluteMPFBias","AbsoluteScale","AbsoluteStat","FlavorQCD","Fragmentation","PileUpDataMC","PileUpPtBB","PileUpPtEC1","PileUpPtEC2","PileUpPtRef","RelativeFSR","RelativePtBB","RelativePtEC1","RelativePtEC2","RelativeBal","RelativeSample","RelativeStatEC","RelativeStatFSR","SinglePionECAL","SinglePionHCAL","TimePtEta"]
 
 Samples = ['data.root','Gjets.root','ttG.root','Other.root','TTgaSpin32_M800.root', 'TTgaSpin32_M1200.root']
+#Samples = ['data.root','Gjets.root','ttG.root','Other.root','TTgaSpin32_M2750.root', 'TTgaSpin32_M3000.root']
 SamplesName = ['Data','#gamma+jets', 'tt#gamma', 'Other prompt #gamma', 'Fake #gamma (ele)', 'Fake #gamma (jet)', 't*t* (M=0.8TeV) #times 0.1', 't*t* (M=1.2TeV) #times 40']
 colors =  [ROOT.kBlack,ROOT.kYellow,ROOT.kGreen,ROOT.kRed-4, ROOT.kBlue-3,ROOT.kOrange-3, ROOT.kBlack, ROOT.kGreen+3,ROOT.kViolet, ROOT.kBlue-9, ROOT.kYellow-2]
 NormalizationErr = [0, 0.1, 0.1, 0.15, 0.05, 0.1, 0,0]
@@ -557,6 +558,7 @@ for numyear, nameyear in enumerate(year):
                                 h.SetBinError(h.GetXaxis().GetNbins(), sqrt((h.GetBinError(h.GetXaxis().GetNbins()))**2 + (h.GetBinError(h.GetXaxis().GetNbins()+1))**2))
                                 h.SetBinContent(h.GetXaxis().GetNbins()+1,0)
                                 h.SetBinError(h.GetXaxis().GetNbins()+1,0)
+                                print Samples[f]+'--> npdf:' + str(numsys)+' SW='+ str(SWpdf[numsys])
                                 h.Scale(SWpdf[numsys])
                                 t4Pdf.append(h)
                             for b in range(Pdf_hcUp.GetNbinsX()):
@@ -570,6 +572,8 @@ for numyear, nameyear in enumerate(year):
                                 qs_hcUp.SetBinContent(b+1,max(QS))
                                 qs_hcDown.SetBinContent(b+1,min(QS))
                                 for numsys in range(100):
+                                    if abs(SWpdf[numsys])>3 or SWpdf[numsys]<0:
+                                        continue
                                     PDF = PDF + (t4Pdf[numsys].GetBinContent(b+1) - hNom.GetBinContent(b+1))**2
                                 Pdf_hcUp.SetBinContent(b+1,hNom.GetBinContent(b+1)+math.sqrt(PDF))
                                 Pdf_hcDown.SetBinContent(b+1,hNom.GetBinContent(b+1)-math.sqrt(PDF))

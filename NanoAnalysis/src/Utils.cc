@@ -142,6 +142,26 @@ float scale_factor( TH2F* h, float X, float Y , TString uncert){
   return 1;
 }
 
+float scale_factorIJ( TH2F* h, float X, float Y , TString uncert, int i, int j){
+  int NbinsX=h->GetXaxis()->GetNbins();
+  int NbinsY=h->GetYaxis()->GetNbins();
+  float x_min=h->GetXaxis()->GetBinLowEdge(1);
+  float x_max=h->GetXaxis()->GetBinLowEdge(NbinsX)+h->GetXaxis()->GetBinWidth(NbinsX);
+  float y_min=h->GetYaxis()->GetBinLowEdge(1);
+  float y_max=h->GetYaxis()->GetBinLowEdge(NbinsY)+h->GetYaxis()->GetBinWidth(NbinsY);
+  TAxis *Xaxis = h->GetXaxis();
+  TAxis *Yaxis = h->GetYaxis();
+  Int_t binx=1;
+  Int_t biny=1;
+  if(x_min < X && X < x_max) binx = Xaxis->FindBin(X);
+  else binx= (X<=x_min) ? 1 : NbinsX ;
+  if(y_min < Y && Y < y_max) biny = Yaxis->FindBin(Y);
+  else biny= (Y<=y_min) ? 1 : NbinsY ;
+  if(uncert=="up" && i == binx && j == biny) return (h->GetBinContent(binx, biny)+h->GetBinError(binx, biny));
+  else if(uncert=="down" && i == binx && j == biny) return (h->GetBinContent(binx, biny)-h->GetBinError(binx, biny));
+  else return  h->GetBinContent(binx, biny);
+}
+
 float topPt(float pt){
   return (0.973 - (0.000134 * pt) + (0.103 * exp(pt * (-0.0118))));
 }

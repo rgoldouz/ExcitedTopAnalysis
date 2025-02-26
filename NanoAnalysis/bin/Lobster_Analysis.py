@@ -11,7 +11,7 @@ import Files_ULall_nano
 SAMPLES = {}
 SAMPLES.update(Files_ULall_nano.UL17)
 
-cmsswbase = os.environ['CMSSW_BASE']
+#cmsswbase = os.environ['CMSSW_BASE']
 timestamp_tag = datetime.datetime.now().strftime('%Y%m%d_%H%M')
 
 username = "rgoldouz"
@@ -33,15 +33,13 @@ plotdir_path = "~/www/lobster/FullProduction/%s" % (production_tag)
 
 storage = StorageConfiguration(
     input=[
-    "hdfs://eddie.crc.nd.edu:19000"  + input_path,
-    "root://deepthought.crc.nd.edu/" + input_path
+        "file:///cms/cephfs/data/store/user/",
+        "root://hactar01.crc.nd.edu//store/user/",
     ],
     output=[
-        "hdfs://eddie.crc.nd.edu:19000"  + output_path,
-        "root://deepthought.crc.nd.edu/" + output_path, # Note the extra slash after the hostname!
-        "gsiftp://T3_US_NotreDame"       + output_path,
-        "srm://T3_US_NotreDame"          + output_path,
-        "file:///hadoop"                 + output_path,
+        # Until a separate bug is fixed file://cms/cephfs needs to be the first output so the initial lobster validation passes.
+        "file:///cms/cephfs/data"+output_path,
+        "root://hactar01.crc.nd.edu/"+output_path,
     ],
     disable_input_streaming=True,
 )
@@ -55,15 +53,16 @@ storage = StorageConfiguration(
 gs_resources = Category(
     name='gs',
     cores=1,
-    memory=7900,
-    disk=7800,
+    memory=1900,
+    disk=3800,
 )
 
 gsLL_resources = Category(
-    name='gs',
+    name='gsLL',
     cores=1,
-    memory=7900,
-    disk=7800,
+    memory=3900,
+    disk=3900,
+    mode='fixed'
 )
 
 #gsLL_resources = Category(
@@ -83,13 +82,14 @@ for key, value in SAMPLES.items():
     if 'data' in key or 'GJets' in key or 'TTga' in key or 'TTG' in key:
         FPT=1
         cat=gsLL_resources
-    if path.exists('/hadoop/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_' + key) and len(os.listdir('/hadoop/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_' + key))>0:
+    if path.exists('/cms/cephfs/data/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_' + key) and len(os.listdir('/cms/cephfs/data/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_' + key))>0:
         continue
-    if path.exists('/hadoop/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_' + key):
-        os.system('rm -r '+ '/hadoop/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_' + key)
+    if path.exists('/cms/cephfs/data/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_' + key):
+        os.system('rm -r '+ '/cms/cephfs/data/store/user/rgoldouz/FullProduction/AnalysisExcitedTop/Analysis_' + key)
     print key
 #    if len(os.listdir('/hadoop/store/user/rgoldouz/FullProduction/TOPBNVAnalysis/Analysis_'+key))!=0:
 #        continue
+    print cat
     Analysis = Workflow(
         label='Analysis_%s' % (key),
         sandbox=cmssw.Sandbox(release='/afs/crc.nd.edu/user/r/rgoldouz/CMSSW_10_4_0'),
@@ -102,6 +102,7 @@ for key, value in SAMPLES.items():
             '../lib/libEFTGenReaderEFTHelperUtilities.so',
             '../lib/libCondFormatsJetMETObjects.so',
             '../lib/libCondFormatsSerialization.so',
+            '../lib/libJetMETCorrectionsModules.so',
             '../include/MyAnalysis.h',
         ],
         outputs=['ANoutput.root'],
@@ -125,11 +126,16 @@ config = Config(
     advanced=AdvancedOptions(
         bad_exit_codes=[127, 160],
         log_level=1,
-        payload=10,
-        dashboard = False,
-        xrootd_servers=['ndcms.crc.nd.edu',
-                       'cmsxrootd.fnal.gov',
-                       'deepthought.crc.nd.edu'],
+        osg_version='3.6',
+        abort_threshold=0,
+        abort_multiplier=100,
+#        bad_exit_codes=[127, 160],
+#        log_level=1,
+#        payload=10,
+#        dashboard = False,
+#        xrootd_servers=['ndcms.crc.nd.edu',
+#                       'cmsxrootd.fnal.gov',
+#                       'deepthought.crc.nd.edu'],
     )
 )
 

@@ -67,7 +67,7 @@ def f(name):
         evtTree.Reset()
         evtTree.Delete()
         fi.Close()
-    return name[19:],str(neventsweightSumw), str(len(nWeight)) 
+    return name[28:],str(neventsweightSumw), str(len(nWeight)) 
 #    for key, value in MCSAMPLES.items():
 #        if key == name.split('/')[8]:
 #            value[0].append(name[19:])
@@ -81,15 +81,16 @@ if __name__ == '__main__':
     bTyTg = 0.03*0.97*2 
     kNloGjet = 1.4852
     crossSection = {
-    'tWNoFullyHadronic': '19.47',
-    'antitWNoFullyHadronic': '19.47',
-    'ST_t_channel_top': '136.02',
-    'ST_t_channel_antitop': '80.95',
-    'TTTo2L2Nu': '87.31',
-    'TTToSemiLeptonic': '365.34',
-    'TTToHadronic': '379.11',
-    'TTJets': '831.76',
-    'DY10to50': '18610',
+    'tW_': '39.65',
+    'ST_t_channel_top': '134.2',
+    'ST_t_channel_antitop': '80.0',
+    'ST_s_channel_leptonDecays':'2.229', # 6.839 * 0.3259
+    'ST_s_channel_hadronicDecays':'4.61', #6.839 * 0.6741
+    'TTTo2L2Nu': '83.69', #833.9*0.3168*0.31.68
+    'TTToSemiLeptonic': '360.98',
+    'TTToHadronic': '389.23', #833.9*68.32*68.32
+    'TTJets': '833.9',
+    'DY10to50': '20460',
     'DY50': '6077.22',
     'WZTo2L2Q':'5.595',
     'ZZTo2L2Nu':'0.564',
@@ -129,43 +130,82 @@ if __name__ == '__main__':
     "TTGamma_SingleLep_pt0toinf":str(kNloGjet*5.056),       
     "TTGamma_SingleLep_ptGamma100To200":str(kNloGjet*0.1309),
     "TTGamma_SingleLep_ptGamma200inf":str(kNloGjet*0.02685),  
-    'TTga_M700':str(bTyTg*0.2659),
-    'TTga_M800':str(bTyTg*0.1147),
-    'TTga_M900':str(bTyTg*0.05318),
-    'TTga_M1000':str(bTyTg*0.0259),
-    'TTga_M1100':str(bTyTg*0.01322),
-    'TTga_M1200':str(bTyTg*0.006897),
-    'TTga_M1300':str(bTyTg*0.003732),
-    'TTga_M1400':str(bTyTg*0.002061),
-    'TTga_M1500':str(bTyTg*0.001165),
-    'TTga_M1600':str(bTyTg*0.000668),
-    'TTga_M1700':str(bTyTg*0.000391),
-    'TTga_M1800':str(bTyTg*0.000233),
-    'TTga_M1900':str(bTyTg*0.00014),
-    'TTga_M2000':str(bTyTg*0.000086),
-    'TTga_M2250':str(bTyTg*0.000027),
-    'TTga_M2500':str(bTyTg*0.00001),
-    'TTga_M2750':str(bTyTg*0.000004),
-    'TTga_M3000':str(bTyTg*0.000002),
 
-    'TTgaSpin32_M700':str(bTyTg*4.686),
-    'TTgaSpin32_M800':str(bTyTg*1.624),
-    'TTgaSpin32_M900':str(bTyTg*0.619),
-    'TTgaSpin32_M1000':str(bTyTg*0.257),
-    'TTgaSpin32_M1100':str(bTyTg*0.113),
-    'TTgaSpin32_M1200':str(bTyTg*0.05251),
-    'TTgaSpin32_M1300':str(bTyTg*0.02527),
-    'TTgaSpin32_M1400':str(bTyTg*0.01262),
-    'TTgaSpin32_M1500':str(bTyTg*0.006499),
-    'TTgaSpin32_M1600':str(bTyTg*0.003424),
-    'TTgaSpin32_M1700':str(bTyTg*0.001846),
-    'TTgaSpin32_M1800':str(bTyTg*0.001009),
-    'TTgaSpin32_M1900':str(bTyTg*0.000561),
-    'TTgaSpin32_M2000':str(bTyTg*0.000316),
-    'TTgaSpin32_M2250':str(bTyTg*0.000078),
-    'TTgaSpin32_M2500':str(bTyTg*0.000021),
-    'TTgaSpin32_M2750':str(bTyTg*0.000006),
-    'TTgaSpin32_M3000':str(bTyTg*0.000002),
+    'TTga_M700':str(0.01), 
+    'TTga_M800':str(0.01), 
+    'TTga_M900':str(0.01), 
+    'TTga_M1000':str(0.01), 
+    'TTga_M1100':str(0.01),
+    'TTga_M1200':str(0.01),
+    'TTga_M1300':str(0.01),
+    'TTga_M1400':str(0.01),
+    'TTga_M1500':str(0.01),
+    'TTga_M1600':str(0.01),
+    'TTga_M1700':str(0.01),
+    'TTga_M1800':str(0.01),
+    'TTga_M1900':str(0.01),
+    'TTga_M2000':str(0.01),
+    'TTga_M2250':str(0.01),
+    'TTga_M2500':str(0.01),
+    'TTga_M2750':str(0.01),
+    'TTga_M3000':str(0.01),
+
+    'TTgaSpin32_M700':str(0.01),
+    'TTgaSpin32_M800':str(0.01),
+    'TTgaSpin32_M900':str(0.01),
+    'TTgaSpin32_M1000':str(0.01),  
+    'TTgaSpin32_M1100':str(0.01),
+    'TTgaSpin32_M1200':str(0.01),
+    'TTgaSpin32_M1300':str(0.01),
+    'TTgaSpin32_M1400':str(0.01),
+    'TTgaSpin32_M1500':str(0.01),
+    'TTgaSpin32_M1600':str(0.01),
+    'TTgaSpin32_M1700':str(0.01),
+    'TTgaSpin32_M1800':str(0.01),
+    'TTgaSpin32_M1900':str(0.01),
+    'TTgaSpin32_M2000':str(0.01),
+    'TTgaSpin32_M2250':str(0.01),
+    'TTgaSpin32_M2500':str(0.01),
+    'TTgaSpin32_M2750':str(0.01),
+    'TTgaSpin32_M3000':str(0.01),
+
+#    'TTga_M700':str(bTyTg*0.2659),
+#    'TTga_M800':str(bTyTg*0.1147),
+#    'TTga_M900':str(bTyTg*0.05318),
+#    'TTga_M1000':str(bTyTg*0.0259),
+#    'TTga_M1100':str(bTyTg*0.01322),
+#    'TTga_M1200':str(bTyTg*0.006897),
+#    'TTga_M1300':str(bTyTg*0.003732),
+#    'TTga_M1400':str(bTyTg*0.002061),
+#    'TTga_M1500':str(bTyTg*0.001165),
+#    'TTga_M1600':str(bTyTg*0.000668),
+#    'TTga_M1700':str(bTyTg*0.000391),
+#    'TTga_M1800':str(bTyTg*0.000233),
+#    'TTga_M1900':str(bTyTg*0.00014),
+#    'TTga_M2000':str(bTyTg*0.000086),
+#    'TTga_M2250':str(bTyTg*0.000027),
+#    'TTga_M2500':str(bTyTg*0.00001),
+#    'TTga_M2750':str(bTyTg*0.000004),
+#    'TTga_M3000':str(bTyTg*0.000002),
+#
+#    'TTgaSpin32_M700':str(bTyTg*4.686),
+#    'TTgaSpin32_M800':str(bTyTg*1.624),
+#    'TTgaSpin32_M900':str(bTyTg*0.619),
+#    'TTgaSpin32_M1000':str(bTyTg*0.257),
+#    'TTgaSpin32_M1100':str(bTyTg*0.113),
+#    'TTgaSpin32_M1200':str(bTyTg*0.05251),
+#    'TTgaSpin32_M1300':str(bTyTg*0.02527),
+#    'TTgaSpin32_M1400':str(bTyTg*0.01262),
+#    'TTgaSpin32_M1500':str(bTyTg*0.006499),
+#    'TTgaSpin32_M1600':str(bTyTg*0.003424),
+#    'TTgaSpin32_M1700':str(bTyTg*0.001846),
+#    'TTgaSpin32_M1800':str(bTyTg*0.001009),
+#    'TTgaSpin32_M1900':str(bTyTg*0.000561),
+#    'TTgaSpin32_M2000':str(bTyTg*0.000316),
+#    'TTgaSpin32_M2250':str(bTyTg*0.000078),
+#    'TTgaSpin32_M2500':str(bTyTg*0.000021),
+#    'TTgaSpin32_M2750':str(bTyTg*0.000006),
+#    'TTgaSpin32_M3000':str(bTyTg*0.000002),
     }
     
 #    blackList = ['ST_antitop_tchannel','ST_top_tchannel', 'ST_top_schannel', 'TTJets','fcnc', 'tbarW_Inclusive', 'tW_Inclusive', 'FCNC', 'WZTo', 'WWTo', 'ZZTo', 'TTG','pythia']
@@ -177,13 +217,13 @@ if __name__ == '__main__':
     text += 'import readline \n'
     text += 'import string \n'
     text += '\n'
-    
+   
     dirSamples = {
-    'UL16preVFP': ['2016preVFP','/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL16preVFP/v1','19.52'],
-    'UL16postVFP': ['2016postVFP','/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL16postVFP/v1','16.81'],
-    '2017': ['2017' , '/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL17/v1',"41.48"],
-#    '2017S': ['2017' , '/hadoop/store/user/rbucci/ExcitedTops/SlimNano/SlimNano_Feb2021',"41.48"],
-    '2018': ['2018' , '/hadoop/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL18/v1',"59.83"],
+    'UL16preVFP': ['2016preVFP','/cms/cephfs/data/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL16preVFP/v1','19.52'],
+    'UL16postVFP': ['2016postVFP','/cms/cephfs/data/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL16postVFP/v1','16.81'],
+    '2017': ['2017' , '/cms/cephfs/data/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL17/v1',"41.48"],
+#    '2017S': ['2017' , '/cms/cephfs/data/store/user/rbucci/ExcitedTops/SlimNano/SlimNano_Feb2021',"41.48"],
+    '2018': ['2018' , '/cms/cephfs/data/store/user/rgoldouz/NanoAodPostProcessingULGammaJets/UL18/v1',"59.83"],
     }
     
     Slist=[]
@@ -195,7 +235,7 @@ if __name__ == '__main__':
                 if S in key:
                     accept = False
             if accept:
-                if 'data' in key:
+                if 'data_' in key:
                     a,b,c,d = key.split("_")   
                     MCSAMPLES[key] = [    [],    "data",    d,    value[0],    c,    "1",    value[2],    "1",  "0", "1"]
                 else:
@@ -203,10 +243,10 @@ if __name__ == '__main__':
     
         for root, dirs, files in os.walk(value[1]):
             if len(files) > 0:
-                if 'data' in root:
+                if 'data_' in root:
                     for key, value in MCSAMPLES.items():
                         if key in root:
-                            value[0].append(root[19:])
+                            value[0].append(root[28:])
                 else:
                     Slist.append(root)
     res = Parallel(n_jobs=40)(delayed(f)(i) for i in Slist)
@@ -239,9 +279,9 @@ if __name__ == '__main__':
         if len(value[0])==0:
             del MCSAMPLES[key]
             continue
-        files = os.listdir('/hadoop/store/user/'+value[0][0])
+        files = os.listdir('/cms/cephfs/data/store/user/'+value[0][0])
         for fname in files:
-            filename = '/hadoop/store/user/'+value[0][0] + '/' + fname
+            filename = '/cms/cephfs/data/store/user/'+value[0][0] + '/' + fname
             f = ROOT.TFile.Open(filename)
             tree_meta = f.Get('Events')
             neventsweight +=  tree_meta.GetEntries()
